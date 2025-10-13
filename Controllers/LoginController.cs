@@ -18,7 +18,6 @@ namespace ListaZakupow.Controllers
             _dbContext = dbContext;
             _passwordHasher = new PasswordHasher<User>();
         }
-        
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
@@ -34,14 +33,6 @@ namespace ListaZakupow.Controllers
                 return Unauthorized("Niepoprawny login lub hasło");
             }
             return Ok("Zalogowano pomyślnie");
-        }
-
-        [HttpGet("check-user")]
-        public async Task<IActionResult> CheckUser([FromQuery]string username)
-        {
-            bool exists = await _dbContext.Users.AnyAsync(u => u.Username == username);
-            return Ok(new { exists });
-        } 
-        
+        }        
     }
 }
