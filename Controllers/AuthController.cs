@@ -7,9 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ListaZakupow.Controllers
 {
-    //Za radą Nadii Połączyłam Register i Login w jeden kontroler Auth i dodałam Logout(nie chodzilo o dodanie nowego kontrolera, ale ja sie zagubilam)
-    //Myślę że tak jest czytelniej
-    //Trzebqa jakoś wymyślić jak zmniejszyc liczbę kontrollerów
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : Controller
@@ -75,9 +72,7 @@ namespace ListaZakupow.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            // W przyszłości można dodać czyszczenie sesji/tokena(o ile będziemy potrzebowały)
-            //póki co wylogowanie musi tak wyglądać, ponieważ nie mamy mechanizmu utrzymywania sesji
-            // ani tokenów uwierzytelniających
+            // W przyszłości można dodać czyszczenie sesji/tokena
             return Ok("Wylogowano pomyślnie");
         }
     }
