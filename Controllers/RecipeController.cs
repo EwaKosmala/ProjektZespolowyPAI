@@ -46,6 +46,23 @@ namespace lab1_gr1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = recipe.Id }, recipe);
         }
 
-      
+
+        // DELETE: api/recipe/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var recipe = await _dbContext.Recipes.FindAsync(id);
+            if (recipe == null)
+            {
+                return NotFound(new { message = $"Recipe with Id {id} not found." });
+            }
+
+            _dbContext.Recipes.Remove(recipe);
+            await _dbContext.SaveChangesAsync();
+            return NoContent();
+        }
+
+
+
     }
 }
