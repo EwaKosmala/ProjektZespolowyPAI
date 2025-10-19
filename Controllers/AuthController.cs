@@ -20,18 +20,23 @@ namespace ListaZakupow.Controllers
 
 
         // REJESTRACJA
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
             {
-                return BadRequest("Nazwa użytkownika i hasło są wymagane.");
+                return BadRequest("Nazwa użytkownika i hasło są wymagane."); //change to redirect error view
             }
 
             var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
             if (existingUser != null)
             {
-                return Conflict("Użytkownik o takiej nazwie już istnieje.");
+                return Conflict("Użytkownik o takiej nazwie już istnieje."); //change to redirect error view
             }
 
             var newUser = new User
@@ -48,26 +53,31 @@ namespace ListaZakupow.Controllers
         }
 
         // LOGOWANIE
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto dto)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
             if (user == null)
             {
-                return Unauthorized("Niepoprawny login lub hasło");
+                return Unauthorized("Niepoprawny login lub hasło"); // redirect to Error view
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
             if (result == PasswordVerificationResult.Failed)
             {
-                return Unauthorized("Niepoprawny login lub hasło"); 
+                return Unauthorized("Niepoprawny login lub hasło"); // redirect to Error view
             }
-
+            HttpContext.Session.SetString("Username", user.Username);
             return Ok("Zalogowano pomyślnie"); // change to redirect View
         }
 
         // WYLOGOWANIE
-        [HttpPost("logout")]
+        [HttpPost]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
