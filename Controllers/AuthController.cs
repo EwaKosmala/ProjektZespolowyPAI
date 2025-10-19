@@ -1,14 +1,12 @@
-﻿using lab1_gr1.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
+﻿using lab1_gr1.Models.DTO;
+using lab1_gr1.Models;
 using ListaZakupow.Model.DataModels;
-using lab1_gr1.Models.DTO;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ListaZakupow.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private readonly MyDBContext _dbContext;
@@ -20,20 +18,31 @@ namespace ListaZakupow.Controllers
             _passwordHasher = new PasswordHasher<User>();
         }
 
-
-        // REJESTRACJA
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+        // GET: /Auth/Index
+        public IActionResult Index()
         {
-            if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
-            {
-                return BadRequest("Nazwa użytkownika i hasło są wymagane.");
-            }
+            var username = HttpContext.Session.GetString("Username");
+            ViewBag.Username = username;
+            return View();
+        }
 
-            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-            if (existingUser != null)
+
+        // GET: /Auth/Register
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: /Auth/Register
+        // POST: /Auth/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterDto dto)
+        {
+            if (!ModelState.IsValid || await _dbContext.Users.AnyAsync(u => u.Username == dto.Username))
             {
-                return Conflict("Użytkownik o takiej nazwie już istnieje.");
+                ModelState.AddModelError("", "Niepoprawne dane lub użytkownik już istnieje.");
+                return View("Index", dto); 
             }
 
             var newUser = new User
@@ -46,34 +55,51 @@ namespace ListaZakupow.Controllers
             _dbContext.Users.Add(newUser);
             await _dbContext.SaveChangesAsync();
 
-            return Ok("Użytkownik został zarejestrowany pomyślnie.");
+            TempData["Success"] = "Rejestracja zakończona pomyślnie. Zaloguj się.";
+            return RedirectToAction("Index");
         }
 
-        // LOGOWANIE
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        // GET: /Auth/Login
+        public IActionResult Login()
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-            if (user == null)
-            {
-                return Unauthorized("Niepoprawny login lub hasło");
-            }
-
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
-            if (result == PasswordVerificationResult.Failed)
-            {
-                return Unauthorized("Niepoprawny login lub hasło");
-            }
-
-            return Ok("Zalogowano pomyślnie");
+            return View();
         }
 
-        // WYLOGOWANIE
-        [HttpPost("logout")]
+        // POST: /Auth/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            if (!ModelState.IsValid)
+                return View("Index", dto);
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+            if (user == null || _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password) == PasswordVerificationResult.Failed)
+            {
+                ModelState.AddModelError("", "Niepoprawny login lub hasło.");
+                return View("Index", dto);
+            }
+
+            HttpContext.Session.SetString("Username", user.Username);
+            return RedirectToAction("LoggedIn"); 
+        }
+
         public IActionResult Logout()
         {
-            // W przyszłości można dodać czyszczenie sesji/tokena
-            return Ok("Wylogowano pomyślnie");
+            HttpContext.Session.Clear();
+            TempData["Success"] = "Wylogowano pomyślnie.";
+            return RedirectToAction("Login", "Auth");
         }
+
+        public IActionResult LoggedIn()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username))
+                return RedirectToAction("Index"); 
+
+            ViewBag.Username = username;
+            return View();
+        }
+
     }
 }

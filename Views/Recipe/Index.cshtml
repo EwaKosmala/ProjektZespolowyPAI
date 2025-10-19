@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ListaZakupow.Model.DataModels.Recipe>
+
+@{
+    ViewData["Title"] = "Lista przepisów";
+}
+
+<h2>Lista przepisów</h2>
+
+<p>
+    <form asp-action="Add" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-primary">Dodaj nowy przepis</button>
+    </form>
+
+    <form asp-controller="Auth" asp-action="LoggedIn" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-secondary">Wróć do konta</button>
+    </form>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Opis</th>
+            <th>Data utworzenia</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var recipe in Model)
+        {
+            <tr>
+                <td>@recipe.Name</td>
+                <td>@recipe.Description</td>
+                <td>@recipe.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm">Edytuj</a>
+                    <a asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

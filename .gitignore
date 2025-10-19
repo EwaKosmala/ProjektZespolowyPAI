@@ -41,3 +41,4 @@ _ReSharper*/
 *.exe
 *.config.user
 *.vspscc
+/Properties/launchSettings.json

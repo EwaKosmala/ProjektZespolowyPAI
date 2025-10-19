@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Wylogowanie";
+}
+
+<h2>Czy na pewno chcesz się wylogować?</h2>
+
+<form method="post" asp-action="Logout" asp-controller="Auth">
+    <button type="submit" class="btn btn-danger">Tak, wyloguj</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

@@ -1,0 +1,19 @@
+﻿@model ListaZakupow.Model.DataModels.Recipe
+
+@{
+    ViewData["Title"] = "Usuń przepis";
+}
+
+<h2>Czy na pewno chcesz usunąć ten przepis?</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <p>@Model.Description</p>
+    <p><strong>Data utworzenia:</strong> @Model.CreatedAt</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lab1_gr1.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class RecipeController : Controller
     {
         private readonly MyDBContext _dbContext;
@@ -16,53 +14,94 @@ namespace lab1_gr1.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/recipes/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        // GET: /Recipe
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            var recipe = await _dbContext.Recipes
+            var recipes = await _dbContext.Recipes
                 .Include(r => r.User)
                 .Include(r => r.RecipeIngredients)
                 .Include(r => r.RecipeSchedules)
-                .FirstOrDefaultAsync(r => r.Id == id);
+                .ToListAsync();
 
+            return View(recipes); // Views/Recipe/Index.cshtml
+        }
+
+        // GET: /Recipe/Add
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View(); // Views/Recipe/Add.cshtml
+        }
+
+        //POST: /Recipe/Add
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Recipe recipe)
+        {
+            // 1. Pobranie nazwy zalogowanego użytkownika
+            var username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username))
+                return RedirectToAction("Index", "Home"); // nie zalogowany
+
+            // 2. Pobranie obiektu User z bazy
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+                return RedirectToAction("Index", "Home"); // nie znaleziono użytkownika
+
+            // 3. Przypisanie UserId i daty
+            recipe.UserId = user.Id;
+            recipe.CreatedAt = DateTime.Now;
+
+            // 4. Dodanie do DbContext i zapis
+            await _dbContext.Recipes.AddAsync(recipe);
+            await _dbContext.SaveChangesAsync();
+
+            // 5. Opcjonalnie przekierowanie lub widok potwierdzenia
+            return RedirectToAction("Index"); // np. lista przepisów
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var recipe = await _dbContext.Recipes.FindAsync(id);
             if (recipe == null)
                 return NotFound();
 
-            return Ok(recipe);
+            return View(recipe); // musi istnieć Views/Recipe/Edit.cshtml
         }
 
-        // POST: api/recipes
+        // POST: /Recipe/Edit/5
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Recipe recipe)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Recipe recipe)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var existingRecipe = await _dbContext.Recipes.FindAsync(id);
+            if (existingRecipe == null) return NotFound();
 
-            recipe.CreatedAt = DateTime.Now;
-            _dbContext.Recipes.Add(recipe);
+            existingRecipe.Name = recipe.Name;
+            existingRecipe.Description = recipe.Description;
+            existingRecipe.Instructions = recipe.Instructions;
+
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = recipe.Id }, recipe);
+            return RedirectToAction("Index");
         }
 
-
-        // DELETE: api/recipe/5
-        [HttpDelete("{id}")]
+        // GET: /Recipe/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var recipe = await _dbContext.Recipes.FindAsync(id);
             if (recipe == null)
-            {
-                return NotFound(new { message = $"Recipe with Id {id} not found." });
-            }
+                return NotFound();
 
             _dbContext.Recipes.Remove(recipe);
             await _dbContext.SaveChangesAsync();
-            return NoContent();
+
+            return RedirectToAction("Index");
         }
-
-
 
     }
 }
