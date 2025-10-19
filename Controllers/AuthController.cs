@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ListaZakupow.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private readonly MyDBContext _dbContext;
@@ -22,18 +20,23 @@ namespace ListaZakupow.Controllers
 
 
         // REJESTRACJA
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
             {
-                return BadRequest("Nazwa użytkownika i hasło są wymagane.");
+                return BadRequest("Nazwa użytkownika i hasło są wymagane."); //change to redirect error view
             }
 
             var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
             if (existingUser != null)
             {
-                return Conflict("Użytkownik o takiej nazwie już istnieje.");
+                return Conflict("Użytkownik o takiej nazwie już istnieje."); //change to redirect error view
             }
 
             var newUser = new User
@@ -46,34 +49,39 @@ namespace ListaZakupow.Controllers
             _dbContext.Users.Add(newUser);
             await _dbContext.SaveChangesAsync();
 
-            return Ok("Użytkownik został zarejestrowany pomyślnie.");
+            return Ok("Użytkownik został zarejestrowany pomyślnie."); //change to redirect View 
         }
 
         // LOGOWANIE
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDto dto)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
             if (user == null)
             {
-                return Unauthorized("Niepoprawny login lub hasło");
+                return Unauthorized("Niepoprawny login lub hasło"); // redirect to Error view
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
             if (result == PasswordVerificationResult.Failed)
             {
-                return Unauthorized("Niepoprawny login lub hasło");
+                return Unauthorized("Niepoprawny login lub hasło"); // redirect to Error view
             }
-
-            return Ok("Zalogowano pomyślnie");
+            HttpContext.Session.SetString("Username", user.Username);
+            return Ok("Zalogowano pomyślnie"); // change to redirect View
         }
 
         // WYLOGOWANIE
-        [HttpPost("logout")]
+        [HttpPost]
         public IActionResult Logout()
         {
-            // W przyszłości można dodać czyszczenie sesji/tokena
-            return Ok("Wylogowano pomyślnie");
+            HttpContext.Session.Clear();
+            return Ok("Wylogowano pomyślnie"); // change to redirect View
         }
     }
 }
