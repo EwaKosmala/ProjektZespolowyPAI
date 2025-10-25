@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using ListaZakupow.Model.DataModels;
-using lab1_gr1.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using lab1_gr1.ViewModels.UserVM;
 using lab1_gr1.Interfaces;
