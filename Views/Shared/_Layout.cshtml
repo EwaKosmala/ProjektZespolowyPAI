@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/w3-css/w3.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="w3-content" style="max-width:1500px">
+        <header class="w3-panel w3-center w3-opacity">
+            <nav class="w3-bar w3-border">
+                <a class="w3-bar-item w3-button" asp-controller="Auth" asp-action="LoggedIn">Home</a>
+            </nav>
+        </header>
+        <main>
+            @RenderBody()
+        </main>
+
+        <footer class="w3-panel w3-center">
+            &copy; 2025
+        </footer>
+    </div>
+    @RenderSection("Scripts", required: false)
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+</body>
+</html>

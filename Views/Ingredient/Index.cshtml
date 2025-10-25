@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ListaZakupow.Model.DataModels.Ingredient>
+
+@{
+    ViewData["Title"] = "Lista składników";
+}
+
+<h2>Lista składników</h2>
+
+<p>
+    <form asp-action="Add" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-primary">Dodaj nowy składnik</button>
+    </form>
+
+    <form asp-controller="Auth" asp-action="LoggedIn" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-secondary">Wróć do konta</button>
+    </form>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Used In Recipes</th>
+            <th>Shopping List Items</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ingredient in Model)
+        {
+            <tr>
+                <td>@ingredient.Name</td>
+                <td>@ingredient.RecipeIngredients?.Count() ?? 0</td>
+                <td>@ingredient.ShoppingListItems?.Count() ?? 0</td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@ingredient.Id" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@ingredient.Id" class="btn btn-danger btn-sm">Edytuj</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

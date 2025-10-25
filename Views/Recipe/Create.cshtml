@@ -1,0 +1,150 @@
+﻿@model lab1_gr1.ViewModels.RecipeVM.CreateRecipeVM
+
+@{
+    ViewData["Title"] = "Dodaj nowy przepis";
+}
+
+<h2>Dodaj nowy przepis</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div style="color:red;">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form asp-action="Create" method="post">
+    <div>
+        <label for="Name">Nazwa przepisu</label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name" style="color:red"></span>
+    </div>
+
+    <div>
+        <label for="Description">Opis</label>
+        <textarea asp-for="Description"></textarea>
+        <span asp-validation-for="Description" style="color:red"></span>
+    </div>
+
+    <div>
+        <label for="Instructions">Instrukcje</label>
+        <textarea asp-for="Instructions"></textarea>
+        <span asp-validation-for="Instructions" style="color:red"></span>
+    </div>
+
+    <h3>Składniki</h3>
+    <div id="ingredients-container">
+        @for (int i = 0; i < Model.Ingredients.Count; i++)
+        {
+            <div class="ingredient-row">
+                <input name="Ingredients[@i].IngredientName" placeholder="Nazwa składnika" value="@Model.Ingredients[i].IngredientName" />
+                <input name="Ingredients[@i].Quantity" placeholder="Ilość" value="@Model.Ingredients[i].Quantity" />
+                <button type="button" class="remove-ingredient">Usuń</button>
+            </div>
+        }
+    </div>
+    <button type="button" id="add-ingredient-btn">Dodaj składnik</button>
+
+    <h3>Dni tygodnia</h3>
+    <div id="schedules-container">
+        @for (int i = 0; i < Model.Schedules.Count; i++)
+        {
+            <div class="schedule-row">
+                <select name="Schedules[@i].DayOfWeek">
+                    @for (int day = 1; day <= 7; day++)
+                    {
+                        var dayName = day switch
+                        {
+                            1 => "Poniedziałek",
+                            2 => "Wtorek",
+                            3 => "Środa",
+                            4 => "Czwartek",
+                            5 => "Piątek",
+                            6 => "Sobota",
+                            7 => "Niedziela",
+                            _ => ""
+                        };
+                        <option value="@day" selected="@(Model.Schedules[i].DayOfWeek == day ? "selected" : null)">
+                            @dayName
+                        </option>
+                    }
+                </select>
+
+                <button type="button" class="remove-schedule">Usuń</button>
+            </div>
+        }
+    </div>
+    <button type="button" id="add-schedule-btn">Dodaj dzień</button>
+
+    <div style="margin-top:10px;">
+        <button type="submit">Zapisz przepis</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // DYNAMICZNE SKŁADNIKI
+        let ingredientIndex = @Model.Ingredients.Count;
+        document.getElementById('add-ingredient-btn').addEventListener('click', function () {
+            const container = document.getElementById('ingredients-container');
+            const newRow = document.createElement('div');
+            newRow.classList.add('ingredient-row');
+            newRow.innerHTML = `
+                <input name="Ingredients[${ingredientIndex}].IngredientName" placeholder="Nazwa składnika" />
+                <input name="Ingredients[${ingredientIndex}].Quantity" placeholder="Ilość" />
+                <button type="button" class="remove-ingredient">Usuń</button>
+            `;
+            container.appendChild(newRow);
+
+            newRow.querySelector('.remove-ingredient').addEventListener('click', function () {
+                container.removeChild(newRow);
+            });
+
+            ingredientIndex++;
+        });
+
+        document.querySelectorAll('.remove-ingredient').forEach(btn => {
+            btn.addEventListener('click', function () {
+                btn.parentElement.remove();
+            });
+        });
+
+        // DYNAMICZNE DNI TYGODNIA
+        let scheduleIndex = @Model.Schedules.Count;
+        document.getElementById('add-schedule-btn').addEventListener('click', function () {
+            const container = document.getElementById('schedules-container');
+            const newRow = document.createElement('div');
+            newRow.classList.add('schedule-row');
+            newRow.innerHTML = `
+                <select name="Schedules[${scheduleIndex}].DayOfWeek">
+                    <option value="1">Poniedziałek</option>
+                    <option value="2">Wtorek</option>
+                    <option value="3">Środa</option>
+                    <option value="4">Czwartek</option>
+                    <option value="5">Piątek</option>
+                    <option value="6">Sobota</option>
+                    <option value="7">Niedziela</option>
+                </select>
+                <button type="button" class="remove-schedule">Usuń</button>
+            `;
+            container.appendChild(newRow);
+
+            newRow.querySelector('.remove-schedule').addEventListener('click', function () {
+                container.removeChild(newRow);
+            });
+
+            scheduleIndex++;
+        });
+
+        document.querySelectorAll('.remove-schedule').forEach(btn => {
+            btn.addEventListener('click', function () {
+                btn.parentElement.remove();
+            });
+        });
+    </script>
+}

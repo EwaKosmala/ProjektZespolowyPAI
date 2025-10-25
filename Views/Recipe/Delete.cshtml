@@ -1,0 +1,45 @@
+﻿@model ListaZakupow.Model.DataModels.Recipe
+
+@{
+    ViewData["Title"] = "Usuń przepis";
+}
+
+<h2>Usuń przepis</h2>
+
+<p>Czy na pewno chcesz usunąć ten przepis?</p>
+
+<div>
+    <h3>@Model.Name</h3>
+    <p><strong>Opis:</strong> @Model.Description</p>
+    <p><strong>Instrukcje:</strong> @Model.Instructions</p>
+    <p><strong>Data utworzenia:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
+    <p><strong>Utworzone przez:</strong> @Model.User?.Username</p>
+
+    <h4>Składniki</h4>
+    <ul>
+        @foreach (var ri in Model.RecipeIngredients)
+        {
+            <li>@ri.Ingredient?.Name - @ri.Quantity</li>
+        }
+    </ul>
+
+    <h4>Harmonogram</h4>
+    @if (Model.RecipeSchedules != null && Model.RecipeSchedules.Any())
+    {
+        <ul>
+            @foreach (var schedule in Model.RecipeSchedules)
+            {
+                <li>Day: @schedule.DayOfWeek</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Brak harmonogramu.</p>
+    }
+</div>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

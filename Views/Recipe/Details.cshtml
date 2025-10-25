@@ -1,0 +1,69 @@
+﻿@model ListaZakupow.Model.DataModels.Recipe
+
+@{
+    ViewData["Title"] = "Szczegóły przepisu";
+}
+
+<h2>@Model.Name</h2>
+
+<p><strong>Opis:</strong> @Model.Description</p>
+<p><strong>Instrukcje:</strong> @Model.Instructions</p>
+<p><strong>Data utworzenia:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
+<p><strong>Utworzone przez:</strong> @(Model.User?.Username ?? "Nieznany")</p>
+
+<h4>Składniki</h4>
+@if (Model.RecipeIngredients != null && Model.RecipeIngredients.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Składnik</th>
+                <th>Ilość</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ri in Model.RecipeIngredients)
+            {
+                <tr>
+                    <td>@(ri.Ingredient?.Name ?? "Nieznany składnik")</td>
+                    <td>@ri.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Brak składników.</p>
+}
+
+<h4>Harmonogram</h4>
+@if (Model.RecipeSchedules != null && Model.RecipeSchedules.Any())
+{
+    <ul>
+        @foreach (var schedule in Model.RecipeSchedules)
+        {
+            <li>
+                @(schedule.DayOfWeek switch
+            {
+                1 => "Poniedziałek",
+                2 => "Wtorek",
+                3 => "Środa",
+                4 => "Czwartek",
+                5 => "Piątek",
+                6 => "Sobota",
+                7 => "Niedziela",
+                _ => ""
+            })</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Brak harmonogramu.</p>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Wróć do listy</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edytuj</a>
+<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
+   onclick="return confirm('Czy na pewno chcesz usunąć ten przepis?');">Usuń</a>

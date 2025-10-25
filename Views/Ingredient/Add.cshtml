@@ -1,0 +1,19 @@
+﻿@model ListaZakupow.Model.DataModels.Ingredient
+
+@{
+    ViewData["Title"] = "Dodaj składnik";
+}
+
+<h2>Dodaj składnik</h2>
+
+<form asp-action="Add" method="post">
+    <div>
+        <label>Name:</label>
+        <input asp-for="Name" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Dodaj</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>
+
+

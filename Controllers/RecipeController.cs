@@ -1,4 +1,6 @@
-﻿using lab1_gr1.Models;
+﻿using lab1_gr1.Interfaces;
+using lab1_gr1.Models;
+using lab1_gr1.ViewModels.RecipeVM;
 using ListaZakupow.Model.DataModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,103 +10,102 @@ namespace lab1_gr1.Controllers
 
     public class RecipeController : Controller
     {
-        private readonly MyDBContext _dbContext;
+        private readonly IRecipeService _recipeService;
 
-        public RecipeController(MyDBContext dbContext)
+        public RecipeController(IRecipeService recipeService)
         {
-            _dbContext = dbContext;
+            _recipeService = recipeService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            int userId = GetUserId();
+
+            var recipes = await _recipeService.GetAllByUserIdAsync(userId);
+            return View(recipes); 
         }
 
         // GET: api/recipes/5
         [HttpGet]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var recipe = await _dbContext.Recipes
-                .Include(r => r.User)
-                .Include(r => r.RecipeIngredients)
-                .Include(r => r.RecipeSchedules)
-                .FirstOrDefaultAsync(r => r.Id == id);
-
+            var recipe = await _recipeService.GetByIdAsync(id);
             if (recipe == null)
-                return NotFound();
+                return NotFound("Przepis nie został znaleziony.");
 
-            return Ok(recipe); //change to redirect view
+            return View(recipe);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new CreateRecipeVM());
         }
 
         // POST: api/recipes
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Recipe recipe)
+        public async Task<IActionResult> Create(CreateRecipeVM model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState); // redirect error view
+                return View(model);
 
-            recipe.CreatedAt = DateTime.Now;
-            _dbContext.Recipes.Add(recipe);
-            await _dbContext.SaveChangesAsync();
+            // symulacja ID użytkownika (normalnie z sesji)
+            int userId = GetUserId();
 
-            return CreatedAtAction(nameof(GetById), new { id = recipe.Id }, recipe); //change to redirect view
+            var recipeId = await _recipeService.CreateAsync(model, userId);
+            return RedirectToAction("Details", new { id = recipeId });
         }
 
 
         // DELETE: api/recipe/5
-        [HttpDelete]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var recipe = await _dbContext.Recipes.FindAsync(id);
-            if (recipe == null)
-            {
-                return NotFound(new { message = $"Recipe with Id {id} not found." });
-            }
+            var deleted = await _recipeService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
 
-            _dbContext.Recipes.Remove(recipe);
-            await _dbContext.SaveChangesAsync();
-            return NoContent(); //change to redirect view
+            return RedirectToAction("Index");
         }
 
         //UPDATE: api/recipe/5
-        [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody] Recipe updatedRecipe) {
-
-            if (id != updatedRecipe.Id)
-            {
-                return BadRequest(new { message = "Id in URL does not match Id in body." }); // redirect error view
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); // redirect error view
-            }
-
-            var exististngRecipe = await _dbContext.Recipes
-                .Include(r => r.RecipeIngredients)
-                .Include(r => r.RecipeSchedules)
-                .FirstOrDefaultAsync(r => r.Id == id);
-            
-            if (exististngRecipe == null)
-            {
-                return NotFound(new { message = $"Recipe with Id {id} not found." });
-            }
-
-            exististngRecipe.Name = updatedRecipe.Name;
-            exististngRecipe.Description = updatedRecipe.Description;
-            exististngRecipe.Instructions = updatedRecipe.Instructions;
-
-            if (updatedRecipe.RecipeIngredients != null)
-            {
-                _dbContext.RecipeIngredients.RemoveRange(exististngRecipe.RecipeIngredients);
-                exististngRecipe.RecipeIngredients = updatedRecipe.RecipeIngredients;
-            }
-
-            if (updatedRecipe.RecipeSchedules != null)
-            {
-                _dbContext.RecipeSchedules.RemoveRange(exististngRecipe.RecipeSchedules);
-                exististngRecipe.RecipeSchedules = updatedRecipe.RecipeSchedules;
-            }
-
-            await _dbContext.SaveChangesAsync();
-            return Ok(exististngRecipe); // change to redirect view
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await _recipeService.GetForEditAsync(id);
+            if (model == null || model.UserId != GetUserId())
+                return RedirectToAction("Index", "Recipe");
+            ViewBag.RecipeId = id;
+            return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CreateRecipeVM model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var recipe = await _recipeService.GetByIdAsync(id);
+            if (recipe == null || recipe.UserId != GetUserId())
+                return RedirectToAction("Index", "Recipe");
+
+            var updated = await _recipeService.UpdateAsync(model.Id, model);
+            if (!updated)
+                return NotFound();
+
+            return RedirectToAction("Details", new { id });
+        }
+
+
+        private int GetUserId()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                throw new Exception("Użytkownik niezalogowany");
+            return userId.Value;
+        }
 
     }
 }

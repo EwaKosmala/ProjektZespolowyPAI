@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using ListaZakupow.Model.DataModels;
 using lab1_gr1.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+using lab1_gr1.ViewModels.UserVM;
+using lab1_gr1.Interfaces;
 
 namespace ListaZakupow.Controllers
 {
@@ -11,77 +13,87 @@ namespace ListaZakupow.Controllers
     {
         private readonly MyDBContext _dbContext;
         private readonly PasswordHasher<User> _passwordHasher;
+        private readonly IUserService _userService;
 
-        public AuthController(MyDBContext dbContext)
+        public AuthController(MyDBContext dbContext, IUserService userService)
         {
             _dbContext = dbContext;
             _passwordHasher = new PasswordHasher<User>();
+            _userService = userService;
         }
-
+        public IActionResult Index()
+        {
+            
+            return View();
+        }
 
         // REJESTRACJA
         public IActionResult Register()
         {
-            return View();
+            return View(new RegisterVM());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto dto)
+        public async Task<IActionResult> Register(RegisterVM model)
         {
-            if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Nazwa użytkownika i hasło są wymagane."); //change to redirect error view
+                return View(model);
             }
 
-            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-            if (existingUser != null)
+            var success = await _userService.RegisterAsync(model);
+            if (!success)
             {
-                return Conflict("Użytkownik o takiej nazwie już istnieje."); //change to redirect error view
+                ModelState.AddModelError("", "Użytkownik o takiej nazwie już istnieje.");
+                return View(model);
             }
 
-            var newUser = new User
-            {
-                Username = dto.Username,
-                PasswordHash = _passwordHasher.HashPassword(null, dto.Password),
-                RegistrationDate = DateTime.Now
-            };
-
-            _dbContext.Users.Add(newUser);
-            await _dbContext.SaveChangesAsync();
-
-            return Ok("Użytkownik został zarejestrowany pomyślnie."); //change to redirect View 
+            return RedirectToAction("Login");
         }
 
         // LOGOWANIE
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginVM());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDto dto)
+        public async Task<IActionResult> Login(LoginVM model)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-            if (user == null)
+            if (!ModelState.IsValid)
             {
-                return Unauthorized("Niepoprawny login lub hasło"); // redirect to Error view
+                return View(model);
             }
 
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
-            if (result == PasswordVerificationResult.Failed)
+            var user = await _userService.LoginAsync(model);
+            if (user == null)
             {
-                return Unauthorized("Niepoprawny login lub hasło"); // redirect to Error view
+                ViewBag.Error = "Niepoprawny login lub hasło";
+                return View(model);
             }
+            HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Username", user.Username);
-            return Ok("Zalogowano pomyślnie"); // change to redirect View
+            return RedirectToAction("LoggedIn"); 
         }
+        public IActionResult LoggedIn()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("Login");
+            }
+
+            var model = new LoginVM { Username = username };
+            return View(model);
+        }
+
 
         // WYLOGOWANIE
         [HttpPost]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
-            return Ok("Wylogowano pomyślnie"); // change to redirect View
+            _userService.Logout(HttpContext);
+            return RedirectToAction("Login");
         }
     }
 }

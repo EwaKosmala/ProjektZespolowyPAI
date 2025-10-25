@@ -1,0 +1,13 @@
+﻿@model ListaZakupow.Model.DataModels.Ingredient
+
+<h2>Edit Ingredient</h2>
+
+<form asp-action="Edit" method="post" asp-route-id="@Model.Id">
+    <div>
+        <label>Name:</label>
+        <input asp-for="Name" required />
+    </div>
+    <button type="submit">Edytuj</button>
+</form>
+
+<a href="/Ingredient">Wróć</a>

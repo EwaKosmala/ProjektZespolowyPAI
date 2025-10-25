@@ -1,0 +1,47 @@
+﻿@model IEnumerable<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
+
+@{
+    ViewData["Title"] = "Twoje przepisy";
+}
+
+<h2>Twoje przepisy</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Dodaj nowy przepis</a>
+</p>
+
+@if (!Model.Any())
+{
+    <p>Nie masz jeszcze żadnych przepisów.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th>Data utworzenia</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recipe in Model)
+            {
+                <tr>
+                    <td>@recipe.Name</td>
+                    <td>@recipe.Description</td>
+                    <td>@recipe.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-info btn-sm">Szczegóły</a>
+                        <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm">Edytuj</a>
+                        <form asp-action="Delete" asp-route-id="@recipe.Id" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

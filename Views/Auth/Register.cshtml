@@ -1,0 +1,55 @@
+﻿@model lab1_gr1.ViewModels.UserVM.RegisterVM
+
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<h2>Rejestracja</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div>
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form asp-action="Register" method="post">
+    <div>
+        <label for="Username">Nazwa użytkownika</label>
+        <input asp-for="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+
+    <div>
+        <label for="Password">Hasło</label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <label for="ConfirmPassword">Potwierdź hasło</label>
+        <input asp-for="ConfirmPassword" type="password" />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+
+    <button type="submit">Zarejestruj się</button>
+
+    <p>
+        Masz już konto?
+        <a asp-controller="Auth" asp-action="Login">Zaloguj się</a>
+    </p>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
