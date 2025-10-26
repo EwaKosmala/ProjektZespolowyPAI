@@ -45,6 +45,57 @@ namespace lab1_gr1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = recipe.Id }, recipe); //change to redirect view
         }
 
+        // GET: /Recipe/Edit/{id}
+        [HttpGet("Edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var recipe = await _dbContext.Recipes
+                .Include(r => r.RecipeIngredients)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (recipe == null) return NotFound();
+
+            // Load all ingredients and mark selected
+            var ingredients = await _dbContext.Ingredients.ToListAsync();
+            ViewBag.Ingredients = ingredients;
+            ViewBag.SelectedIngredients = recipe.RecipeIngredients.Select(ri => ri.IngredientId).ToArray();
+
+            return View(recipe);
+        }
+
+        // POST: /Recipe/Edit/{id}
+        [HttpPost("Edit/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Recipe updatedRecipe, int[] selectedIngredients)
+        {
+            var recipe = await _dbContext.Recipes
+                .Include(r => r.RecipeIngredients)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (recipe == null) return NotFound();
+
+            recipe.Name = updatedRecipe.Name;
+            recipe.Description = updatedRecipe.Description;
+            recipe.Instructions = updatedRecipe.Instructions;
+
+            // Update ingredients
+            recipe.RecipeIngredients.Clear();
+            if (selectedIngredients != null)
+            {
+                foreach (var ingredientId in selectedIngredients)
+                {
+                    recipe.RecipeIngredients.Add(new RecipeIngredient
+                    {
+                        RecipeId = recipe.Id,
+                        IngredientId = ingredientId,
+                        Quantity = "" // optional
+                    });
+                }
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
         // DELETE: api/recipe/5
         [HttpDelete]
