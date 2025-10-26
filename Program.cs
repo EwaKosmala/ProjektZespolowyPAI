@@ -19,6 +19,8 @@ builder.Services.AddScoped<PasswordHasher<User>>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IRecipeIngredientService, RecipeIngredientService>();
 builder.Services.AddScoped<IRecipeScheduleService, RecipeScheduleService>();
+builder.Services.AddScoped<IShoppingListService, ShoppingListService>();
+
 
 
 

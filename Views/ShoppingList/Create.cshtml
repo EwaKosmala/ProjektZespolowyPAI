@@ -1,0 +1,35 @@
+﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
+
+<h2>Dodaj listę zakupów</h2>
+
+<form asp-action="Create" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Dodaj</th>
+                <th>Składnik</th>
+                <th>Ilość</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" asp-for="Items[@i].IsSelected" />
+                    </td>
+                    <td>
+                        @Model.Items[i].IngredientName
+                        <input type="hidden" asp-for="Items[@i].IngredientId" />
+                    </td>
+                    <td>
+                        <input asp-for="Items[@i].Quantity" class="form-control" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Zapisz listę</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

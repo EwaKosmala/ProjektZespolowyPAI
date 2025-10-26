@@ -1,0 +1,12 @@
+﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
+
+<h2>Lista zakupów - @Model.CreatedAt</h2>
+
+<ul>
+    @foreach (var item in Model.Items)
+    {
+        <li>@item.IngredientName - @item.Quantity</li>
+    }
+</ul>
+
+<a asp-action="Index" class="btn btn-secondary">Wróć</a>

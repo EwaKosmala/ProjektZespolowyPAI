@@ -1,0 +1,20 @@
+﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListFromDaysVM
+
+<h2>Utwórz listę zakupów z wybranych dni</h2>
+
+<form asp-action="FromDays" method="post">
+    @{
+        string[] dayNames = { "", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
+    }
+
+    @for (int day = 1; day <= 7; day++)
+    {
+        <div class="form-check">
+            <input type="checkbox" name="SelectedDays" value="@day" class="form-check-input" />
+            <label class="form-check-label">@dayNames[day]</label>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success mt-2">Generuj listę zakupów</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>
