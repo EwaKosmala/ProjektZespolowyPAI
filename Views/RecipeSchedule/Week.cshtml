@@ -1,0 +1,31 @@
+﻿@model List<lab1_gr1.ViewModels.RecipeScheduleVM.DayRecipesVM>
+
+@{
+    ViewData["Title"] = "Przepisy w tygodniu";
+    string[] dayNames = { "", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
+}
+
+<h2>Przepisy na tydzień</h2>
+
+@foreach (var day in Model.OrderBy(d => d.Day))
+{
+    <h3>@dayNames[day.Day]</h3>
+    
+    @if (day.Recipes.Any())
+    {
+        <ul>
+            @foreach (var recipe in day.Recipes)
+            {
+                <li>
+                    <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">
+                        @recipe.Name
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Brak przepisów</p>
+    }
+}
