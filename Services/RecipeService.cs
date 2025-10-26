@@ -37,55 +37,71 @@ public class RecipeService : BaseService, IRecipeService
 
     public async Task<int> CreateAsync(CreateRecipeVM model, int userId)
     {
-        var recipe = _mapper.Map<Recipe>(model);
-        recipe.UserId = userId;
-        recipe.CreatedAt = DateTime.Now;
+        using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
-        _dbContext.Recipes.Add(recipe);
-        await _dbContext.SaveChangesAsync(); 
-
-        recipe.RecipeIngredients = new List<RecipeIngredient>();
-        foreach (var ing in model.Ingredients)
+        try
         {
-            var existingIngredient = await _dbContext.Ingredients
-                .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
+            var recipe = _mapper.Map<Recipe>(model);
+            recipe.UserId = userId;
+            recipe.CreatedAt = DateTime.Now;
 
-            if (existingIngredient == null)
+            _dbContext.Recipes.Add(recipe);
+            await _dbContext.SaveChangesAsync(); // zapisujemy tylko raz, by dostać ID przepisu
+
+            // Składniki
+            var allIngredients = new List<RecipeIngredient>();
+
+            foreach (var ing in model.Ingredients)
             {
-                existingIngredient = new Ingredient { Name = ing.IngredientName };
-                _dbContext.Ingredients.Add(existingIngredient);
-                await _dbContext.SaveChangesAsync(); 
+                var existingIngredient = await _dbContext.Ingredients
+                    .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
+
+                if (existingIngredient == null)
+                {
+                    existingIngredient = new Ingredient { Name = ing.IngredientName };
+                    _dbContext.Ingredients.Add(existingIngredient);
+                    await _dbContext.SaveChangesAsync(); // OK tylko raz na składnik, by mieć jego ID
+                }
+
+                allIngredients.Add(new RecipeIngredient
+                {
+                    RecipeId = recipe.Id,
+                    IngredientId = existingIngredient.Id,
+                    Quantity = ing.Quantity
+                });
             }
 
-            recipe.RecipeIngredients.Add(new RecipeIngredient
+            if (allIngredients.Any())
             {
-                RecipeId = recipe.Id,
-                IngredientId = existingIngredient.Id,
-                Quantity = ing.Quantity
-            });
-        }
+                _dbContext.RecipeIngredients.AddRange(allIngredients);
+            }
 
-        if (recipe.RecipeIngredients.Any())
-        {
-            _dbContext.RecipeIngredients.AddRange(recipe.RecipeIngredients);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        if (model.Schedules != null && model.Schedules.Any())
-        {
-            recipe.RecipeSchedules = model.Schedules.Select(s => new RecipeSchedule
+            // Harmonogram
+            if (model.Schedules != null && model.Schedules.Any())
             {
-                DayOfWeek = s.DayOfWeek,
-                RecipeId = recipe.Id,
-                UserId = userId
-            }).ToList();
+                var schedules = model.Schedules.Select(s => new RecipeSchedule
+                {
+                    DayOfWeek = s.DayOfWeek,
+                    RecipeId = recipe.Id,
+                    UserId = userId
+                });
 
-            _dbContext.RecipeSchedules.AddRange(recipe.RecipeSchedules);
-            await _dbContext.SaveChangesAsync();
+                _dbContext.RecipeSchedules.AddRange(schedules);
+            }
+
+            await _dbContext.SaveChangesAsync(); // 🔵 jeden końcowy zapis
+            await transaction.CommitAsync();     // 🔵 wszystko zapisane razem
+
+            return recipe.Id;
         }
-
-        return recipe.Id;
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            Console.WriteLine($"Błąd przy tworzeniu przepisu: {ex.Message}");
+            throw;
+        }
     }
+
 
     public async Task<CreateRecipeVM?> GetForEditAsync(int id)
     {
