@@ -47,33 +47,13 @@ namespace lab1_gr1.Controllers
         public async Task<IActionResult> Create(CreateRecipeVM model)
         {
             if (!ModelState.IsValid)
-            {
-                foreach (var key in ModelState.Keys)
-                {
-                    var errors = ModelState[key].Errors;
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine($"Pole: {key}, Błąd: {error.ErrorMessage}");
-                    }
-                }
+                return View(model);
 
-                // Możesz też przekazać je do widoku Error
-                return View("Error", "Walidacja nie przeszła. Sprawdź pola formularza.");
-            }
+            int userId = GetUserId();
 
-            try
-            {
-                int userId = GetUserId();
-                var recipeId = await _recipeService.CreateAsync(model, userId);
-                return RedirectToAction("Details", new { id = recipeId });
-            }
-            catch (Exception ex)
-            {
-                return View("Error", $"Nie udało się dodać przepisu: {ex.Message}");
-            }
+            var recipeId = await _recipeService.CreateAsync(model, userId);
+            return RedirectToAction("Details", new { id = recipeId });
         }
-
-
 
         // DELETE: api/recipe/5
         [HttpPost]

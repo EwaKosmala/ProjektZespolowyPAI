@@ -37,69 +37,46 @@ public class RecipeService : BaseService, IRecipeService
 
     public async Task<int> CreateAsync(CreateRecipeVM model, int userId)
     {
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        var recipe = _mapper.Map<Recipe>(model);
+        recipe.UserId = userId;
+        recipe.CreatedAt = DateTime.Now;
 
-        try
+        recipe.RecipeIngredients = new List<RecipeIngredient>();
+        foreach (var ing in model.Ingredients)
         {
-            var recipe = _mapper.Map<Recipe>(model);
-            recipe.UserId = userId;
-            recipe.CreatedAt = DateTime.Now;
+            var existingIngredient = await _dbContext.Ingredients
+                .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
 
-            _dbContext.Recipes.Add(recipe);
-            await _dbContext.SaveChangesAsync(); // zapisujemy tylko raz, by dostać ID przepisu
-
-            // Składniki
-            var allIngredients = new List<RecipeIngredient>();
-
-            foreach (var ing in model.Ingredients)
+            if (existingIngredient == null)
             {
-                var existingIngredient = await _dbContext.Ingredients
-                    .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
-
-                if (existingIngredient == null)
-                {
-                    existingIngredient = new Ingredient { Name = ing.IngredientName };
-                    _dbContext.Ingredients.Add(existingIngredient);
-                    await _dbContext.SaveChangesAsync(); // OK tylko raz na składnik, by mieć jego ID
-                }
-
-                allIngredients.Add(new RecipeIngredient
-                {
-                    RecipeId = recipe.Id,
-                    IngredientId = existingIngredient.Id,
-                    Quantity = ing.Quantity
-                });
+                existingIngredient = new Ingredient { Name = ing.IngredientName };
+                _dbContext.Ingredients.Add(existingIngredient);
+                await _dbContext.SaveChangesAsync();
             }
 
-            if (allIngredients.Any())
+            recipe.RecipeIngredients.Add(new RecipeIngredient
             {
-                _dbContext.RecipeIngredients.AddRange(allIngredients);
-            }
-
-            // Harmonogram
-            if (model.Schedules != null && model.Schedules.Any())
-            {
-                var schedules = model.Schedules.Select(s => new RecipeSchedule
-                {
-                    DayOfWeek = s.DayOfWeek,
-                    RecipeId = recipe.Id,
-                    UserId = userId
-                });
-
-                _dbContext.RecipeSchedules.AddRange(schedules);
-            }
-
-            await _dbContext.SaveChangesAsync(); // 🔵 jeden końcowy zapis
-            await transaction.CommitAsync();     // 🔵 wszystko zapisane razem
-
-            return recipe.Id;
+                IngredientId = existingIngredient.Id,
+                Quantity = ing.Quantity
+            });
         }
-        catch (Exception ex)
+
+        _dbContext.Recipes.Add(recipe);
+        await _dbContext.SaveChangesAsync();
+
+        if (model.Schedules != null)
         {
-            await transaction.RollbackAsync();
-            Console.WriteLine($"Błąd przy tworzeniu przepisu: {ex.Message}");
-            throw;
+            recipe.RecipeSchedules = model.Schedules.Select(s => new RecipeSchedule
+            {
+                DayOfWeek = s.DayOfWeek,
+                UserId = recipe.UserId,
+                RecipeId = recipe.Id
+            }).ToList();
+
+            await _dbContext.SaveChangesAsync();
         }
+
+        return recipe.Id;
     }
 
 

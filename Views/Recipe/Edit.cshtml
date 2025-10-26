@@ -49,34 +49,29 @@
     <button type="button" id="add-ingredient-btn">Dodaj składnik</button>
 
     <h3>Dni tygodnia</h3>
-    <div id="schedules-container">
-        @for (int i = 0; i < Model.Schedules.Count; i++)
+    <div class="form-check">
+        @for (int i = 0; i < 7; i++)
         {
-            <div class="schedule-row">
-                <select name="Schedules[@i].DayOfWeek">
-                    @for (int day = 1; day <= 7; day++)
-                    {
-                        var dayName = day switch
-                        {
-                            1 => "Poniedziałek",
-                            2 => "Wtorek",
-                            3 => "Środa",
-                            4 => "Czwartek",
-                            5 => "Piątek",
-                            6 => "Sobota",
-                            7 => "Niedziela",
-                            _ => ""
-                        };
-                        <option value="@day" selected="@(Model.Schedules[i].DayOfWeek == day ? "selected" : null)">
-                            @dayName
-                        </option>
-                        }
-                </select>
-                <button type="button" class="remove-schedule">Usuń</button>
+            var dayNumber = i + 1; // 1 = Poniedziałek ... 7 = Niedziela
+            var dayName = dayNumber switch
+            {
+                1 => "Poniedziałek",
+                2 => "Wtorek",
+                3 => "Środa",
+                4 => "Czwartek",
+                5 => "Piątek",
+                6 => "Sobota",
+                7 => "Niedziela",
+                _ => ""
+            };
+            var isChecked = Model.Schedules.Any(s => s.DayOfWeek == dayNumber);
+            <div class="form-check form-check-inline">
+                <input type="checkbox" name="Schedules[@i].DayOfWeek" value="@dayNumber" @(isChecked ? "checked" : "") />
+                <label class="form-check-label">@dayName</label>
             </div>
         }
+
     </div>
-    <button type="button" id="add-schedule-btn">Dodaj dzień</button>
 
     <div style="margin-top:10px;">
         <button type="submit">Zapisz zmiany</button>

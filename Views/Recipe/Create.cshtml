@@ -51,6 +51,30 @@
 
     <button type="button" id="add-ingredient-btn" class="btn btn-primary btn-sm">Dodaj składnik</button>
 
+    <h3 class="mt-4">Dni tygodnia</h3>
+    <div class="form-check">
+        @for (int i = 0; i < 7; i++)
+        {
+            var day = i + 1;
+            var dayName = day switch
+            {
+                1 => "Poniedziałek",
+                2 => "Wtorek",
+                3 => "Środa",
+                4 => "Czwartek",
+                5 => "Piątek",
+                6 => "Sobota",
+                7 => "Niedziela",
+                _ => ""
+            };
+            <div class="form-check form-check-inline">
+                <input type="checkbox" name="Schedules[@i].DayOfWeek" value="@day" />
+                <label class="form-check-label">@dayName</label>
+            </div>
+        }
+    </div>
+
+
     <div style="margin-top:10px;">
         <button type="submit" class="btn btn-success">Zapisz przepis</button>
         <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
