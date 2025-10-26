@@ -15,6 +15,9 @@ namespace lab1_gr1.Configuration.AMProfile
             CreateMap<Recipe, RecipeListVM>();
             CreateMap<LoginVM, User>();
             CreateMap<Ingredient, IngredientListVM>();
+            CreateMap<CreateIngredientVM, Ingredient>();
+            CreateMap<EditIngredientVM, Ingredient>();
+
 
             CreateMap<Recipe, CreateRecipeVM>()
                 .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.RecipeIngredients))
@@ -29,6 +32,11 @@ namespace lab1_gr1.Configuration.AMProfile
 
             CreateMap<Ingredient, IngredientListVM>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<Ingredient, IngredientListVM>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.UsedInRecipesCount, opt => opt.MapFrom(src => src.RecipeIngredients.Count))
+                .ForMember(dest => dest.ShoppingListItemsCount, opt => opt.MapFrom(src => src.ShoppingListItems.Count));
 
         }
     }

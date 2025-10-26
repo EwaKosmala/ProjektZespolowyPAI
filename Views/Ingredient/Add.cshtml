@@ -1,19 +1,22 @@
-﻿@model ListaZakupow.Model.DataModels.Ingredient
+﻿@model lab1_gr1.ViewModels.IngredientVM.CreateIngredientVM
 
 @{
-    ViewData["Title"] = "Dodaj składnik";
+    ViewData["Title"] = "Dodaj nowy składnik";
 }
 
-<h2>Dodaj składnik</h2>
+<h2>Dodaj nowy składnik</h2>
 
 <form asp-action="Add" method="post">
-    <div>
-        <label>Name:</label>
-        <input asp-for="Name" required />
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Nazwa składnika</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Dodaj</button>
+    <button type="submit" class="btn btn-success">Zapisz</button>
     <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
 </form>
 
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

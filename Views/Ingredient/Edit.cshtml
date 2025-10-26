@@ -1,13 +1,24 @@
-﻿@model ListaZakupow.Model.DataModels.Ingredient
+﻿@model lab1_gr1.ViewModels.IngredientVM.EditIngredientVM
 
-<h2>Edit Ingredient</h2>
+@{
+    ViewData["Title"] = "Edytuj składnik";
+}
 
-<form asp-action="Edit" method="post" asp-route-id="@Model.Id">
-    <div>
-        <label>Name:</label>
-        <input asp-for="Name" required />
+<h2>Edytuj składnik</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Nazwa składnika</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    <button type="submit">Edytuj</button>
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-success">Zapisz zmiany</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
 </form>
 
-<a href="/Ingredient">Wróć</a>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

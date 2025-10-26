@@ -4,5 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int UsedInRecipesCount { get; set; }
+        public int ShoppingListItemsCount { get; set; }
     }
 }

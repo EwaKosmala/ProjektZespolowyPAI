@@ -1,0 +1,21 @@
+﻿@model lab1_gr1.ViewModels.IngredientVM.IngredientListVM
+
+@{
+    ViewData["Title"] = "Usuń składnik";
+}
+
+<h2>Usuń składnik</h2>
+
+<div class="alert alert-warning">
+    <p>Czy na pewno chcesz usunąć składnik <strong>@Model.Name</strong>?</p>
+    <p>
+        Używany w przepisach: <strong>@Model.UsedInRecipesCount</strong><br />
+        Występuje na listach zakupów: <strong>@Model.ShoppingListItemsCount</strong>
+    </p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

@@ -17,8 +17,9 @@ namespace lab1_gr1.Services
         public async Task<IEnumerable<IngredientListVM>> GetAllAsync()
         {
             var ingredients = await _dbContext.Ingredients
-                .OrderBy(i => i.Name)
-                .ToListAsync();
+                 .Include(i => i.RecipeIngredients)
+                 .Include(i => i.ShoppingListItems)
+                 .ToListAsync();
 
             return _mapper.Map<IEnumerable<IngredientListVM>>(ingredients);
         }

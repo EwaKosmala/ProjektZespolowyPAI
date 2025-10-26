@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ListaZakupow.Model.DataModels.Ingredient>
+﻿@model IEnumerable<lab1_gr1.ViewModels.IngredientVM.IngredientListVM>
+
 
 @{
     ViewData["Title"] = "Lista składników";
@@ -31,8 +32,8 @@
         {
             <tr>
                 <td>@ingredient.Name</td>
-                <td>@ingredient.RecipeIngredients?.Count() ?? 0</td>
-                <td>@ingredient.ShoppingListItems?.Count() ?? 0</td>
+                <td>@ingredient.UsedInRecipesCount</td>
+                <td>@ingredient.ShoppingListItemsCount</td>
                 <td>
                     <a asp-action="Delete" asp-route-id="@ingredient.Id" class="btn btn-danger btn-sm">Usuń</a>
                 </td>
