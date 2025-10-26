@@ -63,6 +63,21 @@ namespace lab1_gr1.Controllers
                 .ToListAsync();
             return View(ingredients);
         }
+
+        // GET: /Ingredient/Delete/{id}
+        [HttpGet("/Ingredient/Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var ingredient = await _dbContext.Ingredients.FindAsync(id);
+            if (ingredient == null)
+                return NotFound();
+
+            _dbContext.Ingredients.Remove(ingredient);
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
     }
 
 }
