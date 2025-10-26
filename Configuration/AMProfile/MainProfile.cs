@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using lab1_gr1.ViewModels.RecipeVM;
+using lab1_gr1.ViewModels.RecipeIngredientVM;
 using lab1_gr1.ViewModels.UserVM;
 using ListaZakupow.Model.DataModels;
+using lab1_gr1.ViewModels.IngredientVM;
 namespace lab1_gr1.Configuration.AMProfile
 {
     public class MainProfile:Profile
@@ -12,6 +14,7 @@ namespace lab1_gr1.Configuration.AMProfile
             CreateMap<CreateRecipeIngredientVM, RecipeIngredient>();
             CreateMap<Recipe, RecipeListVM>();
             CreateMap<LoginVM, User>();
+            CreateMap<Ingredient, IngredientListVM>();
 
             CreateMap<Recipe, CreateRecipeVM>()
                 .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.RecipeIngredients))
@@ -23,6 +26,9 @@ namespace lab1_gr1.Configuration.AMProfile
 
             CreateMap<RecipeSchedule, CreateRecipeScheduleVM>()
                 .ForMember(dest => dest.DayOfWeek, opt => opt.MapFrom(src => src.DayOfWeek));
+
+            CreateMap<Ingredient, IngredientListVM>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
         }
     }

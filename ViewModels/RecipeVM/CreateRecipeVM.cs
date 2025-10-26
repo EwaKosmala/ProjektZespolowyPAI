@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using lab1_gr1.ViewModels.RecipeIngredientVM;
 
 namespace lab1_gr1.ViewModels.RecipeVM
 {
@@ -19,11 +20,7 @@ namespace lab1_gr1.ViewModels.RecipeVM
         public int UserId { get; set; }
     }
 
-    public class CreateRecipeIngredientVM
-    {
-        public string IngredientName { get; set; }
-        public string Quantity { get; set; }
-    }
+    
 
     public class CreateRecipeScheduleVM
     {

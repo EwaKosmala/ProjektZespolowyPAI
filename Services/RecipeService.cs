@@ -41,7 +41,9 @@ public class RecipeService : BaseService, IRecipeService
         recipe.UserId = userId;
         recipe.CreatedAt = DateTime.Now;
 
-        // Tworzymy lub pobieramy składniki z bazy
+        _dbContext.Recipes.Add(recipe);
+        await _dbContext.SaveChangesAsync(); 
+
         recipe.RecipeIngredients = new List<RecipeIngredient>();
         foreach (var ing in model.Ingredients)
         {
@@ -52,35 +54,39 @@ public class RecipeService : BaseService, IRecipeService
             {
                 existingIngredient = new Ingredient { Name = ing.IngredientName };
                 _dbContext.Ingredients.Add(existingIngredient);
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(); 
             }
 
             recipe.RecipeIngredients.Add(new RecipeIngredient
             {
+                RecipeId = recipe.Id,
                 IngredientId = existingIngredient.Id,
                 Quantity = ing.Quantity
             });
         }
 
-        // Najpierw dodajemy przepis, aby uzyskać Id
-        _dbContext.Recipes.Add(recipe);
-        await _dbContext.SaveChangesAsync();
+        if (recipe.RecipeIngredients.Any())
+        {
+            _dbContext.RecipeIngredients.AddRange(recipe.RecipeIngredients);
+            await _dbContext.SaveChangesAsync();
+        }
 
-        // Teraz możemy dodać harmonogramy, bo recipe.Id jest dostępne
-        if (model.Schedules != null)
+        if (model.Schedules != null && model.Schedules.Any())
         {
             recipe.RecipeSchedules = model.Schedules.Select(s => new RecipeSchedule
             {
                 DayOfWeek = s.DayOfWeek,
-                UserId = recipe.UserId,
-                RecipeId = recipe.Id
+                RecipeId = recipe.Id,
+                UserId = userId
             }).ToList();
 
+            _dbContext.RecipeSchedules.AddRange(recipe.RecipeSchedules);
             await _dbContext.SaveChangesAsync();
         }
 
         return recipe.Id;
     }
+
     public async Task<CreateRecipeVM?> GetForEditAsync(int id)
     {
         var recipe = await _dbContext.Recipes
@@ -111,14 +117,12 @@ public class RecipeService : BaseService, IRecipeService
 
         if (model.Ingredients != null)
         {
-            // Usuń stare powiązania
             _dbContext.RecipeIngredients.RemoveRange(recipe.RecipeIngredients);
 
             var newRecipeIngredients = new List<RecipeIngredient>();
 
             foreach (var ing in model.Ingredients)
             {
-                // Szukamy składnika w bazie po nazwie
                 var existingIngredient = await _dbContext.Ingredients
                     .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
 
@@ -131,6 +135,7 @@ public class RecipeService : BaseService, IRecipeService
 
                 newRecipeIngredients.Add(new RecipeIngredient
                 {
+                    RecipeId = recipe.Id,
                     IngredientId = existingIngredient.Id,
                     Quantity = ing.Quantity
                 });
@@ -139,7 +144,6 @@ public class RecipeService : BaseService, IRecipeService
             recipe.RecipeIngredients = newRecipeIngredients;
         }
 
-        // Harmonogram pozostaje tak samo
         if (model.Schedules != null)
         {
             _dbContext.RecipeSchedules.RemoveRange(recipe.RecipeSchedules);

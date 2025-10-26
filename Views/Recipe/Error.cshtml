@@ -1,0 +1,13 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Błąd przepisu";
+}
+
+<h2>Błąd</h2>
+
+<div class="alert alert-danger">
+    <p>@Model</p>
+</div>
+
+<a asp-action="Index" class="btn btn-primary">Powrót do listy przepisów</a>
