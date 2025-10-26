@@ -96,6 +96,7 @@ namespace lab1_gr1.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+         
 
         // DELETE: api/recipe/5
         [HttpDelete]
