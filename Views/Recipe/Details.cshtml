@@ -65,5 +65,6 @@ else
 
 <a asp-action="Index" class="btn btn-secondary">Wróć do listy</a>
 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edytuj</a>
-<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
-   onclick="return confirm('Czy na pewno chcesz usunąć ten przepis?');">Usuń</a>
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć ten przepis?');">
+    <button type="submit" class="btn btn-danger">Usuń</button>
+</form>

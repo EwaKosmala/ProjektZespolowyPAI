@@ -80,10 +80,20 @@
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
     <script>
         let ingredientIndex = @Model.Ingredients.Count;
-        document.getElementById('add-ingredient-btn').addEventListener('click', function () {
+
+        // Funkcja do przepisania indeksów w inputach po zmianach
+        function reindexIngredients() {
+            const rows = document.querySelectorAll('#ingredients-container .ingredient-row');
+            rows.forEach((row, index) => {
+                row.querySelector('input[name$=".IngredientName"]').name = `Ingredients[${index}].IngredientName`;
+                row.querySelector('input[name$=".Quantity"]').name = `Ingredients[${index}].Quantity`;
+            });
+        }
+
+        // Obsługa przycisku "Dodaj składnik"
+        document.getElementById('add-ingredient-btn').addEventListener('click', () => {
             const container = document.getElementById('ingredients-container');
             const newRow = document.createElement('div');
             newRow.classList.add('ingredient-row');
@@ -93,38 +103,22 @@
                 <button type="button" class="remove-ingredient">Usuń</button>
             `;
             container.appendChild(newRow);
-            newRow.querySelector('.remove-ingredient').addEventListener('click', () => container.removeChild(newRow));
+
+            // Dodaj event dla nowego przycisku usuń
+            newRow.querySelector('.remove-ingredient').addEventListener('click', () => {
+                newRow.remove();
+                reindexIngredients(); // przepisz indeksy po usunięciu
+            });
+
             ingredientIndex++;
         });
 
+        // Obsługa istniejących przycisków "Usuń" w HTML
         document.querySelectorAll('.remove-ingredient').forEach(btn => {
-            btn.addEventListener('click', () => btn.parentElement.remove());
-        });
-
-        let scheduleIndex = @Model.Schedules.Count;
-        document.getElementById('add-schedule-btn').addEventListener('click', function () {
-            const container = document.getElementById('schedules-container');
-            const newRow = document.createElement('div');
-            newRow.classList.add('schedule-row');
-            newRow.innerHTML = `
-                <select name="Schedules[${scheduleIndex}].DayOfWeek">
-                    <option value="1">Poniedziałek</option>
-                    <option value="2">Wtorek</option>
-                    <option value="3">Środa</option>
-                    <option value="4">Czwartek</option>
-                    <option value="5">Piątek</option>
-                    <option value="6">Sobota</option>
-                    <option value="7">Niedziela</option>
-                </select>
-                <button type="button" class="remove-schedule">Usuń</button>
-            `;
-            container.appendChild(newRow);
-            newRow.querySelector('.remove-schedule').addEventListener('click', () => container.removeChild(newRow));
-            scheduleIndex++;
-        });
-
-        document.querySelectorAll('.remove-schedule').forEach(btn => {
-            btn.addEventListener('click', () => btn.parentElement.remove());
+            btn.addEventListener('click', () => {
+                btn.parentElement.remove();
+                reindexIngredients(); // przepisz indeksy po usunięciu
+            });
         });
     </script>
 }

@@ -98,8 +98,16 @@ public class RecipeService : BaseService, IRecipeService
         if (recipe == null)
             return null;
 
-        return _mapper.Map<CreateRecipeVM>(recipe);
+        var model = _mapper.Map<CreateRecipeVM>(recipe);
+
+        // 🔹 Tutaj wypełniamy zaznaczone dni tygodnia
+        model.SelectedDays = recipe.RecipeSchedules
+            .Select(s => s.DayOfWeek)
+            .ToList();
+
+        return model;
     }
+
 
 
     public async Task<bool> UpdateAsync(int id, CreateRecipeVM model)

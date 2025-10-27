@@ -92,26 +92,41 @@
     <script>
         let ingredientIndex = @Model.Ingredients.Count;
 
-        document.getElementById('add-ingredient-btn').addEventListener('click', () => {
-            const tableBody = document.querySelector('#ingredients-table tbody');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td><input name="Ingredients[${ingredientIndex}].IngredientName" placeholder="Nazwa składnika" /></td>
-                <td><input name="Ingredients[${ingredientIndex}].Quantity" placeholder="Ilość" /></td>
-                <td><button type="button" class="btn btn-danger btn-sm remove-ingredient">Usuń</button></td>
-            `;
-            tableBody.appendChild(newRow);
+        // Funkcja do przepisania indeksów w inputach po zmianach
+        function reindexIngredients() {
+            const rows = document.querySelectorAll('#ingredients-container .ingredient-row');
+            rows.forEach((row, index) => {
+                row.querySelector('input[name$=".IngredientName"]').name = `Ingredients[${index}].IngredientName`;
+                row.querySelector('input[name$=".Quantity"]').name = `Ingredients[${index}].Quantity`;
+            });
+        }
 
+        // Obsługa przycisku "Dodaj składnik"
+        document.getElementById('add-ingredient-btn').addEventListener('click', () => {
+            const container = document.getElementById('ingredients-container');
+            const newRow = document.createElement('div');
+            newRow.classList.add('ingredient-row');
+            newRow.innerHTML = `
+                <input name="Ingredients[${ingredientIndex}].IngredientName" placeholder="Nazwa składnika" />
+                <input name="Ingredients[${ingredientIndex}].Quantity" placeholder="Ilość" />
+                <button type="button" class="remove-ingredient">Usuń</button>
+            `;
+            container.appendChild(newRow);
+
+            // Dodaj event dla nowego przycisku usuń
             newRow.querySelector('.remove-ingredient').addEventListener('click', () => {
                 newRow.remove();
+                reindexIngredients(); // przepisz indeksy po usunięciu
             });
 
             ingredientIndex++;
         });
 
+        // Obsługa istniejących przycisków "Usuń" w HTML
         document.querySelectorAll('.remove-ingredient').forEach(btn => {
             btn.addEventListener('click', () => {
-                btn.closest('tr').remove();
+                btn.parentElement.remove();
+                reindexIngredients(); // przepisz indeksy po usunięciu
             });
         });
     </script>

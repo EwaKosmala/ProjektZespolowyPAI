@@ -57,6 +57,7 @@ namespace lab1_gr1.Controllers
             return RedirectToAction("Details", new { id = recipeId });
         }
 
+
         // DELETE: api/recipe/5
         [HttpPost]
         [ValidateAntiForgeryToken]
