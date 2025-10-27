@@ -25,6 +25,16 @@ namespace lab1_gr1.Services
             })
             .ToListAsync();
         }
+        public async Task<List<IngredientListVM>> GetUsedIngredientsAsync()
+        {
+            return await _dbContext.RecipeIngredients
+                .Include(ri => ri.Ingredient)
+                .Select(ri => ri.Ingredient)
+                .Distinct()
+                .OrderBy(i => i.Name)
+                .Select(i => new IngredientListVM { Id = i.Id, Name = i.Name })
+                .ToListAsync();
+        }
 
         public async Task<Ingredient?> GetByIdAsync(int id)
         {

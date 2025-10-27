@@ -84,7 +84,7 @@ namespace lab1_gr1.Controllers
             if (list.UserId != userId) return Forbid(); // bezpieczeństwo
 
             // pobranie wszystkich składników do checkboxów
-            var ingredients = await _ingredientService.GetAllAsync();
+            var ingredients = await _ingredientService.GetUsedIngredientsAsync();
 
             // dodanie brakujących składników do listy (np. żeby były checkboxy)
             foreach (var ing in ingredients)

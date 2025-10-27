@@ -113,7 +113,7 @@ namespace lab1_gr1.Controllers
         {
             int userId = GetUserId();
 
-            var ingredients = await _ingredientService.GetAllAsync();
+            var ingredients = await _ingredientService.GetUsedIngredientsAsync();
             var allRecipes = await _recipeService.GetAllAsync(); // wszystkie, nie tylko użytkownika
 
             var vm = new RecipeListFilterVM
@@ -139,7 +139,7 @@ namespace lab1_gr1.Controllers
                 model.ShowOthersRecipes
             );
 
-            model.AvailableIngredients = (await _ingredientService.GetAllAsync()).ToList();
+            model.AvailableIngredients = (await _ingredientService.GetUsedIngredientsAsync()).ToList();
             model.Recipes = filtered.ToList();
 
             return View(model);

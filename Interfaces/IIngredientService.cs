@@ -10,6 +10,8 @@ namespace lab1_gr1.Interfaces
         Task<int> CreateAsync(CreateIngredientVM model);
         Task<bool> UpdateAsync(EditIngredientVM model);
         Task<bool> DeleteAsync(int id);
+        Task<List<IngredientListVM>> GetUsedIngredientsAsync();
+
 
     }
 }
