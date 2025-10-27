@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace lab1_gr1.Controllers
 {
-    public class ShoppingListController : Controller
+    public class ShoppingListController : BaseController
     {
         private readonly IShoppingListService _shoppingListService;
         private readonly IIngredientService _ingredientService; // do pobrania składników
@@ -72,6 +72,63 @@ namespace lab1_gr1.Controllers
             await _shoppingListService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
+
+        // GET: ShoppingList/Edit/5
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var list = await _shoppingListService.GetByIdAsync(id);
+            if (list == null) return NotFound();
+
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            if (list.UserId != userId) return Forbid(); // bezpieczeństwo
+
+            // pobranie wszystkich składników do checkboxów
+            var ingredients = await _ingredientService.GetAllAsync();
+
+            // dodanie brakujących składników do listy (np. żeby były checkboxy)
+            foreach (var ing in ingredients)
+            {
+                if (!list.Items.Any(i => i.IngredientId == ing.Id))
+                {
+                    list.Items.Add(new CreateShoppingListItemVM
+                    {
+                        IngredientId = ing.Id,
+                        IngredientName = ing.Name,
+                        Quantity = "",
+                        IsSelected = false
+                    });
+                }
+                else
+                {
+                    // zaznacz checkbox jeśli składnik jest już w liście
+                    list.Items.First(i => i.IngredientId == ing.Id).IsSelected = true;
+                }
+            }
+
+            return View(list);
+        }
+
+        // POST: ShoppingList/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CreateShoppingListVM model)
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+
+            model.Items = model.Items.Where(i => i.IsSelected).ToList();
+            if (!model.Items.Any())
+            {
+                ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
+                return View(model);
+            }
+
+            var updated = await _shoppingListService.UpdateAsync(id, model, userId);
+            if (!updated) return NotFound();
+
+            return RedirectToAction("Index");
+        }
+
 
         [HttpGet]
         public IActionResult FromDays()

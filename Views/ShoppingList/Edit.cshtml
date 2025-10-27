@@ -1,0 +1,34 @@
+﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
+
+<h2>Edytuj listę zakupów</h2>
+
+<form asp-action="Edit" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Składnik</th>
+                <th>Ilość</th>
+                <th>Zaznacz</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                    <tr>
+                        <td>@Model.Items[i].IngredientName</td>
+                        <td>
+                            <input class="form-control" name="Items[@i].Quantity" value="@Model.Items[i].Quantity" />
+                            <input type="hidden" name="Items[@i].IngredientId" value="@Model.Items[i].IngredientId" />
+                        </td>
+                        <td>
+                            <input type="checkbox" class="form-check-input" name="Items[@i].IsSelected"
+                                   value="true" @(Model.Items[i].IsSelected ? "checked" : "") />
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

@@ -34,6 +34,17 @@ public class RecipeService : BaseService, IRecipeService
 
         return _mapper.Map<IEnumerable<RecipeListVM>>(recipes);
     }
+    public async Task<IEnumerable<RecipeListVM>> GetAllAsync()
+    {
+        var recipes = await _dbContext.Recipes
+            .Include(r => r.RecipeIngredients)
+                .ThenInclude(ri => ri.Ingredient)
+            .Include(r => r.User)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<RecipeListVM>>(recipes);
+    }
+
 
     public async Task<int> CreateAsync(CreateRecipeVM model, int userId)
     {
@@ -181,5 +192,29 @@ public class RecipeService : BaseService, IRecipeService
         _dbContext.Recipes.Remove(recipe);
         await _dbContext.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<IEnumerable<RecipeListVM>> FilterAsync(int userId, List<int> ingredientIds, bool showMine, bool showOthers)
+    {
+        var query = _dbContext.Recipes
+            .Include(r => r.RecipeIngredients)
+                .ThenInclude(ri => ri.Ingredient)
+            .Include(r => r.User)
+            .AsQueryable();
+
+        if (ingredientIds.Any())
+        {
+            query = query.Where(r => r.RecipeIngredients
+                .Any(ri => ingredientIds.Contains(ri.IngredientId)));
+        }
+
+        if (!showMine)
+            query = query.Where(r => r.UserId != userId);
+
+        if (!showOthers)
+            query = query.Where(r => r.UserId == userId);
+
+        var recipes = await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
+        return _mapper.Map<IEnumerable<RecipeListVM>>(recipes);
     }
 }

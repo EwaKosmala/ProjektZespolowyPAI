@@ -1,0 +1,85 @@
+﻿@model lab1_gr1.ViewModels.RecipeVM.RecipeListFilterVM
+
+@{
+    ViewData["Title"] = "Wszystkie przepisy";
+}
+
+<h2 class="mb-4 text-center">Wszystkie przepisy</h2>
+
+<div class="row">
+    <!-- FILTRY -->
+    <div class="col-md-3">
+        <form asp-action="Browse" method="post">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>Autor</strong>
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="ShowMyRecipes" />
+                        <label class="form-check-label">Moje przepisy</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="ShowOthersRecipes" />
+                        <label class="form-check-label">Innych użytkowników</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>Składniki</strong>
+                </div>
+                <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                    @foreach (var ing in Model.AvailableIngredients)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   name="SelectedIngredientIds"
+                                   value="@ing.Id"
+                                   class="form-check-input"
+                            @(Model.SelectedIngredientIds.Contains(ing.Id) ? "checked" : "") />
+                            <label class="form-check-label">@ing.Name</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Filtruj</button>
+        </form>
+    </div>
+
+    <!-- LISTA PRZEPISÓW -->
+    <div class="col-md-9">
+        @if (Model.Recipes.Any())
+        {
+            <div class="row">
+                @foreach (var recipe in Model.Recipes)
+                {
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">@recipe.Name</h5>
+                                <p class="card-text text-muted">@recipe.Description</p>
+                                <p><small><strong>Autor:</strong> @recipe.UserName</small></p>
+                                <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Szczegóły</a>
+
+                                @if (recipe.UserId != Context.Session.GetInt32("UserId"))
+                                {
+                                    <form asp-controller="RecipeSchedule" asp-action="AddExisting" method="post" class="d-inline">
+                                        <input type="hidden" name="recipeId" value="@recipe.Id" />
+                                        <button type="submit" class="btn btn-sm btn-success">Dodaj do moich</button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Brak przepisów spełniających wybrane filtry.</p>
+        }
+    </div>
+</div>

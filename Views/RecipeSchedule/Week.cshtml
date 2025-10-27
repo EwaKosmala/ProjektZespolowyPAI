@@ -1,31 +1,108 @@
-﻿@model List<lab1_gr1.ViewModels.RecipeScheduleVM.DayRecipesVM>
+﻿@model lab1_gr1.ViewModels.RecipeScheduleVM.WeekVM
 
 @{
-    ViewData["Title"] = "Przepisy w tygodniu";
-    string[] dayNames = { "", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
+    ViewData["Title"] = "Plan tygodnia";
+    var days = Model.Days.OrderBy(d => d.Day).ToList();
 }
 
-<h2>Przepisy na tydzień</h2>
+<h2 class="mb-4 text-center">Plan przepisów na tydzień</h2>
 
-@foreach (var day in Model.OrderBy(d => d.Day))
-{
-    <h3>@dayNames[day.Day]</h3>
-    
-    @if (day.Recipes.Any())
-    {
-        <ul>
-            @foreach (var recipe in day.Recipes)
+<style>
+    /* Równe szerokości kolumn (nawet przy różnych nazwach dni) */
+    .week-table th, .week-table td {
+        width: calc(100% / 7);
+        vertical-align: top;
+        text-align: left;
+    }
+
+    /* Styl komórek tabeli */
+    .week-table td {
+        background-color: #f9f9f9;
+        padding: 12px;
+    }
+
+    /* Kontener przepisu z krzyżykiem w jednej linii */
+    .recipe-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 6px 10px;
+        margin-bottom: 6px;
+        white-space: nowrap;
+    }
+
+    .recipe-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Krzyżyk — mały, elegancki przycisk */
+    .btn-remove {
+        border: none;
+        background: none;
+        color: #d9534f;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        padding: 0 4px;
+        transition: color 0.2s;
+    }
+
+        .btn-remove:hover {
+            color: #b52b27;
+        }
+
+    /* Przyciski "Dodaj" wypełniają całą szerokość */
+    .btn-add {
+        width: 100%;
+        margin-top: 8px;
+        font-weight: 500;
+    }
+</style>
+
+<table class="table table-bordered week-table">
+    <thead class="table-dark text-center align-middle">
+        <tr>
+            @foreach (var day in days)
             {
-                <li>
-                    <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">
-                        @recipe.Name
-                    </a>
-                </li>
+                <th>@day.DayName</th>
             }
-        </ul>
-    }
-    else
-    {
-        <p>Brak przepisów</p>
-    }
-}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var day in days)
+            {
+                <td>
+                    @if (day.Recipes.Any())
+                    {
+                        @foreach (var r in day.Recipes)
+                        {
+                            <div class="recipe-item">
+                                <span class="recipe-name">@r.Name</span>
+                                <form asp-controller="RecipeSchedule" asp-action="Remove" method="post" class="m-0">
+                                    <input type="hidden" name="day" value="@day.Day" />
+                                    <input type="hidden" name="recipeId" value="@r.Id" />
+                                    <button type="submit" class="btn-remove" title="Usuń">×</button>
+                                </form>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted fst-italic">Brak przepisów</p>
+                    }
+
+                    <form asp-controller="RecipeSchedule" asp-action="Add" method="get" class="mt-2">
+                        <input type="hidden" name="day" value="@day.Day" />
+                        <button class="btn btn-sm btn-primary btn-add">+ Dodaj</button>
+                    </form>
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>

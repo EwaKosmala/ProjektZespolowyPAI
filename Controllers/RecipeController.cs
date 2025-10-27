@@ -1,5 +1,6 @@
 ﻿using lab1_gr1.Interfaces;
 using lab1_gr1.Models;
+using lab1_gr1.Services;
 using lab1_gr1.ViewModels.RecipeVM;
 using ListaZakupow.Model.DataModels;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +9,16 @@ using Microsoft.EntityFrameworkCore;
 namespace lab1_gr1.Controllers
 {
 
-    public class RecipeController : Controller
+    public class RecipeController : BaseController
     {
         private readonly IRecipeService _recipeService;
+        private readonly IIngredientService _ingredientService;
 
-        public RecipeController(IRecipeService recipeService)
+
+        public RecipeController(IRecipeService recipeService, IIngredientService ingredientService)
         {
             _recipeService = recipeService;
+            _ingredientService = ingredientService;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -104,14 +108,45 @@ namespace lab1_gr1.Controllers
             return View(model: message);
         }
 
-
-        private int GetUserId()
+        [HttpGet]
+        public async Task<IActionResult> Browse()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-                throw new Exception("Użytkownik niezalogowany");
-            return userId.Value;
+            int userId = GetUserId();
+
+            var ingredients = await _ingredientService.GetAllAsync();
+            var allRecipes = await _recipeService.GetAllAsync(); // wszystkie, nie tylko użytkownika
+
+            var vm = new RecipeListFilterVM
+            {
+                AvailableIngredients = ingredients.ToList(),
+                Recipes = allRecipes.ToList(),
+                ShowMyRecipes = true,
+                ShowOthersRecipes = true
+            };
+
+            return View(vm);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Browse(RecipeListFilterVM model)
+        {
+            int userId = GetUserId();
+
+            var filtered = await _recipeService.FilterAsync(
+                userId,
+                model.SelectedIngredientIds,
+                model.ShowMyRecipes,
+                model.ShowOthersRecipes
+            );
+
+            model.AvailableIngredients = (await _ingredientService.GetAllAsync()).ToList();
+            model.Recipes = filtered.ToList();
+
+            return View(model);
+        }
+
+
+
 
     }
 }

@@ -115,6 +115,28 @@ namespace lab1_gr1.Services
             };
         }
 
+        public async Task<bool> UpdateAsync(int id, CreateShoppingListVM model, int userId)
+        {
+            var list = await _dbContext.ShoppingLists
+                .Include(sl => sl.Items)
+                .FirstOrDefaultAsync(sl => sl.Id == id && sl.UserId == userId);
+
+            if (list == null) return false;
+
+            // Usuń stare elementy
+            _dbContext.ShoppingListItems.RemoveRange(list.Items);
+
+            // Dodaj nowe
+            list.Items = model.Items.Select(i => new ShoppingListItem
+            {
+                ShoppingListId = list.Id,
+                IngredientId = i.IngredientId,
+                Quantity = i.Quantity
+            }).ToList();
+
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
 
 
 

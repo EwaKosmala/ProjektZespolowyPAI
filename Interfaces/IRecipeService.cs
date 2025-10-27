@@ -11,5 +11,7 @@ namespace lab1_gr1.Interfaces
         Task<bool> UpdateAsync(int id, CreateRecipeVM model);
         Task<bool> DeleteAsync(int id);
         Task<CreateRecipeVM?> GetForEditAsync(int id);
+        Task<IEnumerable<RecipeListVM>> GetAllAsync();
+        Task<IEnumerable<RecipeListVM>> FilterAsync(int userId, List<int> ingredientIds, bool showMine, bool showOthers);
     }
 }

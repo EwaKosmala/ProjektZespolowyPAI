@@ -1,7 +1,6 @@
 ﻿@model List<lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM>
 
 <h2>Moje listy zakupów</h2>
-<a asp-action="Create" class="btn btn-primary">Dodaj listę</a>
 <a asp-action="FromDays" class="btn btn-primary mb-3">Generuj z dni tygodnia</a>
 
 
@@ -21,6 +20,7 @@
                 <td>@list.Items.Count</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@list.Id" class="btn btn-info btn-sm">Szczegóły</a>
+                    <a asp-action="Edit" asp-route-id="@list.Id" class="btn btn-info btn-sm">Edytuj</a>
                     <form asp-action="Delete" asp-route-id="@list.Id" method="post" style="display:inline">
                         <button type="submit" class="btn btn-danger btn-sm">Usuń</button>
                     </form>

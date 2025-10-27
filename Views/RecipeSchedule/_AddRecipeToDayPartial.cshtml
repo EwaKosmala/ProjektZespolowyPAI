@@ -1,0 +1,14 @@
+﻿@model List<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
+@{ var day = ViewBag.Day as int? ?? 0; }
+
+<h4>Dodaj przepis do dnia @day</h4>
+<form asp-action="Add" method="post">
+    <input type="hidden" name="DayOfWeek" value="@day" />
+    <select name="RecipeId" class="form-select">
+        @foreach(var r in Model) {
+            <option value="@r.Id">@r.Name</option>
+        }
+    </select>
+    <button class="btn btn-primary mt-2">Dodaj</button>
+    <a asp-action="Week" class="btn btn-secondary mt-2">Anuluj</a>
+</form>
