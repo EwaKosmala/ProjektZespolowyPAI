@@ -16,6 +16,7 @@ namespace lab1_gr1.ViewModels.RecipeVM
 
         public List<CreateRecipeIngredientVM> Ingredients { get; set; } = new List<CreateRecipeIngredientVM>();
         public List<CreateRecipeScheduleVM> Schedules { get; set; } = new();
+        public List<int> SelectedDays { get; set; } = new();
 
         public int UserId { get; set; }
     }

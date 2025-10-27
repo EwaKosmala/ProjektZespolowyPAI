@@ -68,11 +68,18 @@
                 _ => ""
             };
             <div class="form-check form-check-inline">
-                <input type="checkbox" name="Schedules[@i].DayOfWeek" value="@day" />
-                <label class="form-check-label">@dayName</label>
+                <input type="checkbox"
+                       id="day_@day"
+                       name="SelectedDays"
+                       value="@day"
+                @(Model.SelectedDays.Contains(day) ? "checked" : "") />
+                <label class="form-check-label" for="day_@day">@dayName</label>
             </div>
         }
     </div>
+
+
+
 
 
     <div style="margin-top:10px;">

@@ -41,9 +41,13 @@ public class RecipeService : BaseService, IRecipeService
         recipe.UserId = userId;
         recipe.CreatedAt = DateTime.Now;
 
+        // 🔹 Składniki
         recipe.RecipeIngredients = new List<RecipeIngredient>();
         foreach (var ing in model.Ingredients)
         {
+            if (string.IsNullOrWhiteSpace(ing.IngredientName))
+                continue;
+
             var existingIngredient = await _dbContext.Ingredients
                 .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
 
@@ -64,20 +68,23 @@ public class RecipeService : BaseService, IRecipeService
         _dbContext.Recipes.Add(recipe);
         await _dbContext.SaveChangesAsync();
 
-        if (model.Schedules != null)
+        // 🔹 Dni tygodnia (z poprawką)
+        if (model.SelectedDays != null && model.SelectedDays.Any())
         {
-            recipe.RecipeSchedules = model.Schedules.Select(s => new RecipeSchedule
+            var validSchedules = model.SelectedDays.Select(day => new RecipeSchedule
             {
-                DayOfWeek = s.DayOfWeek,
+                DayOfWeek = day,
                 UserId = recipe.UserId,
                 RecipeId = recipe.Id
             }).ToList();
 
+            _dbContext.RecipeSchedules.AddRange(validSchedules);
             await _dbContext.SaveChangesAsync();
         }
 
         return recipe.Id;
     }
+
 
 
     public async Task<CreateRecipeVM?> GetForEditAsync(int id)
@@ -104,18 +111,20 @@ public class RecipeService : BaseService, IRecipeService
 
         if (recipe == null) return false;
 
+        // Aktualizacja podstawowych pól
         recipe.Name = model.Name;
         recipe.Description = model.Description;
         recipe.Instructions = model.Instructions;
 
+        // Składniki
         if (model.Ingredients != null)
         {
             _dbContext.RecipeIngredients.RemoveRange(recipe.RecipeIngredients);
 
-            var newRecipeIngredients = new List<RecipeIngredient>();
-
             foreach (var ing in model.Ingredients)
             {
+                if (string.IsNullOrWhiteSpace(ing.IngredientName)) continue;
+
                 var existingIngredient = await _dbContext.Ingredients
                     .FirstOrDefaultAsync(i => i.Name.ToLower() == ing.IngredientName.ToLower());
 
@@ -123,34 +132,37 @@ public class RecipeService : BaseService, IRecipeService
                 {
                     existingIngredient = new Ingredient { Name = ing.IngredientName };
                     _dbContext.Ingredients.Add(existingIngredient);
-                    await _dbContext.SaveChangesAsync();
+                    await _dbContext.SaveChangesAsync(); // tutaj może być osobno lub można optymalizować
                 }
 
-                newRecipeIngredients.Add(new RecipeIngredient
+                recipe.RecipeIngredients.Add(new RecipeIngredient
                 {
                     RecipeId = recipe.Id,
                     IngredientId = existingIngredient.Id,
                     Quantity = ing.Quantity
                 });
             }
-
-            recipe.RecipeIngredients = newRecipeIngredients;
         }
 
-        if (model.Schedules != null)
+        // Harmonogram
+        _dbContext.RecipeSchedules.RemoveRange(recipe.RecipeSchedules);
+
+        if (model.SelectedDays != null && model.SelectedDays.Any())
         {
-            _dbContext.RecipeSchedules.RemoveRange(recipe.RecipeSchedules);
-            recipe.RecipeSchedules = model.Schedules.Select(s => new RecipeSchedule
+            var newSchedules = model.SelectedDays.Select(day => new RecipeSchedule
             {
-                DayOfWeek = s.DayOfWeek,
+                RecipeId = recipe.Id,
                 UserId = recipe.UserId,
-                RecipeId = recipe.Id
+                DayOfWeek = day
             }).ToList();
+
+            _dbContext.RecipeSchedules.AddRange(newSchedules);
         }
 
         await _dbContext.SaveChangesAsync();
         return true;
     }
+
 
 
     public async Task<bool> DeleteAsync(int id)

@@ -46,6 +46,8 @@ namespace lab1_gr1.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeVM model)
         {
+            Console.WriteLine($"Wybrane dni: {string.Join(", ", model.SelectedDays)}");
+
             if (!ModelState.IsValid)
                 return View(model);
 
