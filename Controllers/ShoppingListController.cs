@@ -8,7 +8,7 @@ namespace lab1_gr1.Controllers
     public class ShoppingListController : Controller
     {
         private readonly IShoppingListService _shoppingListService;
-        private readonly IIngredientService _ingredientService; // do pobrania składników
+        private readonly IIngredientService _ingredientService; // do pobrania składników z serwisu
 
         public ShoppingListController(IShoppingListService shoppingListService, IIngredientService ingredientService)
         {
