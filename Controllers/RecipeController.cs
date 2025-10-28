@@ -114,7 +114,7 @@ namespace lab1_gr1.Controllers
             int userId = GetUserId();
 
             var ingredients = await _ingredientService.GetUsedIngredientsAsync();
-            var allRecipes = await _recipeService.GetAllAsync(); // wszystkie, nie tylko użytkownika
+            var allRecipes = await _recipeService.GetAllAsync(); 
 
             var vm = new RecipeListFilterVM
             {

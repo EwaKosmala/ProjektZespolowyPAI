@@ -25,7 +25,7 @@ namespace lab1_gr1.Controllers
         {
             var userId = GetUserId();
             var model = await _recipeSchedule.GetRecipesPerWeekAsync(userId);
-            return View(model); // ✅ model typu WeekVM
+            return View(model); 
         }
         [HttpGet]
         public async Task<IActionResult> Add(int day)
@@ -33,7 +33,7 @@ namespace lab1_gr1.Controllers
             var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             var recipes = await _recipeSchedule.GetAvailableRecipesForUserAsync(userId);
             ViewBag.Day = day;
-            return PartialView("_AddRecipeToDayPartial", recipes); // modal content
+            return PartialView("_AddRecipeToDayPartial", recipes);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace lab1_gr1.Controllers
                 RecipeName = recipe.Name
             };
 
-            return View(model); // wyświetlamy nowy widok
+            return View(model); 
         }
 
         [HttpPost]

@@ -63,7 +63,6 @@ namespace lab1_gr1.Controllers
             if (ingredient == null)
                 return NotFound();
 
-            // Mapowanie do VM (jeśli nie masz w GetByIdAsync mapowania)
             var model = _mapper.Map<IngredientListVM>(ingredient);
             return View(model);
         }
