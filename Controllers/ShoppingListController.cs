@@ -144,5 +144,22 @@ namespace lab1_gr1.Controllers
 
             return View("Create", shoppingList); 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadPdf(int id)
+        {
+            int userId = GetUserId();
+
+            try
+            {
+                var pdfBytes = await _shoppingListService.GeneratePdfAsync(id, userId);
+
+                return File(pdfBytes, "application/pdf", $"lista_zakupow_{DateTime.Now:yyyyMMdd}.pdf");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

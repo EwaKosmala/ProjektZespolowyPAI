@@ -11,5 +11,6 @@ namespace lab1_gr1.Interfaces
         Task<bool> DeleteAsync(int id);
         Task<CreateShoppingListVM> GenerateFromDaysAsync(int userId, List<int> days);
         Task<bool> UpdateAsync(int id, CreateShoppingListVM model, int userId);
+        Task<byte[]> GeneratePdfAsync(int shoppingListId, int userId);
     }
 }

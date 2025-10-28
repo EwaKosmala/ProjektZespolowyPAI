@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using lab1_gr1.Configuration.AMProfile;
 using ListaZakupow.Model.DataModels;
 using Microsoft.AspNetCore.Identity;
+using QuestPDF.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,7 @@ builder.Services.AddScoped<IRecipeScheduleService, RecipeScheduleService>();
 builder.Services.AddScoped<IShoppingListService, ShoppingListService>();
 
 
+QuestPDF.Settings.License = LicenseType.Community;
 
 
 // builder.Services.AddScoped<IRecipeService, RecipeService>();

@@ -5,6 +5,9 @@ using lab1_gr1.ViewModels.ShoppingListItemVM;
 using lab1_gr1.ViewModels.ShoppingListVM;
 using ListaZakupow.Model.DataModels;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace lab1_gr1.Services
 {
@@ -160,6 +163,60 @@ namespace lab1_gr1.Services
             return (number, unitPart);
         }
 
+        public async Task<byte[]> GeneratePdfAsync(int shoppingListId, int userId)
+        {
+            var list = await _dbContext.ShoppingLists
+                .Include(sl => sl.Items)
+                    .ThenInclude(i => i.Ingredient)
+                .FirstOrDefaultAsync(sl => sl.Id == shoppingListId && sl.UserId == userId);
 
+            if (list == null)
+                throw new Exception("Lista zakupów nie została znaleziona.");
+
+            // Tworzenie dokumentu PDF
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(40);
+                    page.Size(PageSizes.A4);
+                    page.PageColor(Colors.White);
+
+                    page.Header()
+                        .Text($"🛒 Lista zakupów z dnia {list.CreatedAt:dd.MM.yyyy}\n")
+                        .FontSize(20)
+                        .Bold()
+                        .AlignCenter();
+
+                    page.Content()
+                        .Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn(1);
+                                columns.RelativeColumn(2);
+                            });
+
+                            table.Header(header =>
+                            {
+                                header.Cell().Text("Składnik").Bold();
+                                header.Cell().Text("Ilość").Bold();
+                            });
+
+                            foreach (var item in list.Items)
+                            {
+                                table.Cell().Text(item.Ingredient?.Name ?? "—");
+                                table.Cell().Text(item.Quantity);
+                            }
+                        });
+
+                    page.Footer()
+                        .AlignCenter()
+                        .Text($"Wygenerowano automatycznie — {DateTime.Now:dd.MM.yyyy HH:mm}");
+                });
+            });
+
+            return document.GeneratePdf();
+        }
     }
 }
