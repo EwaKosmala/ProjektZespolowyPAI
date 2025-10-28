@@ -84,5 +84,32 @@ namespace lab1_gr1.Services
             return _mapper.Map<List<RecipeListVM>>(recipes);
         }
 
+        public async Task<bool> AddExistingRecipeToScheduleAsync(int recipeId, int userId, int dayOfWeek)
+        {
+            var recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            if (recipe == null)
+                return false;
+
+            var existing = await _dbContext.RecipeSchedules
+                .FirstOrDefaultAsync(rs => rs.RecipeId == recipeId && rs.UserId == userId && rs.DayOfWeek == dayOfWeek);
+
+            if (existing != null)
+                return false; // już zaplanowany na ten dzień
+
+            var schedule = new RecipeSchedule
+            {
+                RecipeId = recipeId,
+                UserId = userId,
+                DayOfWeek = dayOfWeek,
+            };
+
+            _dbContext.RecipeSchedules.Add(schedule);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+        
+        
+
     }
 }

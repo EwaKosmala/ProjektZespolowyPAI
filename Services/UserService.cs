@@ -51,5 +51,40 @@ namespace lab1_gr1.Services
         {
             httpContext.Session.Clear();
         }
+
+        public async Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+            if (user == null) return false;
+
+            var verify = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
+            if (verify != PasswordVerificationResult.Success)
+                return false; // stare hasło nieprawidłowe
+
+            user.PasswordHash = _passwordHasher.HashPassword(user, newPassword);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAccountAsync(int userId)
+        {
+            var user = await _dbContext.Users
+                .Include(u => u.ShoppingLists)
+                .Include(u => u.RecipeSchedules)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return false;
+
+            // Usuń powiązane dane (listy zakupów, harmonogramy itd.)
+            if (user.ShoppingLists != null)
+                _dbContext.ShoppingLists.RemoveRange(user.ShoppingLists);
+
+            if (user.RecipeSchedules != null)
+                _dbContext.RecipeSchedules.RemoveRange(user.RecipeSchedules);
+
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model lab1_gr1.ViewModels.RecipeScheduleVM.AddRecipeToScheduleVM
+
+<h2>Dodaj przepis do harmonogramu</h2>
+
+<p>Przepis: <strong>@Model.RecipeName</strong></p>
+
+<form asp-action="AddExisting" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="RecipeId" />
+
+    <div class="mb-3">
+        <label asp-for="SelectedDay" class="form-label">Wybierz dzień tygodnia</label>
+        <select asp-for="SelectedDay" class="form-select">
+            <option value="1">Poniedziałek</option>
+            <option value="2">Wtorek</option>
+            <option value="3">Środa</option>
+            <option value="4">Czwartek</option>
+            <option value="5">Piątek</option>
+            <option value="6">Sobota</option>
+            <option value="7">Niedziela</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Dodaj do harmonogramu</button>
+    <a asp-action="Browse" class="btn btn-secondary">Anuluj</a>
+</form>

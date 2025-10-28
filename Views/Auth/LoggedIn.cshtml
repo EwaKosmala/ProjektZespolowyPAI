@@ -18,4 +18,12 @@
         @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-danger">Wyloguj</button>
     </form>
+    <form asp-controller="Auth" asp-action="ChangePassword" method="get" style="display:inline;">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-danger">Zmien haslo</button>
+    </form>
+    <form asp-controller="Auth" asp-action="DeleteAccount" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno chcesz usunąć konto?');">
+        <button type="submit" class="btn btn-danger">Usuń konto</button>
+    </form>
+
 </p>
