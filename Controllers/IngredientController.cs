@@ -1,83 +1,82 @@
-﻿using lab1_gr1.Models;
-using ListaZakupow.Model.DataModels;
+﻿using AutoMapper;
+using lab1_gr1.Interfaces;
+using lab1_gr1.ViewModels.IngredientVM;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace lab1_gr1.Controllers
 {
     public class IngredientController : Controller
     {
-        private readonly MyDBContext _dbContext;
-        public IngredientController(MyDBContext dbContext) => _dbContext = dbContext;
-
-        // GET: /Ingredient/Add
-        [HttpGet("/Ingredient/Add")]
-        public IActionResult Add()
+        private readonly IIngredientService _ingredientService;
+        protected readonly IMapper _mapper;
+        public IngredientController(IIngredientService ingredientService, IMapper mapper)
         {
-            return View(); // Views/Ingredients/AddIngredient.cshtml
-        }
-
-        // POST: /Ingredient/Add
-        [HttpPost("/Ingredient/Add")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(Ingredient ingredient)
-        {
-
-            // dodanie skladnika do bazy i zpais
-            _dbContext.Ingredients.Add(ingredient);
-            await _dbContext.SaveChangesAsync();
-
-            // powrot do index
-            return RedirectToAction("Index");
+            _ingredientService = ingredientService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var ingredients = await _dbContext.Ingredients
-                .Include(i => i.RecipeIngredients)
-                .Include(i => i.ShoppingListItems)
-                .ToListAsync();
-
-            return Ok(ingredients);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var ingredient = await _dbContext.Ingredients
-                .Include(i => i.RecipeIngredients)
-                .Include(i => i.ShoppingListItems)
-                .FirstOrDefaultAsync(i => i.Id == id);
-
-            if (ingredient == null) return NotFound();
-            return Ok(ingredient);
-        }
-
-        [HttpGet("/Ingredient")] 
         public async Task<IActionResult> Index()
         {
-            var ingredients = await _dbContext.Ingredients
-                .Include(i => i.RecipeIngredients)
-                .Include(i => i.ShoppingListItems)
-                .ToListAsync();
+            var ingredients = await _ingredientService.GetAllAsync();
             return View(ingredients);
         }
 
-        // GET: /Ingredient/Delete/{id}
-        [HttpGet("/Ingredient/Delete/{id}")]
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(CreateIngredientVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            await _ingredientService.CreateAsync(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var ingredient = await _ingredientService.GetByIdAsync(id);
+            if (ingredient == null) return NotFound();
+
+            var model = new EditIngredientVM { Id = ingredient.Id, Name = ingredient.Name };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditIngredientVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            await _ingredientService.UpdateAsync(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var ingredient = await _dbContext.Ingredients.FindAsync(id);
+            var ingredient = await _ingredientService.GetByIdAsync(id);
             if (ingredient == null)
                 return NotFound();
 
-            _dbContext.Ingredients.Remove(ingredient);
-            await _dbContext.SaveChangesAsync();
+            var model = _mapper.Map<IngredientListVM>(ingredient);
+            return View(model);
+        }
 
-            return RedirectToAction("Index");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var deleted = await _ingredientService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+
+            return RedirectToAction(nameof(Index));
         }
 
     }
-
 }
