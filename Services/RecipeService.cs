@@ -18,7 +18,7 @@ public class RecipeService : BaseService, IRecipeService
     {
         return await _dbContext.Recipes
             .Include(r => r.RecipeIngredients)
-                .ThenInclude(ri => ri.Ingredient)
+            .ThenInclude(ri => ri.Ingredient)
             .Include(r => r.RecipeSchedules)
             .Include(r => r.User)
             .FirstOrDefaultAsync(r => r.Id == id);
@@ -27,6 +27,7 @@ public class RecipeService : BaseService, IRecipeService
     {
         var recipes = await _dbContext.Recipes
             .Where(r => r.UserId == userId)
+            .Include(r => r.User)
             .Include(r => r.RecipeIngredients)
             .Include(r => r.RecipeSchedules)
             .OrderByDescending(r => r.CreatedAt)

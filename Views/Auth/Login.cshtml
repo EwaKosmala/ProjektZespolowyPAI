@@ -1,13 +1,39 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @model lab1_gr1.ViewModels.UserVM.LoginVM
 
+@{
+    ViewData["Title"] = "Logowanie";
+}
 
-<div>
-    <label>
-        Login:
-        <input asp-for="Login" />
-    </label>
-    <label>
-        Password:
-        <input asp-for="Password" type="password" />
-    </label>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="min-width:350px;">
+        <h3 class="mb-4 text-center">Logowanie</h3>
+
+        @if (TempData["RegisterSuccess"] != null)
+        {
+            <div class="alert alert-success">@TempData["RegisterSuccess"]</div>
+        }
+
+        <form asp-action="Login" asp-controller="Auth" method="post">
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label">Login</label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Has³o</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Zaloguj siê</button>
+        </form>
+        <div class="mt-4 text-center">
+            <a asp-action="Register" asp-controller="Auth">Nie masz konta? Zarejestruj siê</a>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model lab1_gr1.ViewModels.RecipeVM.CreateRecipeVM
+
 @{
+    ViewData["Title"] = "Edytuj przepis";
+}
+
+<div class="container my-5">
+    <h2>Edytuj przepis</h2>
+
+    <form asp-action="Edit" asp-controller="Recipe" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Nazwa przepisu</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Opis</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Instructions" class="form-label">Instrukcje</label>
+            <textarea asp-for="Instructions" class="form-control"></textarea>
+            <span asp-validation-for="Instructions" class="text-danger"></span>
+        </div>
+
+        <!-- Tutaj możesz dodać obsługę składników i harmonogramu podobnie jak w widoku create -->
+
+        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        <a asp-action="Index" asp-controller="Recipe" class="btn btn-secondary ms-2">Anuluj</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

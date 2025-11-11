@@ -1,3 +1,4 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
 
 @{
@@ -32,7 +33,10 @@
                     <td class="text-end">
                         <a class="btn btn-sm btn-info text-white" asp-action="Details" asp-route-id="@recipe.Id">Szczegóły</a>
                         <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@recipe.Id">Edytuj</a>
-                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@recipe.Id">Usuń</a>
+                        <form asp-action="Delete" asp-route-id="@recipe.Id" method="post" class="delete-form" style="display:inline;);">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                        </form>
                     </td>
                 </tr>
             }
@@ -45,3 +49,32 @@
         }
     </tbody>
 </table>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Potwierdź usunięcie',
+                text: 'Na pewno usunąć ten przepis?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Usuń',
+                cancelButtonText: 'Anuluj',
+                customClass: {
+                    confirmButton: 'btn btn-danger mx-2',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    e.target.submit();
+                }
+            });
+        });
+    });
+</script>
+

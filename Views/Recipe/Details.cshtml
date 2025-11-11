@@ -12,31 +12,30 @@
 <p><strong>Autor:</strong> @Model.User?.Username</p>
 
 <h2>Składniki</h2>
-@* @if (Model.RecipeIngredients != null && Model.RecipeIngredients.Count > 0) *@
-@* { *@
-@*     <ul> *@
-@*         @foreach (var ingredient in Model.RecipeIngredients) *@
-@*         { *@
-@*             <li>@ingredient.IngredientName - @ingredient.Quantity</li> *@
-@*         } *@
-@*     </ul> *@
-@* } *@
-@* else *@
-@* { *@
-@*     <p>Brak składników.</p> *@
-@* } *@
-
-@* <h2>Harmonogram</h2> *@
-@* @if (Model.RecipeSchedules != null && Model.RecipeSchedules.Count > 0) *@
-@* { *@
-@*     <ul> *@
-@*         @foreach (var schedule in Model.RecipeSchedules) *@
-@*         { *@
-@*             <li>@schedule.DayOfWeek.ToString("1-pon, 2-wt... itp") - @schedule.Recipe</li> *@
-@*         } *@
-@*     </ul> *@
-@* } *@
-@* else *@
-@* { *@
-@*     <p>Brak harmonogramu.</p> *@
-@* } *@
+ @if (Model.RecipeIngredients != null && Model.RecipeIngredients.Count > 0) 
+ { 
+     <ul> 
+        @foreach (var ingredient in Model.RecipeIngredients) 
+         { 
+             <li>@ingredient.Ingredient.Name - @ingredient.Quantity</li> 
+         }
+     </ul> 
+ }
+ else 
+ { 
+     <p>Brak składników.</p> 
+ } 
+ <h2>Harmonogram</h2> 
+ @if (Model.RecipeSchedules != null && Model.RecipeSchedules.Count > 0) 
+ { 
+     <ul> 
+         @foreach (var schedule in Model.RecipeSchedules) 
+        { 
+            <li>@schedule.DayOfWeek.ToString("1-pon, 2-wt... itp") - @schedule.Recipe</li> 
+         } 
+     </ul> 
+ } 
+ else 
+ { 
+     <p>Brak harmonogramu.</p> 
+ } 

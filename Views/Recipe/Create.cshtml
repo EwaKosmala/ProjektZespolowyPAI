@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model lab1_gr1.ViewModels.RecipeVM.CreateRecipeVM
+
 @{
+    ViewData["Title"] = "Dodaj nowy przepis";
+}
+
+<div class="container my-5">
+    <h2 class="mb-4">Dodaj nowy przepis</h2>
+
+    <form asp-action="Create" asp-controller="Recipe" method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Nazwa przepisu</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Opis przepisu</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Instructions" class="form-label">Instrukcje</label>
+            <textarea asp-for="Instructions" class="form-control"></textarea>
+            <span asp-validation-for="Instructions" class="text-danger"></span>
+        </div>
+
+        <!-- Przykładowa sekcja na składniki -->
+        <div class="mb-3">
+            <h5>Składniki</h5>
+            <div id="ingredients-list">
+                @for (int i = 0; i < Model.Ingredients.Count; i++)
+                {
+                    <div class="input-group mb-2">
+                        <input asp-for="@Model.Ingredients[i].IngredientName" class="form-control" placeholder="Nazwa składnika" />
+                        <input asp-for="@Model.Ingredients[i].Quantity" class="form-control" placeholder="Ilość" />
+                    </div>
+                }
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="addIngredient()">Dodaj składnik</button>
+        </div>
+
+        <!-- Możesz dodać podobną sekcję dla harmonogramu -->
+
+        <button type="submit" class="btn btn-primary mt-3">Zapisz przepis</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function addIngredient() {
+            var container = document.getElementById("ingredients-list");
+            var index = container.children.length;
+
+            var newInputGroup = document.createElement("div");
+            newInputGroup.className = "input-group mb-2";
+
+            var inputName = document.createElement("input");
+            inputName.name = `Ingredients[${index}].IngredientName`;
+            inputName.className = "form-control";
+            inputName.placeholder = "Nazwa składnika";
+
+            var inputQuantity = document.createElement("input");
+            inputQuantity.name = `Ingredients[${index}].Quantity`;
+            inputQuantity.className = "form-control";
+            inputQuantity.placeholder = "Ilość";
+
+            newInputGroup.appendChild(inputName);
+            newInputGroup.appendChild(inputQuantity);
+
+            container.appendChild(newInputGroup);
+        }
+    </script>
 }

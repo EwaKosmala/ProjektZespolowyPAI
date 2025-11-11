@@ -12,7 +12,7 @@ using lab1_gr1.Models;
 namespace lab1_gr1.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20251111122516_InitialCreate")]
+    [Migration("20251111152905_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
