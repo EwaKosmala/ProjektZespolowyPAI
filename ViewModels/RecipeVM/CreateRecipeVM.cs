@@ -1,12 +1,3 @@
-﻿using lab1_gr1.ViewModels.RecipeIngredientVM;
-using System.ComponentModel.DataAnnotations;
-
-namespace lab1_gr1.ViewModels.RecipeVM
-{
-    public class CreateRecipeVM
-    {
-    }
-}
 using System.ComponentModel.DataAnnotations;
 using lab1_gr1.ViewModels.RecipeIngredientVM;
 

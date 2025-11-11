@@ -1,0 +1,47 @@
+@model IEnumerable<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
+
+@{
+    ViewData["Title"] = "Lista przepisów";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lista przepisów</h2>
+    <a class="btn btn-primary" asp-action="Create">+ Dodaj przepis</a>
+</div>
+
+<table class="table table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Nazwa</th>
+            <th>Opis</th>
+            <th>Autor</th>
+            <th>Data utworzenia</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var recipe in Model)
+            {
+                <tr>
+                    <td>@recipe.Name</td>
+                    <td>@recipe.Description</td>
+                    <td>@recipe.UserName</td>
+                    <td>@recipe.CreatedAt.ToShortDateString()</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-info text-white" asp-action="Details" asp-route-id="@recipe.Id">Szczegóły</a>
+                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@recipe.Id">Edytuj</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@recipe.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">Brak przepisów do wyświetlenia.</td>
+            </tr>
+        }
+    </tbody>
+</table>

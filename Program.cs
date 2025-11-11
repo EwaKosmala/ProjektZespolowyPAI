@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Rejestracja AutoMappera
 
-// Rejestracja serwisów
+// Rejestracja serwisÃ³w
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<PasswordHasher<User>>();
@@ -50,7 +50,7 @@ builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MainProfile>());
 
 var app = builder.Build();
 
-// Sprawdzenie po³¹czenia z DB
+// Sprawdzenie poÅ‚Ä…czenia z DB
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MyDBContext>();
@@ -63,9 +63,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 
-// Routing domyœlny
+// Routing domyÅ›lny
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();
