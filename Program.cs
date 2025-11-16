@@ -1,4 +1,4 @@
-using lab1_gr1.Interfaces;
+﻿using lab1_gr1.Interfaces;
 using lab1_gr1.Models;
 using lab1_gr1.Services;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +44,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MainProfile>());
 
