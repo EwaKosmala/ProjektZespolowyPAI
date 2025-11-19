@@ -59,10 +59,19 @@ namespace lab1_gr1.Controllers
             if (!model.Items.Any())
             {
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
+            }
 
+            foreach (var item in model.Items)
+            {
+                if (string.IsNullOrWhiteSpace(item.Quantity))
+                {
+                    ModelState.AddModelError("","Musisz podać ilość dla wszystkich zaznaczonych składników.");
+                }
+            }
+            if (!ModelState.IsValid)
+            {
                 ViewBag.ShowBackButton = true;
                 ViewBag.ReturnUrl = Url.Action("FromDays", "ShoppingList");
-
                 return View(model);
             }
 
