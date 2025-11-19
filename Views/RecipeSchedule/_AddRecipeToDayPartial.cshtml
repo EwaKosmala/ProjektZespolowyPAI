@@ -1,0 +1,38 @@
+﻿@model IEnumerable<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    // Ten model (lista przepisów) jest przekazywany z akcji [HttpGet] Add w kontrolerze
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning">Brak dostępnych przepisów do dodania.</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+    </div>
+}
+else
+{
+    <form asp-controller="RecipeSchedule" asp-action="Add" method="post">
+
+        <input type="hidden" name="DayOfWeek" value="@ViewBag.Day" />
+
+        <div class="mb-3">
+            <label for="recipeIdSelect" class="form-label">Wybierz przepis:</label>
+
+            <select name="RecipeId" id="recipeIdSelect" class="form-select" required>
+                <option value="" disabled selected>-- Wybierz z listy --</option>
+                @foreach (var recipe in Model)
+                {
+                    <option value="@recipe.Id">@recipe.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+            <button type="submit" class="btn btn-primary">Dodaj do planu</button>
+        </div>
+    </form>
+}
