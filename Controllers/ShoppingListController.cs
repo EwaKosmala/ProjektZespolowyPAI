@@ -140,6 +140,11 @@ namespace lab1_gr1.Controllers
         public async Task<IActionResult> FromDays(CreateShoppingListFromDaysVM model)
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            if (model.SelectedDays == null || !model.SelectedDays.Any())
+            {
+                ViewBag.Error = "Musisz wybrać przynajmniej jeden dzień, aby utworzyć listę zakupów.";
+                return View(model);
+            }
             var shoppingList = await _shoppingListService.GenerateFromDaysAsync(userId, model.SelectedDays);
 
             return View("Create", shoppingList);
