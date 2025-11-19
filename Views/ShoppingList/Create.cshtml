@@ -1,6 +1,12 @@
 ﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+<style>
+    .alert-danger ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+</style>
 @{
     ViewData["Title"] = "Nowa lista zakupów";
     // Jeśli model ma Id > 0, oznacza to, że edytujemy istniejącą listę
@@ -61,6 +67,10 @@
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary btn-lg">Zapisz listę</button>
+                    @if (ViewBag.ShowBackButton == true)
+                    {
+                        <a href="@ViewBag.ReturnUrl" class="btn btn-outline-secondary">Wróć</a>
+                    }
                     <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
                 </div>
             </form>
