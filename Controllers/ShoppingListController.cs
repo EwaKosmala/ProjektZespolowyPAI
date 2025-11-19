@@ -164,6 +164,17 @@ namespace lab1_gr1.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Generate()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+
+            var weeklyShoppingList = await _shoppingListService.GenerateForWeekAsync(userId);
+
+            return View("Create", weeklyShoppingList);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> DownloadPdf(int id)
         {
             int userId = GetUserId();

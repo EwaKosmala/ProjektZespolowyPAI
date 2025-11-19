@@ -118,6 +118,12 @@ namespace lab1_gr1.Services
             };
         }
 
+        public async Task<CreateShoppingListVM> GenerateForWeekAsync(int userId)
+        {
+            var allDays = Enumerable.Range(1, 7).ToList();
+            return await GenerateFromDaysAsync(userId, allDays);
+        }
+
         public async Task<bool> UpdateAsync(int id, CreateShoppingListVM model, int userId)
         {
             var list = await _dbContext.ShoppingLists
