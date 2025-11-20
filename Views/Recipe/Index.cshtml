@@ -1,5 +1,6 @@
-﻿@model IEnumerable<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
+@model IEnumerable<lab1_gr1.ViewModels.RecipeVM.RecipeListVM>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
     ViewData["Title"] = "Moje Przepisy";
@@ -29,14 +30,16 @@ else
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@recipe.Name</h5>
                         <p class="card-text text-muted flex-grow-1">
-                            @* Wyświetlamy opis, jeśli istnieje, lub domyślny tekst *@
                             @(string.IsNullOrEmpty(recipe.Description) ? "Brak opisu dla tego przepisu." : recipe.Description)
                         </p>
 
-                        <div class="mt-auto">
-                            <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-outline-info btn-sm">Szczegóły</a>
-                            <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-outline-secondary btn-sm">Edytuj</a>
-
+                        <div class="mt-auto d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-outline-info btn-sm flex-fill">
+                                Szczegóły
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-outline-secondary btn-sm flex-fill">
+                                Edytuj
+                            </a>
                             <button type="button" class="btn btn-outline-danger btn-sm"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteRecipeModal"
@@ -54,7 +57,6 @@ else
         }
     </div>
 }
-
 
 <div class="modal fade" id="deleteRecipeModal" tabindex="-1" aria-labelledby="deleteRecipeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -79,20 +81,14 @@ else
     </div>
 </div>
 
-
 @section Scripts {
     <script>
-        // Skrypt do obsługi okna modalnego
         var deleteModal = document.getElementById('deleteRecipeModal');
         deleteModal.addEventListener('show.bs.modal', function (event) {
-            // Przycisk, który wywołał modal
             var button = event.relatedTarget;
-
-            // Pobieramy dane z atrybutów data-bs-*
             var recipeName = button.getAttribute('data-bs-recipename');
             var recipeId = button.getAttribute('data-bs-recipeid');
 
-            // Aktualizujemy zawartość okna modalnego
             var modalNameElement = deleteModal.querySelector('#modalRecipeName');
             var modalIdInput = deleteModal.querySelector('#modalRecipeId');
 

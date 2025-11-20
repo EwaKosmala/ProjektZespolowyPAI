@@ -1,4 +1,4 @@
-﻿using lab1_gr1.Interfaces;
+using lab1_gr1.Interfaces;
 using lab1_gr1.ViewModels.ShoppingListItemVM;
 using lab1_gr1.ViewModels.ShoppingListVM;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ namespace lab1_gr1.Controllers
     public class ShoppingListController : BaseController
     {
         private readonly IShoppingListService _shoppingListService;
-        private readonly IIngredientService _ingredientService; // do pobrania składników
+        private readonly IIngredientService _ingredientService;
 
         public ShoppingListController(IShoppingListService shoppingListService, IIngredientService ingredientService)
         {
@@ -27,7 +27,8 @@ namespace lab1_gr1.Controllers
         {
             var list = await _shoppingListService.GetByIdAsync(id);
             if (list == null) return NotFound();
-            return View(list);
+
+            return RedirectToAction("Edit", new { id = list.Id });
         }
 
         [HttpGet]
@@ -41,7 +42,7 @@ namespace lab1_gr1.Controllers
                 {
                     IngredientId = i.Id,
                     IngredientName = i.Name,
-                    Quantity = "",
+                    Quantity = "", 
                     IsSelected = false
                 }).ToList()
             };
@@ -49,31 +50,38 @@ namespace lab1_gr1.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateShoppingListVM model)
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            model.Items = model.Items.Where(i => i.IsSelected).ToList();
 
-            if (!model.Items.Any())
+            var selectedItems = model.Items.Where(i => i.IsSelected).ToList();
+
+            if (!selectedItems.Any())
             {
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
             }
-
-            foreach (var item in model.Items)
+            else
             {
-                if (string.IsNullOrWhiteSpace(item.Quantity))
+
+                foreach (var item in selectedItems)
                 {
-                    ModelState.AddModelError("","Musisz podać ilość dla wszystkich zaznaczonych składników.");
+                    if (string.IsNullOrWhiteSpace(item.Quantity))
+                    {
+                        ModelState.AddModelError("", $"Podaj ilość dla składnika: {item.IngredientName}");
+                    }
                 }
             }
+
             if (!ModelState.IsValid)
             {
-                ViewBag.ShowBackButton = true;
-                ViewBag.ReturnUrl = Url.Action("FromDays", "ShoppingList");
+
                 return View(model);
             }
+
+            model.Items = selectedItems;
 
             await _shoppingListService.CreateAsync(model, userId);
             return RedirectToAction("Index");
@@ -86,7 +94,7 @@ namespace lab1_gr1.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: ShoppingList/Edit/5
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -94,17 +102,25 @@ namespace lab1_gr1.Controllers
             if (list == null) return NotFound();
 
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            if (list.UserId != userId) return Forbid(); // bezpieczeństwo
+            if (list.UserId != userId) return Forbid();
 
-            // pobranie wszystkich składników do checkboxów
-            var ingredients = await _ingredientService.GetUsedIngredientsAsync();
+            var allIngredients = await _ingredientService.GetAllAsync(); 
 
-            // dodanie brakujących składników do listy (np. żeby były checkboxy)
-            foreach (var ing in ingredients)
+            var mergedItems = new List<CreateShoppingListItemVM>();
+
+            foreach (var ing in allIngredients)
             {
-                if (!list.Items.Any(i => i.IngredientId == ing.Id))
+                var existingItem = list.Items.FirstOrDefault(i => i.IngredientId == ing.Id);
+                if (existingItem != null)
                 {
-                    list.Items.Add(new CreateShoppingListItemVM
+
+                    existingItem.IsSelected = true;
+                    mergedItems.Add(existingItem);
+                }
+                else
+                {
+
+                    mergedItems.Add(new CreateShoppingListItemVM
                     {
                         IngredientId = ing.Id,
                         IngredientName = ing.Name,
@@ -112,36 +128,35 @@ namespace lab1_gr1.Controllers
                         IsSelected = false
                     });
                 }
-                else
-                {
-                    // zaznacz checkbox jeśli składnik jest już w liście
-                    list.Items.First(i => i.IngredientId == ing.Id).IsSelected = true;
-                }
             }
 
-            return View(list);
+            list.Items = mergedItems;
+
+
+            return View("Create", list);
         }
 
-        // POST: ShoppingList/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateShoppingListVM model)
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            model.Items = model.Items.Where(i => i.IsSelected).ToList();
-            if (!model.Items.Any())
+            var selectedItems = model.Items.Where(i => i.IsSelected).ToList();
+
+            if (!selectedItems.Any())
             {
-                ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
-                return View(model);
+                ModelState.AddModelError("", "Lista nie może być pusta. Zaznacz składniki.");
+                return View("Create", model);
             }
+
+            model.Items = selectedItems; // Przekazujemy tylko wybrane do serwisu
 
             var updated = await _shoppingListService.UpdateAsync(id, model, userId);
             if (!updated) return NotFound();
 
             return RedirectToAction("Index");
         }
-
 
         [HttpGet]
         public IActionResult FromDays()
@@ -155,37 +170,42 @@ namespace lab1_gr1.Controllers
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             if (model.SelectedDays == null || !model.SelectedDays.Any())
             {
-                ViewBag.Error = "Musisz wybrać przynajmniej jeden dzień, aby utworzyć listę zakupów.";
+                ViewBag.Error = "Musisz wybrać przynajmniej jeden dzień.";
                 return View(model);
             }
+
             var shoppingList = await _shoppingListService.GenerateFromDaysAsync(userId, model.SelectedDays);
 
             return View("Create", shoppingList);
         }
 
+     
         [HttpGet]
         public async Task<IActionResult> Generate()
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var days = new List<int> { 0, 1, 2, 3, 4, 5, 6 };
+            var shoppingList = await _shoppingListService.GenerateFromDaysAsync(userId, days);
 
-            var weeklyShoppingList = await _shoppingListService.GenerateForWeekAsync(userId);
+            if (!shoppingList.Items.Any())
+            {
+                TempData["Error"] = "Brak przepisów w planie na ten tydzień.";
+                return RedirectToAction("Week", "RecipeSchedule"); // Wróć do planera
+            }
 
-            return View("Create", weeklyShoppingList);
+            return View("Create", shoppingList);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> DownloadPdf(int id)
         {
             int userId = GetUserId();
-
             try
             {
                 var pdfBytes = await _shoppingListService.GeneratePdfAsync(id, userId);
-
                 return File(pdfBytes, "application/pdf", $"lista_zakupow_{DateTime.Now:yyyyMMdd}.pdf");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("Index");
             }

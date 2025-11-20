@@ -1,4 +1,4 @@
-﻿@model lab1_gr1.ViewModels.RecipeScheduleVM.WeekVM
+@model lab1_gr1.ViewModels.RecipeScheduleVM.WeekVM
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -56,12 +56,12 @@
                     </div>
 
                     <div class="card-footer text-center">
-                        <button type="button" class_="btn btn-outline-success btn-sm add-recipe-btn"
+                        <button type="button" class="btn btn-dashed"
                                 data-bs-toggle="modal"
                                 data-bs-target="#addRecipeModal"
                                 data-day-of-week="@day.Day"
                                 data-day-name="@day.DayName">
-                            <i class="fas fa-plus"></i> Dodaj przepis
+                            <i class="fas fa-plus-circle"></i> Dodaj przepis
                         </button>
                     </div>
 
