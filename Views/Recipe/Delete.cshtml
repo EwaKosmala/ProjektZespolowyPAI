@@ -1,6 +1,8 @@
-﻿﻿@model lab1_gr1.ViewModels.RecipeVM.RecipeListVM
+﻿@model lab1_gr1.ViewModels.RecipeVM.RecipeListVM
 
 <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Na pewno usunąć ten przepis?');">
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-danger">Usuń przepis</button>
 </form>
+
+

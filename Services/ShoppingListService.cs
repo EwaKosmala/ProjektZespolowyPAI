@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using lab1_gr1.Interfaces;
 using lab1_gr1.Models;
 using lab1_gr1.ViewModels.ShoppingListItemVM;
@@ -116,6 +116,12 @@ namespace lab1_gr1.Services
             {
                 Items = shoppingItems.Values.ToList()
             };
+        }
+
+        public async Task<CreateShoppingListVM> GenerateForWeekAsync(int userId)
+        {
+            var allDays = Enumerable.Range(1, 7).ToList();
+            return await GenerateFromDaysAsync(userId, allDays);
         }
 
         public async Task<bool> UpdateAsync(int id, CreateShoppingListVM model, int userId)

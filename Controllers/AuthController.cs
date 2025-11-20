@@ -55,7 +55,7 @@ namespace ListaZakupow.Controllers
         // LOGOWANIE
         public IActionResult Login()
         {
-            return View(new LoginVM());
+            return View();
         }
 
         [HttpPost]
@@ -74,7 +74,7 @@ namespace ListaZakupow.Controllers
             }
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Username", user.Username);
-            return RedirectToAction("LoggedIn");
+            return RedirectToAction("Index", "Recipe");
         }
         public IActionResult LoggedIn()
         {
