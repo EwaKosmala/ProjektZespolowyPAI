@@ -123,7 +123,7 @@ namespace ListaZakupow.Controllers
             int userId = GetUserId();
             await _userService.DeleteAccountAsync(userId);
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Register");
         }
     }
 }
