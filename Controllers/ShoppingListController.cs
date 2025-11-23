@@ -94,12 +94,10 @@ namespace lab1_gr1.Controllers
             if (list == null) return NotFound();
 
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            if (list.UserId != userId) return Forbid(); // bezpieczeństwo
+            if (list.UserId != userId) return Forbid();
 
-            // pobranie wszystkich składników do checkboxów
-            var ingredients = await _ingredientService.GetUsedIngredientsAsync();
+            var ingredients = await _ingredientService.GetAllAsync();
 
-            // dodanie brakujących składników do listy (np. żeby były checkboxy)
             foreach (var ing in ingredients)
             {
                 if (!list.Items.Any(i => i.IngredientId == ing.Id))
@@ -114,12 +112,11 @@ namespace lab1_gr1.Controllers
                 }
                 else
                 {
-                    // zaznacz checkbox jeśli składnik jest już w liście
                     list.Items.First(i => i.IngredientId == ing.Id).IsSelected = true;
                 }
             }
 
-            return View(list);
+            return View("Create", list);
         }
 
         [HttpPost]
@@ -133,6 +130,14 @@ namespace lab1_gr1.Controllers
             {
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
                 return View(model);
+            }
+            if (model.Items.Any(i => string.IsNullOrWhiteSpace(i.Quantity)))
+            {
+                ModelState.AddModelError("", "Musisz podać ilość dla wszystkich zaznaczonych składników.");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View("Create", model);
             }
 
             var updated = await _shoppingListService.UpdateAsync(id, model, userId);
