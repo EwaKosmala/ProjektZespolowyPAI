@@ -56,32 +56,24 @@ namespace lab1_gr1.Controllers
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
+            model.Items = model.Items.Where(i => i.IsSelected).ToList();
 
-            var selectedItems = model.Items.Where(i => i.IsSelected).ToList();
-
-            if (!selectedItems.Any())
+            if (!model.Items.Any())
             {
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
             }
-            else
+
+            if (model.Items.Any(i => string.IsNullOrWhiteSpace(i.Quantity)))
             {
-
-                foreach (var item in selectedItems)
-                {
-                    if (string.IsNullOrWhiteSpace(item.Quantity))
-                    {
-                        ModelState.AddModelError("", $"Podaj ilość dla składnika: {item.IngredientName}");
-                    }
-                }
+                ModelState.AddModelError("", "Musisz podać ilość dla wszystkich zaznaczonych składników.");
             }
-
             if (!ModelState.IsValid)
             {
+                ViewBag.ShowBackButton = true;
+                ViewBag.ReturnUrl = Url.Action("FromDays", "ShoppingList");
 
                 return View(model);
             }
-
-            model.Items = selectedItems;
 
             await _shoppingListService.CreateAsync(model, userId);
             return RedirectToAction("Index");
@@ -102,25 +94,17 @@ namespace lab1_gr1.Controllers
             if (list == null) return NotFound();
 
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            if (list.UserId != userId) return Forbid();
+            if (list.UserId != userId) return Forbid(); // bezpieczeństwo
 
-            var allIngredients = await _ingredientService.GetAllAsync(); 
+            // pobranie wszystkich składników do checkboxów
+            var ingredients = await _ingredientService.GetUsedIngredientsAsync();
 
-            var mergedItems = new List<CreateShoppingListItemVM>();
-
-            foreach (var ing in allIngredients)
+            // dodanie brakujących składników do listy (np. żeby były checkboxy)
+            foreach (var ing in ingredients)
             {
-                var existingItem = list.Items.FirstOrDefault(i => i.IngredientId == ing.Id);
-                if (existingItem != null)
+                if (!list.Items.Any(i => i.IngredientId == ing.Id))
                 {
-
-                    existingItem.IsSelected = true;
-                    mergedItems.Add(existingItem);
-                }
-                else
-                {
-
-                    mergedItems.Add(new CreateShoppingListItemVM
+                    list.Items.Add(new CreateShoppingListItemVM
                     {
                         IngredientId = ing.Id,
                         IngredientName = ing.Name,
@@ -128,12 +112,14 @@ namespace lab1_gr1.Controllers
                         IsSelected = false
                     });
                 }
+                else
+                {
+                    // zaznacz checkbox jeśli składnik jest już w liście
+                    list.Items.First(i => i.IngredientId == ing.Id).IsSelected = true;
+                }
             }
 
-            list.Items = mergedItems;
-
-
-            return View("Create", list);
+            return View(list);
         }
 
         [HttpPost]
@@ -142,15 +128,12 @@ namespace lab1_gr1.Controllers
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            var selectedItems = model.Items.Where(i => i.IsSelected).ToList();
-
-            if (!selectedItems.Any())
+            model.Items = model.Items.Where(i => i.IsSelected).ToList();
+            if (!model.Items.Any())
             {
-                ModelState.AddModelError("", "Lista nie może być pusta. Zaznacz składniki.");
-                return View("Create", model);
+                ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
+                return View(model);
             }
-
-            model.Items = selectedItems; // Przekazujemy tylko wybrane do serwisu
 
             var updated = await _shoppingListService.UpdateAsync(id, model, userId);
             if (!updated) return NotFound();
