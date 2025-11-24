@@ -70,7 +70,7 @@ namespace lab1_gr1.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.ShowBackButton = true;
-                ViewBag.ReturnUrl = Url.Action("FromDays", "ShoppingList");
+                ViewBag.ReturnUrl = Url.Action("Create", "ShoppingList");
 
                 return View(model);
             }
