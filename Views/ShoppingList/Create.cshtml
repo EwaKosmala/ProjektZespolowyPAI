@@ -1,6 +1,14 @@
 @model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+<style>
+    .alert-danger ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+</style>
+
 @{
     ViewData["Title"] = "Nowa lista zakupów";
     if (Model.Id > 0)
@@ -53,7 +61,11 @@
                                         <div class="col-md-6">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text">Ilość:</span>
-                                                <input type="text" class="form-control" asp-for="Items[i].Quantity" placeholder="np. 100g, 2 szt." />
+                                                <input type="text" class="form-control @(ViewData.ModelState["Items[" + i + "].Quantity"]?.Errors.Count > 0 ? "is-invalid" : "")"
+                                                       asp-for="Items[i].Quantity" placeholder="np. 100g, 2 szt." />
+                                                <span class="invalid-feedback">
+                                                    @Html.ValidationMessageFor(m => m.Items[i].Quantity)
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -65,6 +77,7 @@
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary btn-lg">Zapisz listę</button>
+                    
                     <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
                 </div>
             </form>
