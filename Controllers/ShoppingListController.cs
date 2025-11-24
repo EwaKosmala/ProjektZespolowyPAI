@@ -56,17 +56,25 @@ namespace lab1_gr1.Controllers
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            model.Items = model.Items.Where(i => i.IsSelected).ToList();
+            //model.Items = model.Items.Where(i => i.IsSelected).ToList();
 
-            if (!model.Items.Any())
+            if (!model.Items.Any(i => i.IsSelected))
             {
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
             }
 
-            if (model.Items.Any(i => string.IsNullOrWhiteSpace(i.Quantity)))
+            if (model.Items.Any(i => i.IsSelected &&  string.IsNullOrWhiteSpace(i.Quantity)))
             {
                 ModelState.AddModelError("", "Musisz podać ilość dla wszystkich zaznaczonych składników.");
             }
+            for (int i = 0; i < model.Items.Count; i++)
+            {
+                if (!model.Items[i].IsSelected)
+                {
+                    ModelState.Remove($"Items[{i}].Quantity");
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.ShowBackButton = true;
@@ -74,6 +82,7 @@ namespace lab1_gr1.Controllers
 
                 return View(model);
             }
+            model.Items = model.Items.Where(i => i.IsSelected).ToList();
 
             await _shoppingListService.CreateAsync(model, userId);
             return RedirectToAction("Index");
@@ -125,20 +134,30 @@ namespace lab1_gr1.Controllers
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            model.Items = model.Items.Where(i => i.IsSelected).ToList();
-            if (!model.Items.Any())
+            //model.Items = model.Items.Where(i => i.IsSelected).ToList();
+            if (!model.Items.Any(i => i.IsSelected))
             {
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
                 return View(model);
             }
-            if (model.Items.Any(i => string.IsNullOrWhiteSpace(i.Quantity)))
+            if (model.Items.Any(i => i.IsSelected && string.IsNullOrWhiteSpace(i.Quantity)))
             {
                 ModelState.AddModelError("", "Musisz podać ilość dla wszystkich zaznaczonych składników.");
             }
+            for (int i = 0; i < model.Items.Count; i++)
+            {
+                if (!model.Items[i].IsSelected)
+                {
+                    ModelState.Remove($"Items[{i}].Quantity");
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("Create", model);
             }
+
+            model.Items = model.Items.Where(i => i.IsSelected).ToList();
 
             var updated = await _shoppingListService.UpdateAsync(id, model, userId);
             if (!updated) return NotFound();
