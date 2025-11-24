@@ -1,15 +1,8 @@
-﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
+@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-<style>
-    .alert-danger ul {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
-    }
-</style>
+
 @{
     ViewData["Title"] = "Nowa lista zakupów";
-    // Jeśli model ma Id > 0, oznacza to, że edytujemy istniejącą listę
     if (Model.Id > 0)
     {
         ViewData["Title"] = "Edytuj listę zakupów";
@@ -22,7 +15,6 @@
             <h2 class="mb-4">@ViewData["Title"]</h2>
 
             <form asp-action="@(Model.Id > 0 ? "Edit" : "Create")" method="post">
-
                 <input type="hidden" asp-for="Id" />
                 @Html.AntiForgeryToken()
 
@@ -32,52 +24,71 @@
                 }
 
                 <div class="card shadow-sm">
-                    <div class="card-header">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
                         <h5 class="mb-0">Składniki</h5>
+
+                        <div class="input-group" style="max-width: 300px;">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
+                            <input type="text" id="ingredientSearch" class="form-control border-start-0" placeholder="Szukaj składnika..." onkeyup="filterIngredients()">
+                        </div>
                     </div>
 
-                    <ul class="list-group list-group-flush">
-                        @for (int i = 0; i < Model.Items.Count; i++)
-                        {
-                            <li class="list-group-item">
-                                <div class="row align-items-center">
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input type="hidden" asp-for="Items[i].IngredientId" />
-                                            <input type="hidden" asp-for="Items[i].IngredientName" />
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        <ul class="list-group list-group-flush" id="ingredientsList">
+                            @for (int i = 0; i < Model.Items.Count; i++)
+                            {
+                                <li class="list-group-item search-item" data-name="@Model.Items[i].IngredientName.ToLower()">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input type="hidden" asp-for="Items[i].IngredientId" />
+                                                <input type="hidden" asp-for="Items[i].IngredientName" />
 
-                                            <input class="form-check-input" type="checkbox" asp-for="Items[i].IsSelected" />
-                                            <label class="form-check-label" asp-for="Items[i].IsSelected">
-                                                <strong>@Model.Items[i].IngredientName</strong>
-                                            </label>
+                                                <input class="form-check-input" type="checkbox" asp-for="Items[i].IsSelected" />
+                                                <label class="form-check-label" asp-for="Items[i].IsSelected">
+                                                    <strong>@Model.Items[i].IngredientName</strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text">Ilość:</span>
+                                                <input type="text" class="form-control" asp-for="Items[i].Quantity" placeholder="np. 100g, 2 szt." />
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-6">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text">Ilość:</span>
-                                            <input type="text" class="form-control @(ViewData.ModelState["Items[" + i + "].Quantity"]?.Errors.Count > 0 ? "is-invalid" : "")"
-                                                   asp-for="Items[i].Quantity" placeholder="np. 100g, 2 szt." />
-                                            <span class="invalid-feedback">
-                                                @Html.ValidationMessageFor(m => m.Items[i].Quantity)
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary btn-lg">Zapisz listę</button>
-                    @if (ViewBag.ShowBackButton == true)
-                    {
-                        <a href="@ViewBag.ReturnUrl" class="btn btn-outline-secondary">Wróć</a>
-                    }
                     <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Funkcja filtrowania składników
+        function filterIngredients() {
+            var input = document.getElementById('ingredientSearch');
+            var filter = input.value.toLowerCase();
+            var list = document.getElementById('ingredientsList');
+            var items = list.getElementsByClassName('search-item');
+
+            for (var i = 0; i < items.length; i++) {
+                var name = items[i].getAttribute('data-name');
+                if (name.indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+}

@@ -1,44 +1,46 @@
-﻿@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListFromDaysVM
+@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListFromDaysVM
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Wygeneruj listę zakupów";
 
-    // Słownik do mapowania dni tygodnia
     var daysOfWeek = new Dictionary<int, string>
     {
         { 1, "Poniedziałek" }, { 2, "Wtorek" }, { 3, "Środa" },
         { 4, "Czwartek" }, { 5, "Piątek" }, { 6, "Sobota" }, { 0, "Niedziela" }
     };
 }
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">@ViewBag.Error</div>
-}
+
 <div class="container my-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card shadow-sm">
-                <div class="card-header">
-                    <h3 class="mb-0">@ViewData["Title"]</h3>
+                <div class="card-header bg-white">
+                    <h3 class="mb-0 text-primary">@ViewData["Title"]</h3>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Wybierz dni z Twojego planu posiłków, na podstawie których mamy wygenerować listę zakupów.</p>
+                    <p class="card-text text-muted">Wybierz dni z Twojego planu posiłków, na podstawie których mamy wygenerować listę zakupów.</p>
 
                     <form asp-action="FromDays" method="post">
+
+                        <div class="mb-3 text-end">
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleAllDays()" id="toggleBtn">
+                                <i class="fas fa-check-double"></i> Zaznacz wszystkie
+                            </button>
+                        </div>
 
                         <div class="row mb-3">
                             @foreach (var day in daysOfWeek)
                             {
-                                <div class="col-md-4 col-6">
-                                    <div class="form-check fs-5">
-                                        <input class="form-check-input"
+                                <div class="col-md-4 col-6 mb-2">
+                                    <div class="form-check fs-5 p-3 border rounded bg-light hover-shadow">
+                                        <input class="form-check-input day-checkbox"
                                                type="checkbox"
                                                name="SelectedDays"
                                                value="@day.Key"
                                                id="day-@day.Key"
-                                               @(Model.SelectedDays.Contains(day.Key) ? "checked" : "") />
-                                        <label class="form-check-label" for="day-@day.Key">
+                                        @(Model.SelectedDays.Contains(day.Key) ? "checked" : "") />
+                                        <label class="form-check-label w-100 cursor-pointer" for="day-@day.Key" style="cursor: pointer;">
                                             @day.Value
                                         </label>
                                     </div>
@@ -48,8 +50,8 @@
 
                         <hr />
 
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg">
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
                                 <i class="fas fa-cogs"></i> Generuj
                             </button>
                             <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
@@ -60,3 +62,41 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function toggleAllDays() {
+            var checkboxes = document.getElementsByClassName('day-checkbox');
+            var btn = document.getElementById('toggleBtn');
+
+           
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (!checkboxes[i].checked) {
+                    allChecked = false;
+                    break;
+                }
+            }
+
+            var newState = !allChecked;
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = newState;
+            }
+            if (newState) {
+                btn.innerHTML = '<i class="fas fa-times"></i> Odznacz wszystkie';
+            } else {
+                btn.innerHTML = '<i class="fas fa-check-double"></i> Zaznacz wszystkie';
+            }
+        }
+    </script>
+
+    <style>
+        .hover-shadow:hover {
+            background-color: #fff !important;
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.10) !important;
+            border-color: var(--primary-color) !important;
+            transition: all 0.2s;
+        }
+    </style>
+}
