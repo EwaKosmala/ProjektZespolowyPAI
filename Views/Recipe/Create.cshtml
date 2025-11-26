@@ -1,0 +1,177 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model lab1_gr1.ViewModels.RecipeVM.CreateRecipeVM
+
+@{
+    ViewData["Title"] = "Dodaj nowy przepis";
+
+    // Tworzymy słownik, aby łatwo mapować dni tygodnia.
+    // Używamy konwencji .NET (Niedziela=0, Poniedziałek=1, ... Sobota=6)
+    // Jeśli wolisz 1-7, dostosuj wartości (value) w checkboxach.
+    var daysOfWeek = new Dictionary<int, string>
+    {
+        { 1, "Poniedziałek" },
+        { 2, "Wtorek" },
+        { 3, "Środa" },
+        { 4, "Czwartek" },
+        { 5, "Piątek" },
+        { 6, "Sobota" },
+        { 0, "Niedziela" }
+    };
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+            <h2 class="mb-4">@ViewData["Title"]</h2>
+
+            <form asp-action="Create" asp-controller="Recipe" method="post">
+
+                @* Ukryte pole ID, jeśli edytujemy (choć to widok Create, przy Edit się przyda) *@
+                <input type="hidden" asp-for="Id" />
+
+                @* Sekcja 1: Podstawowe informacje *@
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Podstawowe informacje</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Nazwa przepisu</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Krótki opis</label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Instructions" class="form-label">Instrukcje przygotowania</label>
+                            <textarea asp-for="Instructions" class="form-control" rows="8"></textarea>
+                            <span asp-validation-for="Instructions" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Zaplanuj posiłek</h5>
+                    </div>
+                    <div class="card-body">
+                        <label class="form-label">Wybierz dni tygodnia, w których chcesz zaplanować ten przepis:</label>
+                        <div class="row">
+                            @foreach (var day in daysOfWeek)
+                            {
+                                <div class="col-md-4 col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="SelectedDays"
+                                               value="@day.Key"
+                                               id="day-@day.Key"
+                                               @(Model.SelectedDays.Contains(day.Key) ? "checked" : "") />
+                                        <label class="form-check-label" for="day-@day.Key">
+                                            @day.Value
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <span asp-validation-for="SelectedDays" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Składniki</h5>
+                        <button type="button" class="btn btn-success btn-sm" onclick="addIngredient()">
+                            <i class="fas fa-plus"></i> Dodaj składnik
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="ingredients-list">
+                            @* Renderuj składniki, które już są w modelu (np. przy błędzie walidacji) *@
+                            @for (int i = 0; i < Model.Ingredients.Count; i++)
+                            {
+                                <div class="ingredient-row mb-2 d-flex flex-column">
+                                    <input asp-for="@Model.Ingredients[i].IngredientName" class="form-control" placeholder="Nazwa składnika" />
+                                    <span asp-validation-for="Ingredients[i].IngredientName" class="text-danger"></span>
+
+                                    <input asp-for="@Model.Ingredients[i].Quantity" class="form-control" placeholder="Ilość (np. 100g, 2 szt.)" />
+                                    <span asp-validation-for="Ingredients[i].Quantity" class="text-danger"></span>
+
+                                    <button type="button" class="btn btn-outline-danger" onclick="removeIngredientRow(this)">Usuń</button>
+                                </div>
+                            }
+                        </div>
+                        <span asp-validation-for="Ingredients" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Zapisz przepis</button>
+                    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Funkcja do usuwania wiersza i ponownego indeksowania
+        function removeIngredientRow(button) {
+            // Znajdź najbliższy 'ingredient-row' i go usuń
+            button.closest('.ingredient-row').remove();
+
+            // Po usunięciu, musimy ponownie przeliczyć indeksy wszystkich pól
+            reindexIngredients();
+        }
+
+        // Funkcja do dodawania nowego wiersza składnika
+        function addIngredient() {
+            var container = document.getElementById("ingredients-list");
+            // Używamy liczby wierszy jako nowego indeksu
+            var index = container.getElementsByClassName("ingredient-row").length;
+
+            var newRow = document.createElement("div");
+            newRow.className = "ingredient-row input-group mb-2";
+
+            // Tworzymy HTML dla nowych pól
+            newRow.innerHTML = `
+                <input name="Ingredients[${index}].IngredientName" class="form-control" placeholder="Nazwa składnika" />
+                <input name="Ingredients[${index}].Quantity" class="form-control" placeholder="Ilość (np. 100g, 2 szt.)" />
+                <button type="button" class="btn btn-outline-danger" onclick="removeIngredientRow(this)">Usuń</button>
+            `;
+
+            container.appendChild(newRow);
+        }
+
+        // Kluczowa funkcja:
+        // Po każdej zmianie (dodanie/usunięcie) musimy zaktualizować atrybuty 'name',
+        // aby model binder ASP.NET Core poprawnie je odczytał (np. Ingredients[0], Ingredients[1], ...)
+        function reindexIngredients() {
+            var container = document.getElementById("ingredients-list");
+            var rows = container.getElementsByClassName("ingredient-row");
+
+            for (var i = 0; i < rows.length; i++) {
+                var inputs = rows[i].getElementsByTagName("input");
+
+                for (var j = 0; j < inputs.length; j++) {
+                    if (inputs[j].name) {
+                        // Magia: zamienia np. "Ingredients[2].IngredientName" na "Ingredients[0].IngredientName"
+                        var oldName = inputs[j].name;
+                        var newName = oldName.replace(/\[\d+\]/, '[' + i + ']');
+                        inputs[j].name = newName;
+                    }
+                }
+            }
+        }
+    </script>
+}

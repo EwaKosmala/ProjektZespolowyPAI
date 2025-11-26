@@ -22,6 +22,9 @@ namespace lab1_gr1.Configuration.AMProfile
             CreateMap<EditIngredientVM, Ingredient>();
 
 
+            CreateMap<Recipe, RecipeListVM>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username));
+
             CreateMap<Recipe, CreateRecipeVM>()
                 .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.RecipeIngredients))
                 .ForMember(dest => dest.Schedules, opt => opt.MapFrom(src => src.RecipeSchedules));
