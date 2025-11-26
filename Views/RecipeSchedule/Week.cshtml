@@ -1,0 +1,130 @@
+﻿@model lab1_gr1.ViewModels.RecipeScheduleVM.WeekVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Plan Posiłków na Ten Tydzień";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <a asp-controller="ShoppingList" asp-action="Generate" class="btn btn-success">
+        <i class="fas fa-shopping-cart"></i> Wygeneruj listę zakupów
+    </a>
+</div>
+
+<div class="row">
+    @if (Model == null || !Model.Days.Any())
+    {
+        <div class="alert alert-info">Brak danych do wyświetlenia planu tygodnia.</div>
+    }
+    else
+    {
+        @foreach (var day in Model.Days.OrderBy(d => d.Day))
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">@day.DayName</h5>
+                    </div>
+
+                    <div class="card-body">
+                        @if (!day.Recipes.Any())
+                        {
+                            <p class="text-muted">Brak zaplanowanych przepisów.</p>
+                        }
+                        else
+                        {
+                            <ul class="list-group list-group-flush">
+                                @foreach (var recipe in day.Recipes)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">
+                                            @recipe.Name
+                                        </a>
+
+                                        <form asp-controller="RecipeSchedule" asp-action="Remove" method="post" class="ms-2">
+                                            <input type="hidden" name="day" value="@day.Day" />
+                                            <input type="hidden" name="recipeId" value="@recipe.Id" />
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Usuń z planu">&times;</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <button type="button" class="btn btn-dashed"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addRecipeModal"
+                                data-day-of-week="@day.Day"
+                                data-day-name="@day.DayName">
+                            <i class="fas fa-plus-circle"></i> Dodaj przepis
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+<div class="modal fade" id="addRecipeModal" tabindex="-1" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRecipeModalLabel">Dodaj przepis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="addRecipeModalBody">
+                <p>Ładowanie formularza...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        // Ten skrypt obsługuje dynamiczne ładowanie formularza do modala
+
+        var addRecipeModal = document.getElementById('addRecipeModal');
+
+        addRecipeModal.addEventListener('show.bs.modal', function (event) {
+            // Przycisk, który kliknął użytkownik
+            var button = event.relatedTarget;
+
+            // Pobieramy dane z atrybutów `data-*` na przycisku
+            var dayOfWeek = button.getAttribute('data-day-of-week');
+            var dayName = button.getAttribute('data-day-name');
+
+            // Ustawiamy tytuł modala
+            var modalTitle = addRecipeModal.querySelector('.modal-title');
+            modalTitle.textContent = 'Dodaj przepis na: ' + dayName;
+
+            // Pobieramy ciało modala, gdzie wczytamy formularz
+            var modalBody = addRecipeModal.querySelector('#addRecipeModalBody');
+            modalBody.innerHTML = '<p>Ładowanie...</p>'; // Wskaźnik ładowania
+
+            // Używamy Fetch API (AJAX), aby wywołać akcję [HttpGet] Add w kontrolerze
+            fetch(`/RecipeSchedule/Add?day=${dayOfWeek}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Błąd sieci');
+                    }
+                    return response.text(); // Oczekujemy odpowiedzi HTML (nasz PartialView)
+                })
+                .then(html => {
+                    // Wstawiamy zwrócony HTML (formularz) do ciała modala
+                    modalBody.innerHTML = html;
+                })
+                .catch(error => {
+                    modalBody.innerHTML = '<div class="alert alert-danger">Nie udało się załadować formularza.</div>';
+                    console.error('Błąd ładowania partial view:', error);
+                });
+        });
+    </script>
+}

@@ -45,6 +45,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MainProfile>());
 
 
@@ -66,6 +68,6 @@ app.UseSession();
 // Routing domyœlny
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

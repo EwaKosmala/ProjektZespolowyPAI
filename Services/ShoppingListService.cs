@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Reflection.Metadata;
 
 namespace lab1_gr1.Services
 {
@@ -116,6 +117,12 @@ namespace lab1_gr1.Services
             {
                 Items = shoppingItems.Values.ToList()
             };
+        }
+
+        public async Task<CreateShoppingListVM> GenerateForWeekAsync(int userId)
+        {
+            var allDays = Enumerable.Range(1, 7).ToList();
+            return await GenerateFromDaysAsync(userId, allDays);
         }
 
         public async Task<bool> UpdateAsync(int id, CreateShoppingListVM model, int userId)
