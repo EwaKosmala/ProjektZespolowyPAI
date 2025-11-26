@@ -1,0 +1,164 @@
+@model lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Nowa lista zakupów";
+    if (Model.Id > 0)
+    {
+        ViewData["Title"] = "Edytuj listę zakupów";
+    }
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h2 class="mb-4">@ViewData["Title"]</h2>
+
+            <form asp-action="@(Model.Id > 0 ? "Edit" : "Create")" method="post">
+                <input type="hidden" asp-for="Id" />
+                @Html.AntiForgeryToken()
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                }
+
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <h5 class="mb-0">Składniki</h5>
+
+                            <div class="d-flex gap-2 align-items-center">
+                                <button type="button" class="btn btn-sm btn-outline-primary text-nowrap" id="toggleIngredientsBtn" onclick="toggleAllIngredients()">
+                                    <i class="fas fa-check-double"></i> Zaznacz widoczne
+                                </button>
+
+                                <div class="input-group" style="max-width: 250px;">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
+                                    <input type="text" id="ingredientSearch" class="form-control border-start-0" placeholder="Szukaj..." onkeyup="filterIngredients()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        <ul class="list-group list-group-flush" id="ingredientsList">
+                            @for (int i = 0; i < Model.Items.Count; i++)
+                            {
+                                <li class="list-group-item search-item" data-name="@Model.Items[i].IngredientName.ToLower()">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input type="hidden" asp-for="Items[i].IngredientId" />
+                                                <input type="hidden" asp-for="Items[i].IngredientName" />
+
+                                                <input class="form-check-input ingredient-checkbox" type="checkbox" asp-for="Items[i].IsSelected" />
+                                                <label class="form-check-label" asp-for="Items[i].IsSelected">
+                                                    <strong>@Model.Items[i].IngredientName</strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text">Ilość:</span>
+                                                <input type="text" class="form-control quantity-input" asp-for="Items[i].Quantity" placeholder="np. 100g, 2 szt." />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Zapisz listę</button>
+                    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+       
+        function filterIngredients() {
+            var input = document.getElementById('ingredientSearch');
+            var filter = input.value.toLowerCase();
+            var list = document.getElementById('ingredientsList');
+            var items = list.getElementsByClassName('search-item');
+
+            for (var i = 0; i < items.length; i++) {
+                var name = items[i].getAttribute('data-name');
+                if (name.indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+
+        
+        function toggleAllIngredients() {
+            var list = document.getElementById('ingredientsList');
+            
+            var visibleItems = Array.from(list.getElementsByClassName('search-item')).filter(item => item.style.display !== 'none');
+            var btn = document.getElementById('toggleIngredientsBtn');
+
+            if (visibleItems.length === 0) return;
+
+           
+            var firstCheckbox = visibleItems[0].querySelector('.ingredient-checkbox');
+            var newState = !firstCheckbox.checked;
+
+            
+
+            for (var item of visibleItems) {
+                var checkbox = item.querySelector('.ingredient-checkbox');
+                if(checkbox) {
+                    checkbox.checked = newState;
+                }
+            }
+
+           
+            if (newState) {
+                btn.innerHTML = '<i class="fas fa-times"></i> Odznacz widoczne';
+            } else {
+                btn.innerHTML = '<i class="fas fa-check-double"></i> Zaznacz widoczne';
+            }
+        }
+
+       
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var checkboxes = document.querySelectorAll('.ingredient-checkbox:checked');
+            var hasError = false;
+            var isAnyChecked = checkboxes.length > 0;
+
+            
+            document.querySelectorAll('.form-control').forEach(i => i.classList.remove('is-invalid'));
+
+            if (!isAnyChecked) {
+                alert("Musisz zaznaczyć przynajmniej jeden składnik!");
+                e.preventDefault(); 
+                return;
+            }
+
+            checkboxes.forEach(function (checkbox) {
+                
+                var row = checkbox.closest('.row');
+                var quantityInput = row.querySelector('.quantity-input'); 
+
+                if (!quantityInput.value.trim()) {
+                    quantityInput.classList.add('is-invalid'); 
+                    hasError = true;
+                }
+            });
+
+            if (hasError) {
+                e.preventDefault();
+                alert("Uzupełnij ilość dla zaznaczonych składników!");
+            }
+        });
+    </script>
+}
