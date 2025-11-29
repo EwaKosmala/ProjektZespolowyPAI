@@ -1,4 +1,4 @@
-﻿using lab1_gr1.Interfaces;
+using lab1_gr1.Interfaces;
 using lab1_gr1.ViewModels.ShoppingListItemVM;
 using lab1_gr1.ViewModels.ShoppingListVM;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +42,7 @@ namespace lab1_gr1.Controllers
                 {
                     IngredientId = i.Id,
                     IngredientName = i.Name,
-                    Quantity = "",
+                    Quantity = "", 
                     IsSelected = false
                 }).ToList()
             };

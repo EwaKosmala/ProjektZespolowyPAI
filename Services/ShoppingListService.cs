@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using lab1_gr1.Interfaces;
 using lab1_gr1.Models;
 using lab1_gr1.ViewModels.ShoppingListItemVM;
