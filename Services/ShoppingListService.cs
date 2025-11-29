@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Reflection.Metadata;
 
 namespace lab1_gr1.Services
 {

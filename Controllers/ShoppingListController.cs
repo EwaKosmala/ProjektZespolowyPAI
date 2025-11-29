@@ -63,7 +63,7 @@ namespace lab1_gr1.Controllers
                 ModelState.AddModelError("", "Musisz zaznaczyć przynajmniej jeden składnik.");
             }
 
-            if (model.Items.Any(i => i.IsSelected &&  string.IsNullOrWhiteSpace(i.Quantity)))
+            if (model.Items.Any(i => i.IsSelected && string.IsNullOrWhiteSpace(i.Quantity)))
             {
                 ModelState.AddModelError("", "Musisz podać ilość dla wszystkich zaznaczonych składników.");
             }
@@ -186,7 +186,7 @@ namespace lab1_gr1.Controllers
             return View("Create", shoppingList);
         }
 
-     
+
         [HttpGet]
         public async Task<IActionResult> Generate()
         {
