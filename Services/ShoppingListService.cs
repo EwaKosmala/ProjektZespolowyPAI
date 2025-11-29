@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Reflection.Metadata;
 
 namespace lab1_gr1.Services
 {
@@ -18,7 +17,7 @@ namespace lab1_gr1.Services
         : base(dbContext, mapper)
         {
         }
-
+        
         public async Task<List<CreateShoppingListVM>> GetAllByUserIdAsync(int userId)
         {
             var lists = await _dbContext.ShoppingLists
