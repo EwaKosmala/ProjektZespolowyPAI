@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using QuestPDF.Infrastructure;
 
 
+//builder
 var builder = WebApplication.CreateBuilder(args);
 
 // Rejestracja AutoMappera
