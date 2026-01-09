@@ -8,28 +8,55 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lab1_gr1.Controllers
 {
-
+    /// <summary>
+    /// Kontroler odpowiedzialny za zarządzanie przepisami użytkowników.
+    /// Umożliwia tworzenie, edycję, usuwanie, przeglądanie oraz
+    /// filtrowanie przepisów.
+    /// </summary>
     public class RecipeController : BaseController
     {
+        /// <summary>
+        /// Serwis obsługujący logikę biznesową przepisów.
+        /// </summary>
         private readonly IRecipeService _recipeService;
+
+        /// <summary>
+        /// Serwis obsługujący logikę biznesową składników.
+        /// </summary>
         private readonly IIngredientService _ingredientService;
 
-
+        /// <summary>
+        /// Konstruktor kontrolera przepisów.
+        /// </summary>
+        /// <param name="recipeService">Serwis przepisów</param>
+        /// <param name="ingredientService">Serwis składników</param>
         public RecipeController(IRecipeService recipeService, IIngredientService ingredientService)
         {
             _recipeService = recipeService;
             _ingredientService = ingredientService;
         }
+
+        /// <summary>
+        /// Wyświetla listę przepisów zalogowanego użytkownika.
+        /// </summary>
+        /// <returns>Widok z listą przepisów</returns>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             int userId = GetUserId();
 
             var recipes = await _recipeService.GetAllByUserIdAsync(userId);
-            return View(recipes); 
+            return View(recipes);
         }
 
-        // GET: api/recipes/5
+        /// <summary>
+        /// Wyświetla szczegóły wybranego przepisu.
+        /// </summary>
+        /// <param name="id">Identyfikator przepisu</param>
+        /// <returns>
+        /// Widok szczegółów przepisu lub kod 404,
+        /// jeśli przepis nie został znaleziony
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -40,13 +67,25 @@ namespace lab1_gr1.Controllers
             return View(recipe);
         }
 
+        /// <summary>
+        /// Wyświetla formularz tworzenia nowego przepisu.
+        /// </summary>
+        /// <returns>Widok tworzenia przepisu</returns>
         [HttpGet]
         public IActionResult Create()
         {
             return View(new CreateRecipeVM());
         }
 
-        // POST: api/recipes
+        /// <summary>
+        /// Obsługuje wysłanie formularza tworzenia nowego przepisu.
+        /// Przepis zostaje przypisany do aktualnie zalogowanego użytkownika.
+        /// </summary>
+        /// <param name="model">Model danych nowego przepisu</param>
+        /// <returns>
+        /// Przekierowanie do widoku szczegółów nowo utworzonego przepisu
+        /// lub ponowne wyświetlenie formularza w przypadku błędów walidacji
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeVM model)
         {
@@ -61,8 +100,14 @@ namespace lab1_gr1.Controllers
             return RedirectToAction("Details", new { id = recipeId });
         }
 
-
-        // DELETE: api/recipe/5
+        /// <summary>
+        /// Usuwa wskazany przepis użytkownika.
+        /// </summary>
+        /// <param name="id">Identyfikator przepisu</param>
+        /// <returns>
+        /// Przekierowanie do listy przepisów lub kod 404,
+        /// jeśli przepis nie istnieje
+        /// </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -74,17 +119,31 @@ namespace lab1_gr1.Controllers
             return RedirectToAction("Index");
         }
 
-        //UPDATE: api/recipe/5
+        /// <summary>
+        /// Wyświetla formularz edycji istniejącego przepisu.
+        /// Dostęp tylko dla właściciela przepisu.
+        /// </summary>
+        /// <param name="id">Identyfikator przepisu</param>
+        /// <returns>Widok edycji przepisu lub przekierowanie</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var model = await _recipeService.GetForEditAsync(id);
             if (model == null || model.UserId != GetUserId())
                 return RedirectToAction("Index", "Recipe");
+
             ViewBag.RecipeId = id;
             return View(model);
         }
 
+        /// <summary>
+        /// Obsługuje zapis zmian edytowanego przepisu.
+        /// </summary>
+        /// <param name="id">Identyfikator przepisu</param>
+        /// <param name="model">Model edycji przepisu</param>
+        /// <returns>
+        /// Przekierowanie do szczegółów przepisu lub kod 404
+        /// </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateRecipeVM model)
@@ -102,19 +161,29 @@ namespace lab1_gr1.Controllers
 
             return RedirectToAction("Details", new { id });
         }
+
+        /// <summary>
+        /// Wyświetla widok błędu z przekazaną wiadomością.
+        /// </summary>
+        /// <param name="message">Treść komunikatu błędu</param>
+        /// <returns>Widok błędu</returns>
         [HttpGet]
         public IActionResult Error(string message)
         {
             return View(model: message);
         }
 
+        /// <summary>
+        /// Wyświetla widok przeglądania i filtrowania przepisów.
+        /// </summary>
+        /// <returns>Widok listy przepisów z filtrami</returns>
         [HttpGet]
         public async Task<IActionResult> Browse()
         {
             int userId = GetUserId();
 
             var ingredients = await _ingredientService.GetUsedIngredientsAsync();
-            var allRecipes = await _recipeService.GetAllAsync(); 
+            var allRecipes = await _recipeService.GetAllAsync();
 
             var vm = new RecipeListFilterVM
             {
@@ -127,6 +196,12 @@ namespace lab1_gr1.Controllers
             return View(vm);
         }
 
+        /// <summary>
+        /// Obsługuje filtrowanie przepisów na podstawie
+        /// wybranych składników oraz preferencji użytkownika.
+        /// </summary>
+        /// <param name="model">Model filtrów przepisów</param>
+        /// <returns>Widok przepisów po zastosowaniu filtrów</returns>
         [HttpPost]
         public async Task<IActionResult> Browse(RecipeListFilterVM model)
         {
@@ -139,14 +214,12 @@ namespace lab1_gr1.Controllers
                 model.ShowOthersRecipes
             );
 
-            model.AvailableIngredients = (await _ingredientService.GetUsedIngredientsAsync()).ToList();
+            model.AvailableIngredients =
+                (await _ingredientService.GetUsedIngredientsAsync()).ToList();
+
             model.Recipes = filtered.ToList();
 
             return View(model);
         }
-
-
-
-
     }
 }
