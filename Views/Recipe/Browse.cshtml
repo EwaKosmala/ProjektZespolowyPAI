@@ -1,0 +1,163 @@
+@model lab1_gr1.ViewModels.RecipeVM.RecipeListFilterVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Baza Przepisów";
+}
+
+<div class="container-fluid my-4">
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-header bg-white border-bottom pt-3 pb-2">
+                    <h5 class="card-title mb-0 text-primary"><i class="fas fa-filter"></i> Filtrowanie</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <form asp-action="Browse" method="post">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-uppercase text-muted small ls-1">Źródło</label>
+                            <div class="bg-white p-2 rounded border">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" asp-for="ShowMyRecipes" />
+                                    <label class="form-check-label" asp-for="ShowMyRecipes">Moje przepisy</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="ShowOthersRecipes" />
+                                    <label class="form-check-label" asp-for="ShowOthersRecipes">Innych użytkowników</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-uppercase text-muted small ls-1">Mam w lodówce:</label>
+
+                            <div class="border rounded p-2 bg-white shadow-sm" style="max-height: 300px; overflow-y: auto;">
+                                @if (Model.AvailableIngredients != null && Model.AvailableIngredients.Any())
+                                {
+                                    @foreach (var ingredient in Model.AvailableIngredients)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="SelectedIngredientIds"
+                                                   value="@ingredient.Id"
+                                                   id="ing-@ingredient.Id"
+                                            @(Model.SelectedIngredientIds.Contains(ingredient.Id) ? "checked" : "") />
+                                            <label class="form-check-label small" for="ing-@ingredient.Id">
+                                                @ingredient.Name
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Brak składników w bazie.</span>
+                                }
+                            </div>
+                            <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">
+                                * Pokaże przepisy zawierające zaznaczone składniki.
+                            </small>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary shadow-sm">
+                                <i class="fas fa-search"></i> Szukaj przepisów
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-2">
+                            <a asp-action="Browse" class="text-muted small text-decoration-none">Wyczyść filtry</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">
+                    <span class="text-primary fw-bold">Odkrywaj</span> <span class="fw-light">Przepisy</span>
+                </h2>
+                <span class="badge bg-secondary rounded-pill px-3 py-2">
+                    Znaleziono: @Model.Recipes.Count
+                </span>
+            </div>
+
+            @if (!Model.Recipes.Any())
+            {
+                <div class="alert alert-light text-center p-5 border rounded-3 shadow-sm">
+                    <div class="mb-3 text-muted opacity-50">
+                        <i class="fas fa-search fa-4x"></i>
+                    </div>
+                    <h4 class="fw-light">Nie znaleziono przepisów</h4>
+                    <p class="text-muted">Spróbuj zaznaczyć inne składniki lub zmień ustawienia filtrów.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row g-4">
+                    @foreach (var recipe in Model.Recipes)
+                    {
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="card h-100 shadow-sm border-0 hover-lift transition-card">
+                                <div class="bg-light text-secondary d-flex align-items-center justify-content-center position-relative"
+                                     style="height: 180px; border-radius: 5px 5px 0 0; background: linear-gradient(45deg, #f3f4f6, #e5e7eb);">
+                                    <i class="fas fa-utensils fa-3x opacity-25"></i>
+
+                                    <div class="position-absolute bottom-0 start-0 m-3">
+                                        <span class="badge bg-white text-dark shadow-sm border">
+                                            <i class="fas fa-user text-primary small me-1"></i> @recipe.UserName
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="card-body d-flex flex-column pt-4">
+                                    <h5 class="card-title text-dark fw-bold">@recipe.Name</h5>
+
+                                    <p class="card-text text-muted small flex-grow-1 line-clamp-3">
+                                        @(string.IsNullOrEmpty(recipe.Description)
+                                            ? "Brak opisu."
+                                            : recipe.Description)
+                                    </p>
+
+                                    <div class="mt-3 pt-3 border-top">
+                                        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-outline-primary w-100 btn-sm fw-bold">
+                                            Zobacz przepis
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white border-0 text-muted small text-end pb-3">
+                                    <i class="far fa-calendar-alt me-1"></i> @recipe.CreatedAt.ToShortDateString()
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .ls-1 {
+        letter-spacing: 1px;
+    }
+
+    .hover-lift {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+        }
+
+    /* Obcinanie tekstu do 3 linii */
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>

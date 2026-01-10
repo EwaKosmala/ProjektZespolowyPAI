@@ -1,0 +1,11 @@
+<map id="lab1_gr1.Services.RecipeIngredientService" name="lab1_gr1.Services.RecipeIngredientService">
+<area shape="rect" id="Node000001" title="Serwis odpowiedzialny za zarządzanie składnikami przypisanymi do przepisów. Umożliwia pobieranie,..." alt="" coords="175,824,409,1133"/>
+<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_services_1_1_base_service.html" title="Klasa bazowa dla wszystkich serwisów aplikacji. Zapewnia dostęp do kontekstu bazy danych oraz mechani..." alt="" coords="18,620,211,705"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,715,208,824,203,825,145,721"/>
+<area shape="rect" id="Node000003" href="$classlab1__gr1_1_1_models_1_1_my_d_b_context.html" title="Kontekst bazy danych dla aplikacji ListaZakupow. Zawiera DbSet&#45;y dla użytkowników,..." alt="" coords="5,124,224,487"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,484,117,603,112,603,114,489"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="78,5,152,75"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="115,87,117,124,112,124,115,92"/>
+<area shape="rect" id="Node000005" href="$interfacelab1__gr1_1_1_interfaces_1_1_i_recipe_ingredient_service.html" title="Interfejs definiujący metody serwisu obsługującego relację między przepisami a składnikami (wiele&#45;do&#45;..." alt="" coords="235,551,469,775"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="329,787,324,826,319,823,327,792"/>
+</map>
