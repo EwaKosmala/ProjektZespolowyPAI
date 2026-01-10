@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['edit_0',['Edit',['../classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#afd4c8c845b16aff16d797c27253be13f',1,'lab1_gr1.Controllers.IngredientController.Edit(int id)'],['../classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#a154fe411be25edaf4156624ddaef5222',1,'lab1_gr1.Controllers.IngredientController.Edit(EditIngredientVM model)'],['../classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#aad62652e6d4a701cf01afbfa2e12e744',1,'lab1_gr1.Controllers.RecipeController.Edit(int id)'],['../classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a4e037cc52a4176d94220b8a285b2f088',1,'lab1_gr1.Controllers.RecipeController.Edit(int id, CreateRecipeVM model)'],['../classlab1__gr1_1_1_controllers_1_1_shopping_list_controller.html#a4eb94557f0b433d6efabbe8ed04ea310',1,'lab1_gr1.Controllers.ShoppingListController.Edit(int id)'],['../classlab1__gr1_1_1_controllers_1_1_shopping_list_controller.html#a32e2fb156c0fea6153a6e26ad08de08a',1,'lab1_gr1.Controllers.ShoppingListController.Edit(int id, CreateShoppingListVM model)']]],
-  ['editingredientvm_1',['EditIngredientVM',['../classlab1__gr1_1_1_view_models_1_1_ingredient_v_m_1_1_edit_ingredient_v_m.html',1,'lab1_gr1::ViewModels::IngredientVM']]],
-  ['editingredientvm_2ecs_2',['EditIngredientVM.cs',['../_edit_ingredient_v_m_8cs.html',1,'']]],
-  ['error_3',['Error',['../classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#af02d3b66d29002597b98616ebf293ae1',1,'lab1_gr1::Controllers::RecipeController']]]
-];

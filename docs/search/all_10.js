@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['quantity_0',['Quantity',['../class_lista_zakupow_1_1_model_1_1_data_models_1_1_recipe_ingredient.html#a5e608219ae9c13921c660fab5fc2875e',1,'ListaZakupow.Model.DataModels.RecipeIngredient.Quantity'],['../class_lista_zakupow_1_1_model_1_1_data_models_1_1_shopping_list_item.html#a64791f1b39995214c718ead11305df82',1,'ListaZakupow.Model.DataModels.ShoppingListItem.Quantity'],['../classlab1__gr1_1_1_view_models_1_1_recipe_ingredient_v_m_1_1_create_recipe_ingredient_v_m.html#a423f2ba50ad2e8ee9539e3be3bdba34e',1,'lab1_gr1.ViewModels.RecipeIngredientVM.CreateRecipeIngredientVM.Quantity'],['../classlab1__gr1_1_1_view_models_1_1_shopping_list_item_v_m_1_1_create_shopping_list_item_v_m.html#ad478a6657242f69cfa1ea84cdba983b4',1,'lab1_gr1.ViewModels.ShoppingListItemVM.CreateShoppingListItemVM.Quantity']]]
+];

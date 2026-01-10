@@ -1,7 +1,0 @@
-<map id="lab1_gr1.Services.RecipeIngredientService" name="lab1_gr1.Services.RecipeIngredientService">
-<area shape="rect" id="Node000001" title="Serwis odpowiedzialny za zarządzanie składnikami przypisanymi do przepisów. Umożliwia pobieranie,..." alt="" coords="104,277,338,587"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_services_1_1_base_service.html" title="Klasa bazowa dla wszystkich serwisów aplikacji. Zapewnia dostęp do kontekstu bazy danych oraz mechani..." alt="" coords="5,56,198,179"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,190,165,278,160,278,130,195"/>
-<area shape="rect" id="Node000003" href="$interfacelab1__gr1_1_1_interfaces_1_1_i_recipe_ingredient_service.html" title="Interfejs definiujący metody serwisu obsługującego relację między przepisami a składnikami (wiele&#45;do&#45;..." alt="" coords="222,5,456,229"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="293,241,281,279,276,276,290,246"/>
-</map>

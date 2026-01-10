@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['lab1_5fgr1_0',['lab1_gr1',['../namespacelab1__gr1.html',1,'']]],
+  ['lab1_5fgr1_3a_3aconfiguration_1',['Configuration',['../namespacelab1__gr1_1_1_configuration.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3aconfiguration_3a_3aamprofile_2',['AMProfile',['../namespacelab1__gr1_1_1_configuration_1_1_a_m_profile.html',1,'lab1_gr1::Configuration']]],
+  ['lab1_5fgr1_3a_3acontrollers_3',['Controllers',['../namespacelab1__gr1_1_1_controllers.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3ainterfaces_4',['Interfaces',['../namespacelab1__gr1_1_1_interfaces.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3amigrations_5',['Migrations',['../namespacelab1__gr1_1_1_migrations.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3amodels_6',['Models',['../namespacelab1__gr1_1_1_models.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3aservices_7',['Services',['../namespacelab1__gr1_1_1_services.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3aviewmodels_8',['ViewModels',['../namespacelab1__gr1_1_1_view_models.html',1,'lab1_gr1']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3aingredientvm_9',['IngredientVM',['../namespacelab1__gr1_1_1_view_models_1_1_ingredient_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3arecipeingredientvm_10',['RecipeIngredientVM',['../namespacelab1__gr1_1_1_view_models_1_1_recipe_ingredient_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3arecipeschedulevm_11',['RecipeScheduleVM',['../namespacelab1__gr1_1_1_view_models_1_1_recipe_schedule_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3arecipevm_12',['RecipeVM',['../namespacelab1__gr1_1_1_view_models_1_1_recipe_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3ashoppinglistitemvm_13',['ShoppingListItemVM',['../namespacelab1__gr1_1_1_view_models_1_1_shopping_list_item_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3ashoppinglistvm_14',['ShoppingListVM',['../namespacelab1__gr1_1_1_view_models_1_1_shopping_list_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['lab1_5fgr1_3a_3aviewmodels_3a_3auservm_15',['UserVM',['../namespacelab1__gr1_1_1_view_models_1_1_user_v_m.html',1,'lab1_gr1::ViewModels']]],
+  ['listazakupow_16',['ListaZakupow',['../namespace_lista_zakupow.html',1,'']]],
+  ['listazakupow_3a_3acontrollers_17',['Controllers',['../namespace_lista_zakupow_1_1_controllers.html',1,'ListaZakupow']]],
+  ['listazakupow_3a_3amodel_18',['Model',['../namespace_lista_zakupow_1_1_model.html',1,'ListaZakupow']]],
+  ['listazakupow_3a_3amodel_3a_3adatamodels_19',['DataModels',['../namespace_lista_zakupow_1_1_model_1_1_data_models.html',1,'ListaZakupow::Model']]]
+];

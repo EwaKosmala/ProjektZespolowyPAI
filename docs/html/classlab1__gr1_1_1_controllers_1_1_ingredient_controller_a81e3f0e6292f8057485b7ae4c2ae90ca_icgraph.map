@@ -1,9 +1,0 @@
-<map id="lab1_gr1.Controllers.IngredientController.Index" name="lab1_gr1.Controllers.IngredientController.Index">
-<area shape="rect" id="Node000001" title="Wyświetla listę wszystkich dostępnych składników." alt="" coords="252,72,450,115"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#a9ceadfed4b76599438b62c4cec02c218" title="Obsługuje wysłanie formularza dodawania nowego składnika." alt="" coords="5,5,204,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,68,186,51,186,46,257,67"/>
-<area shape="rect" id="Node000003" href="$classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#a378964604bff58f9f666a68ad73254e8" title="Usuwa wskazany składnik po potwierdzeniu operacji." alt="" coords="5,72,204,115"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,94,205,96,204,91,238,93"/>
-<area shape="rect" id="Node000004" href="$classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#a154fe411be25edaf4156624ddaef5222" title="Obsługuje zapis zmian edytowanego składnika." alt="" coords="5,139,204,181"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="257,119,187,141,185,135,252,120"/>
-</map>

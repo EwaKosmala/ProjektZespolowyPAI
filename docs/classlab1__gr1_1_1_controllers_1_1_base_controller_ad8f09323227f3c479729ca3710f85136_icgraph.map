@@ -1,0 +1,25 @@
+<map id="lab1_gr1.Controllers.BaseController.GetUserId" name="lab1_gr1.Controllers.BaseController.GetUserId">
+<area shape="rect" id="Node000001" title="Zwraca identyfikator aktualnie zalogowanego użytkownika zapisany w sesji HTTP." alt="" coords="265,339,436,381"/>
+<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_controllers_1_1_recipe_schedule_controller.html#a4202fdcf9f82ae7b7b1bde3b5248cc29" title="Dodaje istniejący przepis do harmonogramu użytkownika w wybranym dniu tygodnia." alt="" coords="8,5,214,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="340,323,327,267,303,196,266,124,242,91,215,62,202,51,200,46,218,58,247,88,271,121,308,194,332,265,346,324"/>
+<area shape="rect" id="Node000003" href="$classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a4be77987708676f3305c5a259a89286d" title="Wyświetla widok przeglądania i filtrowania przepisów." alt="" coords="20,72,202,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="335,323,318,280,293,227,258,174,215,129,200,118,198,113,218,125,263,171,297,224,323,278,340,324"/>
+<area shape="rect" id="Node000004" href="$classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a3d7baf2b8a06b61547d0099a1ffb6b87" title="Obsługuje filtrowanie przepisów na podstawie wybranych składników oraz preferencji użytkownika." alt="" coords="20,139,202,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,326,282,260,251,225,215,196,197,184,196,179,218,191,254,221,286,257,333,325"/>
+<area shape="rect" id="Node000005" href="$class_lista_zakupow_1_1_controllers_1_1_auth_controller.html#acce7f696e1a5d18fde24187b697bf6e7" title="Obsługuje zmianę hasła aktualnie zalogowanego użytkownika." alt="" coords="5,205,217,248"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="311,329,268,295,215,262,192,251,190,246,218,258,271,291,317,328"/>
+<area shape="rect" id="Node000006" href="$classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a2f7159cc655a6e9f981d855c07716cfe" title="Obsługuje wysłanie formularza tworzenia nowego przepisu. Przepis zostaje przypisany do aktualnie zalo..." alt="" coords="20,272,202,315"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="255,335,191,318,190,313,260,333"/>
+<area shape="rect" id="Node000007" href="$class_lista_zakupow_1_1_controllers_1_1_auth_controller.html#a757ae32713c6fb83ee6b8cb7a6b5ec73" title="Usuwa konto aktualnie zalogowanego użytkownika oraz czyści dane sesji." alt="" coords="14,339,208,381"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="247,361,210,362,207,358,251,359"/>
+<area shape="rect" id="Node000008" href="$classlab1__gr1_1_1_controllers_1_1_shopping_list_controller.html#a134078598b30300cc78da04cc0d60246" title="Generuje plik PDF z listą zakupów i udostępnia go do pobrania." alt="" coords="13,405,209,448"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="255,388,192,407,189,402,259,384"/>
+<area shape="rect" id="Node000009" href="$classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#aad62652e6d4a701cf01afbfa2e12e744" title="Wyświetla formularz edycji istniejącego przepisu. Dostęp tylko dla właściciela przepisu." alt="" coords="20,472,202,515"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="312,393,271,429,218,462,193,474,189,469,215,458,268,425,316,390"/>
+<area shape="rect" id="Node000010" href="$classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a4e037cc52a4176d94220b8a285b2f088" title="Obsługuje zapis zmian edytowanego przepisu." alt="" coords="20,539,202,581"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="332,393,286,463,254,499,218,529,198,540,195,536,215,524,251,495,282,460,328,397"/>
+<area shape="rect" id="Node000011" href="$classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a081d66acdba93cf386db4deaac138a85" title="Wyświetla listę przepisów zalogowanego użytkownika." alt="" coords="20,605,202,648"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="339,394,323,442,297,496,263,549,218,595,201,607,198,602,215,591,258,546,293,493,318,440,336,399"/>
+<area shape="rect" id="Node000012" href="$classlab1__gr1_1_1_controllers_1_1_recipe_schedule_controller.html#a889c765ba6b71bf8202ffe70b6be5c3d" title="Wyświetla tygodniowy harmonogram przepisów użytkownika." alt="" coords="20,672,202,715"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="344,394,332,455,308,526,271,599,247,632,218,662,202,674,200,669,215,658,242,629,266,596,303,524,327,453,341,399"/>
+</map>

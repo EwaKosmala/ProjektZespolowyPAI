@@ -1,0 +1,2 @@
+C:\Users\olhat\Source\Repos\ProjektZespolowyPAI\wwwroot\css\site.css
+C:\Users\olhat\Source\Repos\ProjektZespolowyPAI\wwwroot\images\login-bg.jpg

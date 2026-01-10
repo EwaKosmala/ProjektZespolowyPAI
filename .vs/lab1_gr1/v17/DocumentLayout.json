@@ -1,0 +1,535 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\views\\auth\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:views\\auth\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\uservm\\registervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\uservm\\registervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\ingredientvm\\createingredientvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\ingredientvm\\createingredientvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\mydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:mydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\model\\datamodels\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:model\\datamodels\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\uservm\\loginvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\uservm\\loginvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\shoppinglistvm\\createshoppinglistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\shoppinglistvm\\createshoppinglistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\shoppinglistvm\\createshoppinglistfromdaysvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\shoppinglistvm\\createshoppinglistfromdaysvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\shoppinglistitemvm\\createshoppinglistitemvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\shoppinglistitemvm\\createshoppinglistitemvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipevm\\recipelistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipevm\\recipelistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipevm\\recipelistfiltervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipevm\\recipelistfiltervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipevm\\createrecipevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipevm\\createrecipevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipeschedulevm\\dayrecipesvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipeschedulevm\\dayrecipesvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipeschedulevm\\weekvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipeschedulevm\\weekvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipeschedulevm\\addrecipetoschedulevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipeschedulevm\\addrecipetoschedulevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipeschedulevm\\addrecipetodayvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipeschedulevm\\addrecipetodayvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\recipeingredientvm\\createrecipeingredientvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\recipeingredientvm\\createrecipeingredientvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\ingredientvm\\ingredientlistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\ingredientvm\\ingredientlistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\viewmodels\\ingredientvm\\editingredientvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:viewmodels\\ingredientvm\\editingredientvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\shoppinglistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\shoppinglistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\recipeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\recipeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\recipescheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\recipescheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\recipeingredientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\recipeingredientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\services\\ingredientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:services\\ingredientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\controllers\\recipeschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:controllers\\recipeschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\controllers\\recipeingredientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:controllers\\recipeingredientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|c:\\users\\olhat\\source\\repos\\projektzespolowypai\\controllers\\recipecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6FDF1BE8-87C5-4CA6-9D7E-6014DEAA8766}|lab1_gr1.csproj|solutionrelative:controllers\\recipecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 235,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Ingredient.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Model\\DataModels\\Ingredient.cs",
+              "RelativeDocumentMoniker": "Model\\DataModels\\Ingredient.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Model\\DataModels\\Ingredient.cs",
+              "RelativeToolTip": "Model\\DataModels\\Ingredient.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:42:55.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:40:56.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MyDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\MyDBContext.cs",
+              "RelativeDocumentMoniker": "MyDBContext.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\MyDBContext.cs",
+              "RelativeToolTip": "MyDBContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:40:14.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Views\\Auth\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "Views\\Auth\\ChangePassword.cshtml",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Views\\Auth\\ChangePassword.cshtml",
+              "RelativeToolTip": "Views\\Auth\\ChangePassword.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowCsAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-10T12:38:55.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegisterVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\UserVM\\RegisterVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\UserVM\\RegisterVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\UserVM\\RegisterVM.cs",
+              "RelativeToolTip": "ViewModels\\UserVM\\RegisterVM.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:32:13.792Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BaseService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\BaseService.cs",
+              "RelativeDocumentMoniker": "Services\\BaseService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\BaseService.cs",
+              "RelativeToolTip": "Services\\BaseService.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAmwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:24:53.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CreateIngredientVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\IngredientVM\\CreateIngredientVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\IngredientVM\\CreateIngredientVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\IngredientVM\\CreateIngredientVM.cs",
+              "RelativeToolTip": "ViewModels\\IngredientVM\\CreateIngredientVM.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:42:49.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CreateShoppingListFromDaysVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\ShoppingListVM\\CreateShoppingListFromDaysVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ShoppingListVM\\CreateShoppingListFromDaysVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\ShoppingListVM\\CreateShoppingListFromDaysVM.cs",
+              "RelativeToolTip": "ViewModels\\ShoppingListVM\\CreateShoppingListFromDaysVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:30:58.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CreateShoppingListVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\ShoppingListVM\\CreateShoppingListVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ShoppingListVM\\CreateShoppingListVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\ShoppingListVM\\CreateShoppingListVM.cs",
+              "RelativeToolTip": "ViewModels\\ShoppingListVM\\CreateShoppingListVM.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:31:25.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\UserVM\\LoginVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\UserVM\\LoginVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\UserVM\\LoginVM.cs",
+              "RelativeToolTip": "ViewModels\\UserVM\\LoginVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:31:53.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CreateShoppingListItemVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\ShoppingListItemVM\\CreateShoppingListItemVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ShoppingListItemVM\\CreateShoppingListItemVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\ShoppingListItemVM\\CreateShoppingListItemVM.cs",
+              "RelativeToolTip": "ViewModels\\ShoppingListItemVM\\CreateShoppingListItemVM.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAwwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:29:33.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "RecipeListVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeVM\\RecipeListVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeVM\\RecipeListVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeVM\\RecipeListVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeVM\\RecipeListVM.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAADwvyYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:28:43.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RecipeListFilterVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeVM\\RecipeListFilterVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeVM\\RecipeListFilterVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeVM\\RecipeListFilterVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeVM\\RecipeListFilterVM.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAADwvysAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:28:13.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CreateRecipeVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeVM\\CreateRecipeVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeVM\\CreateRecipeVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeVM\\CreateRecipeVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeVM\\CreateRecipeVM.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAA3wEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:27:21.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "WeekVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\WeekVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeScheduleVM\\WeekVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\WeekVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeScheduleVM\\WeekVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T12:21:00.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DayRecipesVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\DayRecipesVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeScheduleVM\\DayRecipesVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\DayRecipesVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeScheduleVM\\DayRecipesVM.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:48:20.944Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AddRecipeToScheduleVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\AddRecipeToScheduleVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeScheduleVM\\AddRecipeToScheduleVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\AddRecipeToScheduleVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeScheduleVM\\AddRecipeToScheduleVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:47:47.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AddRecipeToDayVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\AddRecipeToDayVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeScheduleVM\\AddRecipeToDayVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeScheduleVM\\AddRecipeToDayVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeScheduleVM\\AddRecipeToDayVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:46:49.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CreateRecipeIngredientVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeIngredientVm\\CreateRecipeIngredientVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RecipeIngredientVm\\CreateRecipeIngredientVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\RecipeIngredientVm\\CreateRecipeIngredientVM.cs",
+              "RelativeToolTip": "ViewModels\\RecipeIngredientVm\\CreateRecipeIngredientVM.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAwwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:45:57.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IngredientListVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\IngredientVM\\IngredientListVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\IngredientVM\\IngredientListVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\IngredientVM\\IngredientListVM.cs",
+              "RelativeToolTip": "ViewModels\\IngredientVM\\IngredientListVM.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:45:08.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "EditIngredientVM.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\IngredientVM\\EditIngredientVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\IngredientVM\\EditIngredientVM.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\ViewModels\\IngredientVM\\EditIngredientVM.cs",
+              "RelativeToolTip": "ViewModels\\IngredientVM\\EditIngredientVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:44:39.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\UserService.cs",
+              "RelativeToolTip": "Services\\UserService.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAowJ8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:37:03.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ShoppingListService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\ShoppingListService.cs",
+              "RelativeDocumentMoniker": "Services\\ShoppingListService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\ShoppingListService.cs",
+              "RelativeToolTip": "Services\\ShoppingListService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:34:39.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "RecipeService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\RecipeService.cs",
+              "RelativeDocumentMoniker": "Services\\RecipeService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\RecipeService.cs",
+              "RelativeToolTip": "Services\\RecipeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:33:03.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "RecipeScheduleService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\RecipeScheduleService.cs",
+              "RelativeDocumentMoniker": "Services\\RecipeScheduleService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\RecipeScheduleService.cs",
+              "RelativeToolTip": "Services\\RecipeScheduleService.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAwLcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:31:48.137Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "RecipeIngredientService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\RecipeIngredientService.cs",
+              "RelativeDocumentMoniker": "Services\\RecipeIngredientService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\RecipeIngredientService.cs",
+              "RelativeToolTip": "Services\\RecipeIngredientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:27:16.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "IngredientService.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\IngredientService.cs",
+              "RelativeDocumentMoniker": "Services\\IngredientService.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Services\\IngredientService.cs",
+              "RelativeToolTip": "Services\\IngredientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T11:26:03.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "RecipeScheduleController.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Controllers\\RecipeScheduleController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RecipeScheduleController.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Controllers\\RecipeScheduleController.cs",
+              "RelativeToolTip": "Controllers\\RecipeScheduleController.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAowKoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T21:32:38.827Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "RecipeIngredientController.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Controllers\\RecipeIngredientController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RecipeIngredientController.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Controllers\\RecipeIngredientController.cs",
+              "RelativeToolTip": "Controllers\\RecipeIngredientController.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAowGAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T21:31:27.099Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "RecipeController.cs",
+              "DocumentMoniker": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Controllers\\RecipeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RecipeController.cs",
+              "ToolTip": "C:\\Users\\olhat\\source\\repos\\ProjektZespolowyPAI\\Controllers\\RecipeController.cs",
+              "RelativeToolTip": "Controllers\\RecipeController.cs",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAuwOEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T21:29:47.089Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+<map id="lab1_gr1.Interfaces.IUserService" name="lab1_gr1.Interfaces.IUserService">
+<area shape="rect" id="Node000001" title="Interfejs definiujący metody serwisu obsługującego użytkowników." alt="" coords="45,5,252,288"/>
+<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_services_1_1_user_service.html" title="Serwis odpowiedzialny za obsługę użytkowników systemu, w tym rejestrację, logowanie,..." alt="" coords="5,336,291,704"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,300,151,337,146,336,148,305"/>
+</map>

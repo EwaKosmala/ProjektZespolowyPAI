@@ -1,7 +1,0 @@
-<map id="lab1_gr1.Controllers.RecipeScheduleController" name="lab1_gr1.Controllers.RecipeScheduleController">
-<area shape="rect" id="Node000001" title="Kontroler odpowiedzialny za zarządzanie harmonogramem przepisów użytkownika w ujęciu tygodniowym." alt="" coords="5,240,250,651"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_controllers_1_1_base_controller.html" title="Klasa bazowa dla kontrolerów aplikacji. Zawiera wspólne metody pomocnicze związane z sesją użytkownik..." alt="" coords="73,123,183,192"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,205,130,240,125,240,127,210"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="94,5,161,75"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="128,87,130,123,125,123,128,92"/>
-</map>

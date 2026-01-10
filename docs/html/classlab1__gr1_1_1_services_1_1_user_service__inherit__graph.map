@@ -1,7 +1,0 @@
-<map id="lab1_gr1.Services.UserService" name="lab1_gr1.Services.UserService">
-<area shape="rect" id="Node000001" title="Serwis odpowiedzialny za obsługę użytkowników systemu, w tym rejestrację, logowanie,..." alt="" coords="71,320,357,688"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_services_1_1_base_service.html" title="Klasa bazowa dla wszystkich serwisów aplikacji. Zapewnia dostęp do kontekstu bazy danych oraz mechani..." alt="" coords="5,77,198,200"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,212,160,320,155,320,124,217"/>
-<area shape="rect" id="Node000003" href="$interfacelab1__gr1_1_1_interfaces_1_1_i_user_service.html" title="Interfejs definiujący metody serwisu obsługującego użytkowników." alt="" coords="222,5,429,272"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,284,273,322,268,319,279,289"/>
-</map>

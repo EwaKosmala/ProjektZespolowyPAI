@@ -1,6 +1,0 @@
-var searchData=
-[
-  ['index_0',['Index',['../class_lista_zakupow_1_1_controllers_1_1_auth_controller.html#a92f624896cbf203f253371d250e55b7d',1,'ListaZakupow.Controllers.AuthController.Index()'],['../classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#a81e3f0e6292f8057485b7ae4c2ae90ca',1,'lab1_gr1.Controllers.IngredientController.Index()'],['../classlab1__gr1_1_1_controllers_1_1_recipe_controller.html#a081d66acdba93cf386db4deaac138a85',1,'lab1_gr1.Controllers.RecipeController.Index()'],['../classlab1__gr1_1_1_controllers_1_1_recipe_schedule_controller.html#ad37cf486e0f6ee103d0bb58883acc032',1,'lab1_gr1.Controllers.RecipeScheduleController.Index()'],['../classlab1__gr1_1_1_controllers_1_1_shopping_list_controller.html#a69f0175a6f4bcc64c0b202a06ddf7f5d',1,'lab1_gr1.Controllers.ShoppingListController.Index()']]],
-  ['ingredientcontroller_1',['IngredientController',['../classlab1__gr1_1_1_controllers_1_1_ingredient_controller.html#a95ff8fe4c2dd21405dcf6e3d3fb67d80',1,'lab1_gr1::Controllers::IngredientController']]],
-  ['ingredientservice_2',['IngredientService',['../classlab1__gr1_1_1_services_1_1_ingredient_service.html#a00cbc1fecab557eefea917c1116ee956',1,'lab1_gr1::Services::IngredientService']]]
-];

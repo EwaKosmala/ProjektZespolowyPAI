@@ -1,5 +1,0 @@
-<map id="ListaZakupow.Controllers.AuthController.DeleteAccount" name="ListaZakupow.Controllers.AuthController.DeleteAccount">
-<area shape="rect" id="Node000001" title="Usuwa konto aktualnie zalogowanego użytkownika oraz czyści dane sesji." alt="" coords="5,5,200,48"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_controllers_1_1_base_controller.html#ad8f09323227f3c479729ca3710f85136" title="Zwraca identyfikator aktualnie zalogowanego użytkownika zapisany w sesji HTTP." alt="" coords="248,5,419,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,24,235,26,230,27,200,29"/>
-</map>

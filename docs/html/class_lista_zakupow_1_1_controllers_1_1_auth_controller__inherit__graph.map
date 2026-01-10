@@ -1,7 +1,0 @@
-<map id="ListaZakupow.Controllers.AuthController" name="ListaZakupow.Controllers.AuthController">
-<area shape="rect" id="Node000001" title="Kontroler odpowiedzialny za uwierzytelnianie użytkowników. Obsługuje rejestrację, logowanie,..." alt="" coords="5,240,223,667"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_controllers_1_1_base_controller.html" title="Klasa bazowa dla kontrolerów aplikacji. Zawiera wspólne metody pomocnicze związane z sesją użytkownik..." alt="" coords="59,123,169,192"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,204,117,241,112,240,114,209"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="81,5,148,75"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,87,117,123,112,123,114,92"/>
-</map>

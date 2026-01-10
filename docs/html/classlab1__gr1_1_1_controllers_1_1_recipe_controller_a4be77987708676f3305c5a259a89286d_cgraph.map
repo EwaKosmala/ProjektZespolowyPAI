@@ -1,5 +1,0 @@
-<map id="lab1_gr1.Controllers.RecipeController.Browse" name="lab1_gr1.Controllers.RecipeController.Browse">
-<area shape="rect" id="Node000001" title="Wyświetla widok przeglądania i filtrowania przepisów." alt="" coords="5,5,188,48"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_controllers_1_1_base_controller.html#ad8f09323227f3c479729ca3710f85136" title="Zwraca identyfikator aktualnie zalogowanego użytkownika zapisany w sesji HTTP." alt="" coords="236,5,407,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,24,222,26,217,27,188,29"/>
-</map>

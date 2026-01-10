@@ -1,5 +1,0 @@
-<map id="lab1_gr1.Interfaces.IRecipeScheduleService" name="lab1_gr1.Interfaces.IRecipeScheduleService">
-<area shape="rect" id="Node000001" title="Interfejs definiujący metody serwisu do zarządzania harmonogramem przepisów użytkownika." alt="" coords="5,5,226,336"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_services_1_1_recipe_schedule_service.html" title="Serwis odpowiedzialny za zarządzanie harmonogramem przepisów użytkownika (planowanie posiłków na dni ..." alt="" coords="8,384,223,784"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,348,118,384,113,384,115,353"/>
-</map>

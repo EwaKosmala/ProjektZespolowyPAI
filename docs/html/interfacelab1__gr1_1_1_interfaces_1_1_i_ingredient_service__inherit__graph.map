@@ -1,5 +1,0 @@
-<map id="lab1_gr1.Interfaces.IIngredientService" name="lab1_gr1.Interfaces.IIngredientService">
-<area shape="rect" id="Node000001" title="Interfejs definiujący metody serwisu do obsługi składników." alt="" coords="16,5,249,309"/>
-<area shape="rect" id="Node000002" href="$classlab1__gr1_1_1_services_1_1_ingredient_service.html" title="Serwis odpowiedzialny za zarządzanie składnikami. Implementuje logikę biznesową związaną z pobieranie..." alt="" coords="5,357,259,747"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,322,135,358,130,357,132,327"/>
-</map>
