@@ -1,0 +1,43 @@
+﻿# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build Folders
+bin/
+obj/
+out/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+project.lock.json
+*.snupkg
+
+# Rider
+.idea/
+
+# ASP.NET / IIS
+App_Data/
+*.db
+*.log
+
+# Publish output
+publish/
+
+# Test results
+TestResults/
+
+# Resharper
+_ReSharper*/
+
+# Others
+*.cache
+*.pdb
+*.dll
+*.exe
+*.config.user
+*.vspscc

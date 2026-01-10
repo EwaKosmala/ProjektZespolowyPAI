@@ -1,0 +1,100 @@
+﻿@model List<lab1_gr1.ViewModels.ShoppingListVM.CreateShoppingListVM>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Moje Listy Zakupów";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        <a asp-action="FromDays" class="btn btn-success">
+            <i class="fas fa-cogs"></i> Generuj z planu
+        </a>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Stwórz ręcznie
+        </a>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">
+        <h4 class="alert-heading">Nie masz jeszcze żadnych list zakupów!</h4>
+        <p>Możesz stworzyć listę ręcznie lub wygenerować ją na podstawie swojego planu posiłków.</p>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var list in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Lista z @list.CreatedAt.ToString("d MMMM yyyy")</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            Data utworzenia: @list.CreatedAt.ToString("g")<br />
+                            Liczba produktów: <strong>@list.Items.Count</strong>
+                        </p>
+
+                        <div class="mt-auto">
+                            <a asp-action="Edit" asp-route-id="@list.Id" class="btn btn-outline-secondary btn-sm">Edytuj</a>
+
+                            <a asp-action="DownloadPdf" asp-route-id="@list.Id" class="btn btn-outline-info btn-sm">
+                                <i class="fas fa-file-pdf"></i> Pobierz PDF
+                            </a>
+
+                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteListModal"
+                                    data-bs-listname="Lista z @list.CreatedAt.ToString("g")"
+                                    data-bs-listid="@list.Id">
+                                Usuń
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+<div class="modal fade" id="deleteListModal" tabindex="-1" aria-labelledby="deleteListModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteListModalLabel">Potwierdź usunięcie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Czy na pewno chcesz usunąć: <strong id="modalListName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Delete" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="modalListId" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-danger">Usuń</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        // Skrypt do obsługi okna modalnego usuwania
+        var deleteModal = document.getElementById('deleteListModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var listName = button.getAttribute('data-bs-listname');
+            var listId = button.getAttribute('data-bs-listid');
+
+            deleteModal.querySelector('#modalListName').textContent = listName;
+            deleteModal.querySelector('#modalListId').value = listId;
+        });
+    </script>
+}
