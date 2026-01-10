@@ -11,13 +11,28 @@ using QuestPDF.Infrastructure;
 
 namespace lab1_gr1.Services
 {
+    /// <summary>
+    /// Serwis odpowiedzialny za zarządzanie listami zakupów użytkownika,
+    /// w tym ich generowanie na podstawie zaplanowanych przepisów
+    /// oraz eksport do formatu PDF.
+    /// </summary>
     public class ShoppingListService : BaseService, IShoppingListService
     {
+        /// <summary>
+        /// Inicjalizuje nową instancję serwisu list zakupów.
+        /// </summary>
+        /// <param name="dbContext">Kontekst bazy danych</param>
+        /// <param name="mapper">Mapper AutoMapper</param>
         public ShoppingListService(MyDBContext dbContext, IMapper mapper)
-        : base(dbContext, mapper)
+            : base(dbContext, mapper)
         {
         }
-        
+
+        /// <summary>
+        /// Pobiera wszystkie listy zakupów przypisane do danego użytkownika.
+        /// </summary>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns>Lista modeli widoku list zakupów</returns>
         public async Task<List<CreateShoppingListVM>> GetAllByUserIdAsync(int userId)
         {
             var lists = await _dbContext.ShoppingLists
@@ -25,24 +40,35 @@ namespace lab1_gr1.Services
                 .Include(sl => sl.Items)
                     .ThenInclude(i => i.Ingredient)
                 .OrderByDescending(sl => sl.CreatedAt)
-            .ToListAsync();
+                .ToListAsync();
 
             return _mapper.Map<List<CreateShoppingListVM>>(lists);
         }
 
+        /// <summary>
+        /// Pobiera listę zakupów na podstawie jej identyfikatora.
+        /// </summary>
+        /// <param name="id">Identyfikator listy zakupów</param>
+        /// <returns>Model widoku listy zakupów lub null, jeśli nie istnieje</returns>
         public async Task<CreateShoppingListVM?> GetByIdAsync(int id)
         {
             var list = await _dbContext.ShoppingLists
                 .Include(sl => sl.Items)
-            .ThenInclude(i => i.Ingredient)
+                    .ThenInclude(i => i.Ingredient)
                 .FirstOrDefaultAsync(sl => sl.Id == id);
 
             return list == null ? null : _mapper.Map<CreateShoppingListVM>(list);
         }
 
+        /// <summary>
+        /// Tworzy nową listę zakupów wraz z jej elementami.
+        /// </summary>
+        /// <param name="model">Model danych listy zakupów</param>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns>Identyfikator nowo utworzonej listy zakupów</returns>
         public async Task<int> CreateAsync(CreateShoppingListVM model, int userId)
         {
-            var shoppingList = new ListaZakupow.Model.DataModels.ShoppingList
+            var shoppingList = new ShoppingList
             {
                 UserId = userId,
                 CreatedAt = DateTime.Now
@@ -51,7 +77,7 @@ namespace lab1_gr1.Services
             _dbContext.ShoppingLists.Add(shoppingList);
             await _dbContext.SaveChangesAsync();
 
-            var items = model.Items.Select(i => new ListaZakupow.Model.DataModels.ShoppingListItem
+            var items = model.Items.Select(i => new ShoppingListItem
             {
                 ShoppingListId = shoppingList.Id,
                 IngredientId = i.IngredientId,
@@ -64,6 +90,11 @@ namespace lab1_gr1.Services
             return shoppingList.Id;
         }
 
+        /// <summary>
+        /// Usuwa listę zakupów o podanym identyfikatorze.
+        /// </summary>
+        /// <param name="id">Identyfikator listy zakupów</param>
+        /// <returns>True, jeśli usunięcie się powiodło; w przeciwnym razie false</returns>
         public async Task<bool> DeleteAsync(int id)
         {
             var list = await _dbContext.ShoppingLists.FindAsync(id);
@@ -74,6 +105,13 @@ namespace lab1_gr1.Services
             return true;
         }
 
+        /// <summary>
+        /// Generuje listę zakupów na podstawie zaplanowanych przepisów
+        /// dla wybranych dni tygodnia.
+        /// </summary>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <param name="days">Lista dni tygodnia (1–7)</param>
+        /// <returns>Model widoku wygenerowanej listy zakupów</returns>
         public async Task<CreateShoppingListVM> GenerateFromDaysAsync(int userId, List<int> days)
         {
             var recipes = await _dbContext.RecipeSchedules
@@ -91,12 +129,10 @@ namespace lab1_gr1.Services
                 foreach (var ri in schedule.Recipe.RecipeIngredients)
                 {
                     var (number, unit) = ParseQuantity(ri.Quantity);
-
                     var key = (ri.IngredientId, unit);
 
                     if (shoppingItems.ContainsKey(key))
                     {
-                        // sumowanie liczb
                         var existingNumber = ParseQuantity(shoppingItems[key].Quantity).number;
                         shoppingItems[key].Quantity = $"{existingNumber + number} {unit}".Trim();
                     }
@@ -118,12 +154,25 @@ namespace lab1_gr1.Services
             };
         }
 
+        /// <summary>
+        /// Generuje listę zakupów na podstawie przepisów zaplanowanych
+        /// na wszystkie dni tygodnia.
+        /// </summary>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns>Model widoku listy zakupów na cały tydzień</returns>
         public async Task<CreateShoppingListVM> GenerateForWeekAsync(int userId)
         {
             var allDays = Enumerable.Range(1, 7).ToList();
             return await GenerateFromDaysAsync(userId, allDays);
         }
 
+        /// <summary>
+        /// Aktualizuje istniejącą listę zakupów użytkownika.
+        /// </summary>
+        /// <param name="id">Identyfikator listy zakupów</param>
+        /// <param name="model">Zaktualizowany model danych</param>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns>True, jeśli aktualizacja się powiodła; w przeciwnym razie false</returns>
         public async Task<bool> UpdateAsync(int id, CreateShoppingListVM model, int userId)
         {
             var list = await _dbContext.ShoppingLists
@@ -132,10 +181,8 @@ namespace lab1_gr1.Services
 
             if (list == null) return false;
 
-            // Usuń stare elementy
             _dbContext.ShoppingListItems.RemoveRange(list.Items);
 
-            // Dodaj nowe
             list.Items = model.Items.Select(i => new ShoppingListItem
             {
                 ShoppingListId = list.Id,
@@ -147,8 +194,11 @@ namespace lab1_gr1.Services
             return true;
         }
 
-
-
+        /// <summary>
+        /// Parsuje ilość składnika na część liczbową oraz jednostkę.
+        /// </summary>
+        /// <param name="quantity">Tekstowa reprezentacja ilości (np. "0.5 kg")</param>
+        /// <returns>Krotka zawierająca wartość liczbową oraz jednostkę</returns>
         private (double number, string unit) ParseQuantity(string quantity)
         {
             if (string.IsNullOrWhiteSpace(quantity))
@@ -156,19 +206,31 @@ namespace lab1_gr1.Services
 
             quantity = quantity.Trim();
             int i = 0;
-            // przechodzimy po znakach, aż znajdziemy pierwszy nie-cyfrowy znak lub kropkę
-            while (i < quantity.Length && (char.IsDigit(quantity[i]) || quantity[i] == '.' || quantity[i] == ','))
+
+            while (i < quantity.Length &&
+                   (char.IsDigit(quantity[i]) || quantity[i] == '.' || quantity[i] == ','))
                 i++;
 
-            var numberPart = quantity.Substring(0, i).Replace(',', '.'); // np. "30" lub "0.5"
-            var unitPart = quantity.Substring(i).Trim(); // np. "gr", "ml"
+            var numberPart = quantity.Substring(0, i).Replace(',', '.');
+            var unitPart = quantity.Substring(i).Trim();
 
-            double number = 0;
-            double.TryParse(numberPart, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out number);
+            double.TryParse(
+                numberPart,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out double number
+            );
 
             return (number, unitPart);
         }
 
+        /// <summary>
+        /// Generuje plik PDF z listą zakupów użytkownika.
+        /// </summary>
+        /// <param name="shoppingListId">Identyfikator listy zakupów</param>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns>Tablica bajtów reprezentująca plik PDF</returns>
+        /// <exception cref="Exception">Rzucany, gdy lista zakupów nie istnieje</exception>
         public async Task<byte[]> GeneratePdfAsync(int shoppingListId, int userId)
         {
             var list = await _dbContext.ShoppingLists
@@ -179,7 +241,6 @@ namespace lab1_gr1.Services
             if (list == null)
                 throw new Exception("Lista zakupów nie została znaleziona.");
 
-            // Tworzenie dokumentu PDF
             var document = Document.Create(container =>
             {
                 container.Page(page =>

@@ -7,12 +7,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lab1_gr1.Services
 {
+    /// <summary>
+    /// Serwis odpowiedzialny za zarządzanie składnikami przypisanymi do przepisów.
+    /// Umożliwia pobieranie, dodawanie oraz usuwanie składników z przepisu.
+    /// </summary>
     public class RecipeIngredientService : BaseService, IRecipeIngredientService
     {
+        /// <summary>
+        /// Inicjalizuje nową instancję klasy <see cref="RecipeIngredientService"/>.
+        /// </summary>
+        /// <param name="dbContext">Kontekst bazy danych aplikacji.</param>
+        /// <param name="mapper">Obiekt AutoMapper.</param>
         public RecipeIngredientService(MyDBContext dbContext, IMapper mapper)
-        : base(dbContext, mapper)
+            : base(dbContext, mapper)
         {
         }
+
+        /// <summary>
+        /// Pobiera listę składników przypisanych do określonego przepisu.
+        /// </summary>
+        /// <param name="recipeId">Identyfikator przepisu.</param>
+        /// <returns>
+        /// Kolekcja składników przepisu w postaci <see cref="CreateRecipeIngredientVM"/>.
+        /// </returns>
         public async Task<IEnumerable<CreateRecipeIngredientVM>> GetIngredientsForRecipeAsync(int recipeId)
         {
             var recipeIngredients = await _dbContext.RecipeIngredients
@@ -29,6 +46,15 @@ namespace lab1_gr1.Services
             });
         }
 
+        /// <summary>
+        /// Dodaje składnik do przepisu.
+        /// </summary>
+        /// <param name="recipeId">Identyfikator przepisu.</param>
+        /// <param name="ingredientId">Identyfikator składnika.</param>
+        /// <param name="quantity">Ilość składnika.</param>
+        /// <exception cref="Exception">
+        /// Rzucany, gdy przepis lub składnik nie istnieje.
+        /// </exception>
         public async Task AddIngredientToRecipeAsync(int recipeId, int ingredientId, string quantity)
         {
             var recipe = await _dbContext.Recipes.FindAsync(recipeId);
@@ -36,6 +62,7 @@ namespace lab1_gr1.Services
 
             if (recipe == null)
                 throw new Exception("Nie znaleziono przepisu.");
+
             if (ingredient == null)
                 throw new Exception("Nie znaleziono składnika.");
 
@@ -50,6 +77,16 @@ namespace lab1_gr1.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Usuwa składnik z przepisu.
+        /// Jeśli składnik nie jest już używany w żadnym przepisie,
+        /// zostaje również usunięty z bazy danych.
+        /// </summary>
+        /// <param name="recipeId">Identyfikator przepisu.</param>
+        /// <param name="ingredientId">Identyfikator składnika.</param>
+        /// <exception cref="Exception">
+        /// Rzucany, gdy składnik nie jest przypisany do przepisu.
+        /// </exception>
         public async Task RemoveIngredientFromRecipeAsync(int recipeId, int ingredientId)
         {
             var recipeIngredient = await _dbContext.RecipeIngredients
@@ -74,7 +111,5 @@ namespace lab1_gr1.Services
                 }
             }
         }
-
-
     }
 }
